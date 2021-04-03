@@ -409,7 +409,7 @@ Citizen.CreateThread(function()
                                     customCamLocation = nil
                                     openMenu({
                                         {menu = "character", label = "Clothing", selected = true},
-                                        {menu = "accessoires", label = "Accessoires", selected = false}
+                                        {menu = "accessoires", label = "Accessories", selected = false}
                                     })
                                 elseif Config.Stores[k].shopType == "barber" then
                                     customCamLocation = nil
@@ -467,7 +467,7 @@ Citizen.CreateThread(function()
                                             {menu = "roomOutfits", label = "Presets", selected = true, outfits = Config.Outfits[PlayerData.job.name][gender]},
                                             {menu = "myOutfits", label = "My Outfits", selected = false, outfits = result},
                                             {menu = "character", label = "Clothing", selected = false},
-                                            {menu = "accessoires", label = "Accessoires", selected = false}
+                                            {menu = "accessoires", label = "Accessories", selected = false}
                                         })
                                         
                                     end)
@@ -573,7 +573,7 @@ AddEventHandler('qb-clothing:client:openMenu', function()
     openMenu({
         {menu = "character", label = "Character", selected = true},
         {menu = "clothing", label = "Features", selected = false},
-        {menu = "accessoires", label = "Accessoires", selected = false}
+        {menu = "accessoires", label = "Accessories", selected = false}
     })
 end)
 
@@ -1610,7 +1610,7 @@ AddEventHandler('qb-clothes:client:CreateFirstCharacter', function()
         openMenu({
             {menu = "character", label = "Character", selected = true},
             {menu = "clothing", label = "Features", selected = false},
-            {menu = "accessoires", label = "Accessoires", selected = false}
+            {menu = "accessoires", label = "Accessories", selected = false}
         })
 
         if PlayerData.charinfo.gender == 1 then 
