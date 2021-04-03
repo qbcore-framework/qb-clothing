@@ -3,7 +3,7 @@ TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end)
 
 -- Code
 
-QBCore.Commands.Add("skin", "Oh yah Clothing?", {}, false, function(source, args)
+QBCore.Commands.Add("skin", "Open Clothing Menu", {}, false, function(source, args)
 	TriggerClientEvent("qb-clothing:client:openMenu", source)
 end, "admin")
 
