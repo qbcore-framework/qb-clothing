@@ -719,7 +719,7 @@ function openMenu(allowedMenus)
 end
 
 RegisterNUICallback('TrackerError', function()
-    TriggerEvent('chatMessage', "SYSTEM", "error", "You can't remove your ankle bracelet ..")
+    QBCore.Functions.Notify("You can't remove your ankle bracelet ..", "error")
 end)
 
 RegisterNUICallback('saveOutfit', function(data, cb)
@@ -967,7 +967,7 @@ end)
 
 RegisterNUICallback('removeOutfit', function(data, cb)
     TriggerServerEvent('qb-clothing:server:removeOutfit', data.outfitName, data.outfitId)
-    TriggerEvent('chatMessage', "SYSTEM", "warning", "You have deleted your"..data.outfitName.." outfit!")
+    QBCore.Functions.Notify("You have deleted your"..data.outfitName.." outfit!")
 end)
 
 function ChangeVariation(data)
@@ -1921,7 +1921,7 @@ AddEventHandler('qb-clothing:client:loadOutfit', function(oData)
     end
 
     if oData.outfitName ~= nil then
-        TriggerEvent('chatMessage', "SYSTEM", "warning", "You have chosen "..oData.outfitName.."! Press Confirm to confirm outfit.")
+        QBCore.Functions.Notify("You have chosen "..oData.outfitName.."! Press Confirm to confirm outfit.")
     end
 end)
 
