@@ -404,7 +404,7 @@ Citizen.CreateThread(function()
                             elseif Config.Stores[k].shopType == "surgeon" then
                                 DrawText3Ds(Config.Stores[k].x, Config.Stores[k].y, Config.Stores[k].z + 1.25, '~g~E~w~ - To Get Plastic Surgery')
                             end
-                            if IsControlJustPressed(0, Keys["E"]) then
+                            if IsControlJustPressed(0, 38) then -- E
                                 if Config.Stores[k].shopType == "clothing" then
                                     customCamLocation = nil
                                     openMenu({
@@ -458,7 +458,7 @@ Citizen.CreateThread(function()
                         if dist < 2 then
                             if PlayerData.job.name == Config.ClothingRooms[k].requiredJob then
                                 DrawText3Ds(Config.ClothingRooms[k].x, Config.ClothingRooms[k].y, Config.ClothingRooms[k].z + 0.3, '~g~E~w~ - View Clothing')
-                                if IsControlJustPressed(0, Keys["E"]) then
+                                if IsControlJustPressed(0, 38) then -- E
                                     customCamLocation = Config.ClothingRooms[k].cameraLocation
                                     gender = "male"
                                     if QBCore.Functions.GetPlayerData().charinfo.gender == 1 then gender = "female" end
