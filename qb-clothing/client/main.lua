@@ -391,7 +391,7 @@ Citizen.CreateThread(function()
             local inRange = false
 
             for k, v in pairs(Config.Stores) do
-                local dist = GetDistanceBetweenCoords(pos, Config.Stores[k].x, Config.Stores[k].y, Config.Stores[k].z, true)
+                local dist = #(pos - vector3(Config.Stores[k].x, Config.Stores[k].y, Config.Stores[k].z))
 
                 if dist < 30 then
                     if not creatingCharacter then
@@ -450,7 +450,7 @@ Citizen.CreateThread(function()
             local inRange = false
 
             for k, v in pairs(Config.ClothingRooms) do
-                local dist = GetDistanceBetweenCoords(pos, Config.ClothingRooms[k].x, Config.ClothingRooms[k].y, Config.ClothingRooms[k].z, true)
+                local dist = #(pos - vector3(Config.ClothingRooms[k].x, Config.ClothingRooms[k].y, Config.ClothingRooms[k].z))
 
                 if dist < 15 then
                     if not creatingCharacter then
