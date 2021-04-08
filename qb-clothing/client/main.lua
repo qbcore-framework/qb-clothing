@@ -1770,13 +1770,6 @@ AddEventHandler('qb-clothing:client:loadPlayerClothing', function(data, ped)
        
     end
 
-    
-
-    -- print(data['nose_0'].texture)
-    -- print(data['nose_1'].texture)
-    -- print(data['eyebrown_high'].texture)
-    -- print(data['chimp_bone_lenght'].texture)
-
     SetPedFaceFeature(ped, 0, (data['nose_0'].item / 10))
     SetPedFaceFeature(ped, 1, (data['nose_1'].item / 10))
     SetPedFaceFeature(ped, 2, (data['nose_2'].item / 10))
