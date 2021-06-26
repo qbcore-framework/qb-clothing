@@ -505,42 +505,41 @@ Config.ManPlayerModels = {
 
 Config.LoadedManModels = {}
 Config.LoadedWomanModels = {}
-
 Config.Stores = {
-    [1] =   {shopType = "clothing", x = 1693.32,      y = 4823.48,     z = 41.06},
-	[2] =   {shopType = "clothing", x = -712.215881,  y = -155.352982, z = 37.4151268},
-	[3] =   {shopType = "clothing", x = -1192.94495,  y = -772.688965, z = 17.3255997},
-	[4] =   {shopType = "clothing", x =  425.236,     y = -806.008,    z = 28.491},
-	[5] =   {shopType = "clothing", x = -162.658,     y = -303.397,    z = 38.733},
-	[6] =   {shopType = "clothing", x = 75.950,       y = -1392.891,   z = 28.376},
-	[7] =   {shopType = "clothing", x = -822.194,     y = -1074.134,   z = 10.328},
-	[8] =   {shopType = "clothing", x = -1450.711,    y = -236.83,     z = 48.809},
-	[9] =   {shopType = "clothing", x = 4.254,        y = 6512.813,    z = 30.877},
-	[10] =  {shopType = "clothing", x = 615.180,      y = 2762.933,    z = 41.088},
-	[11] =  {shopType = "clothing", x = 1196.785,     y = 2709.558,    z = 37.222},
-	[12] =  {shopType = "clothing", x = -3171.453,    y = 1043.857,    z = 19.863},
-	[13] =  {shopType = "clothing", x = -1100.959,    y = 2710.211,    z = 18.107},
-	[14] =  {shopType = "clothing", x = -1207.65,     y = -1456.88,    z = 4.3784737586975},
-    [15] =  {shopType = "clothing", x = 121.76,       y = -224.6,      z = 53.56},
-	[16] =  {shopType = "barber",   x = -814.3,       y = -183.8,      z = 36.6},
-	[17] =  {shopType = "barber",   x = 136.8,        y = -1708.4,     z = 28.3},
-	[18] =  {shopType = "barber",   x = -1282.6,      y = -1116.8,     z = 6.0},
-	[19] =  {shopType = "barber",   x = 1931.5,       y = 3729.7,      z = 31.8},
-	[20] =  {shopType = "barber",   x = 1212.8,       y = -472.9,      z = 65.2},
-	[21] =  {shopType = "barber",   x = -32.9,        y = -152.3,      z = 56.1},
-	[22] =  {shopType = "barber",   x = -278.1,       y = 6228.5,      z = 30.7}
+    [1] =   {shopType = "clothing",vector3(1693.32, 4823.48,41.06 )},
+	[2] =   {shopType = "clothing",vector3(-712.215881,-155.352982, 37.4151268)},
+	[3] =   {shopType = "clothing",vector3(-1192.94495,-772.688965, 17.3255997)},
+	[4] =   {shopType = "clothing",vector3( 425.236,   -806.008,    28.491)},
+	[5] =   {shopType = "clothing",vector3(-162.658,   -303.397,    38.733)},
+	[6] =   {shopType = "clothing",vector3(75.950,     -1392.891,   28.376)},
+	[7] =   {shopType = "clothing",vector3(-822.194,   -1074.134,   10.328)},
+	[8] =   {shopType = "clothing",vector3(-1450.711,  -236.83,     48.809)},
+	[9] =   {shopType = "clothing",vector3(4.254,      6512.813,    30.877)},
+	[10] =  {shopType = "clothing",vector3(615.180,    2762.933,    41.088)},
+	[11] =  {shopType = "clothing",vector3(1196.785,   2709.558,    37.222)},
+	[12] =  {shopType = "clothing",vector3(-3171.453,  1043.857,    19.863)},
+	[13] =  {shopType = "clothing",vector3(-1100.959,  2710.211,    18.107)},
+	[14] =  {shopType = "clothing",vector3(-1207.65,   -1456.88,    4.3784737586975)},
+    [15] =  {shopType = "clothing",vector3(121.76,     -224.6,      53.56)},
+	[16] =  {shopType = "barber",  vector3(-814.3,     -183.8,      36.6)},
+	[17] =  {shopType = "barber",  vector3(136.8,      -1708.4,     28.3)},
+	[18] =  {shopType = "barber",  vector3(-1282.6,    -1116.8,     6.0)},
+	[19] =  {shopType = "barber",  vector3(1931.5,     3729.7,      31.8)},
+	[20] =  {shopType = "barber",  vector3(1212.8,     -472.9,      65.2)},
+	[21] =  {shopType = "barber",  vector3(-32.9,      -152.3,      56.1)},
+	[22] =  {shopType = "barber",  vector3(-278.1,     6228.5,      30.7)}
 }
 
 Config.ClothingRooms = {
-    [1] = {requiredJob = "police", x = 1105.71, y = 115.26, z = 18.15, cameraLocation = {x = 1108.44, y = 115.43, z = 18.15, h = 92.24}},
-    [2] = {requiredJob = "doctor", x = 1462.64, y = 693.23, z = 33.51, cameraLocation = {x = 1462.76, y = 695.59, z = 33.51, h = 175.01}},
-    [3] = {requiredJob = "ambulance", x = 1462.64, y = 693.23, z = 33.51, cameraLocation = {x = 1462.76, y = 695.59, z = 33.51, h = 175.01}},
-    [4] = {requiredJob = "police", x = 314.76, y = 671.78, z = 14.73, cameraLocation = {x = 317.62, y = 671.86, z = 14.73, h = 91.53}},
-    [5] = {requiredJob = "ambulance", x = 338.70, y = 659.61, z = 14.71, cameraLocation = {x = 339.27, y = 661.63, z = 14.71, h = 315.5}},    
-    [6] = {requiredJob = "doctor", x = 338.70, y = 659.61, z = 14.71, cameraLocation = {x = 339.27, y = 661.63, z = 14.71, h = 315.5}}, 
-	[7] = {requiredJob = "ambulance", x = -1098.45, y = 1751.71, z = 23.35, cameraLocation = {x = -1097.15, y = 1750.19, z = 23.35, h = 38.70}},    
-    [8] = {requiredJob = "doctor", x = -1098.45, y = 1751.71, z = 23.35, cameraLocation = {x = -1097.15, y = 1750.19, z = 23.35, h = 38.70}},
-	[9] = {requiredJob = "police", x = -77.59, y = -129.17, z = 5.03, cameraLocation = {x = -80.36, y = -130.76, z = 5.03, h = 300.44}},
+    [1] = {requiredJob = "police",vector3(1105.71,115.26,18.15), cameraLocation = vector4(1108.44, 115.43, 18.15,92.24)},
+    [2] = {requiredJob = "doctor",vector3(1462.64,693.23,33.51), cameraLocation = vector4(1462.76,  695.59, 33.51,  175.01)},
+    [3] = {requiredJob = "ambulance",vector3(1462.64, 693.23,33.51), cameraLocation = vector4(1462.76,  695.59,  33.51, 175.01)},
+    [4] = {requiredJob = "police",vector3(314.76, 671.78, 14.73), cameraLocation = vector4(317.62,  671.86,  14.73,  91.53)},
+    [5] = {requiredJob = "ambulance",vector3(338.70, 659.61, 14.71), cameraLocation = vector4(339.27,  661.63,  14.71,  315.5)},    
+    [6] = {requiredJob = "doctor",vector3(338.70,659.61,14.71), cameraLocation = vector4(339.27,  661.63,  14.71, 315.5)}, 
+	[7] = {requiredJob = "ambulance",vector3(-1098.45,1751.71,23.35), cameraLocation = vector4(-1097.15, 1750.19,  23.35, 38.70)},    
+    [8] = {requiredJob = "doctor",vector3(-1098.45,1751.71,23.35), cameraLocation = vector4(-1097.15,  1750.19, 23.35, 38.70)},
+	[9] = {requiredJob = "police",vector3(-77.59,-129.17, 5.03), cameraLocation = vector4(-80.36,  -130.76,  5.03,  300.44)},
 }
 
 Config.Outfits = {
