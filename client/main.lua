@@ -314,7 +314,7 @@ AddEventHandler('QBCore:Client:OnJobUpdate', function(JobInfo)
     PlayerData.job = JobInfo
 end)
 
-function DrawText3Ds(x, y, z, text)
+function DrawText3Ds(coords, text)
 	SetTextScale(0.35, 0.35)
     SetTextFont(4)
     SetTextProportional(1)
@@ -322,7 +322,7 @@ function DrawText3Ds(x, y, z, text)
     SetTextEntry("STRING")
     SetTextCentre(true)
     AddTextComponentString(text)
-    SetDrawOrigin(x,y,z, 0)
+    SetDrawOrigin(coords, 0)
     DrawText(0.0, 0.0)
     local factor = (string.len(text)) / 370
     DrawRect(0.0, 0.0+0.0125, 0.017+ factor, 0.03, 0, 0, 0, 75)
@@ -332,18 +332,18 @@ end
 Citizen.CreateThread(function()
     for k, v in pairs (Config.Stores) do
         if Config.Stores[k].shopType == "clothing" then
-            local clothingShop = AddBlipForCoord(Config.Stores[k].x, Config.Stores[k].y, Config.Stores[k].z)
+            local clothingShop = AddBlipForCoord(Config.Stores[k][2])
             SetBlipSprite(clothingShop, 366)
             SetBlipColour(clothingShop, 47)
             SetBlipScale  (clothingShop, 0.7)
             SetBlipAsShortRange(clothingShop, true)
             BeginTextCommandSetBlipName("STRING")
-            AddTextComponentString("Clothing Store")
+            AddTextComponentString("Clothing store")
             EndTextCommandSetBlipName(clothingShop)
         end
         
         if Config.Stores[k].shopType == "barber" then
-            local barberShop = AddBlipForCoord(Config.Stores[k].x, Config.Stores[k].y, Config.Stores[k].z)
+            local barberShop = AddBlipForCoord(Config.Stores[k][2])
             SetBlipSprite(barberShop, 71)
             SetBlipColour(barberShop, 0)
             SetBlipScale  (barberShop, 0.7)
@@ -354,7 +354,7 @@ Citizen.CreateThread(function()
         end
 
         if Config.Stores[k].shopType == "surgeon" then
-            local surgeonShop = AddBlipForCoord(Config.Stores[k].x, Config.Stores[k].y, Config.Stores[k].z)
+            local surgeonShop = AddBlipForCoord(Config.Stores[k][2])
             SetBlipSprite(surgeonShop, 71)
             SetBlipColour(surgeonShop, 0)
             SetBlipScale  (surgeonShop, 0.7)
@@ -365,7 +365,6 @@ Citizen.CreateThread(function()
         end
     end
 end)
-
 Citizen.CreateThread(function()
     while true do
 
@@ -377,18 +376,19 @@ Citizen.CreateThread(function()
             local inRange = false
 
             for k, v in pairs(Config.Stores) do
-                local dist = #(pos - vector3(Config.Stores[k].x, Config.Stores[k].y, Config.Stores[k].z))
+		local dist = #(pos - Config.Stores[k][2])
+
 
                 if dist < 30 then
                     if not creatingCharacter then
-                        DrawMarker(2, Config.Stores[k].x, Config.Stores[k].y, Config.Stores[k].z + 0.98, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.4, 0.2, 255, 255, 255, 255, 0, 0, 0, 1, 0, 0, 0)
+                        DrawMarker(2, Config.Stores[k][2].x,Config.Stores[k][2].y,Config.Stores[k][2].z + 0.98, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.4, 0.2, 255, 255, 255, 255, 0, 0, 0, 1, 0, 0, 0)
                         if dist < 5 then
                             if Config.Stores[k].shopType == "clothing" then
-                                DrawText3Ds(Config.Stores[k].x, Config.Stores[k].y, Config.Stores[k].z + 1.25, '~g~E~w~ - To Shop For Clothes')
+                                 DrawText3Ds((Config.Stores[k][2].xy, Config.Stores[k][2].z + 1.25), '~g~E~w~ - To Shop For Clothes')
                             elseif Config.Stores[k].shopType == "barber" then
-                                DrawText3Ds(Config.Stores[k].x, Config.Stores[k].y, Config.Stores[k].z + 1.25, '~g~E~w~ - To Get A Haircut')
+                                DrawText3Ds((Config.Stores[k][2].xy, Config.Stores[k][2].z + 1.25), '~g~E~w~ - To Get A Haircut')
                             elseif Config.Stores[k].shopType == "surgeon" then
-                                DrawText3Ds(Config.Stores[k].x, Config.Stores[k].y, Config.Stores[k].z + 1.25, '~g~E~w~ - To Get Plastic Surgery')
+                                DrawText3Ds((Config.Stores[k][2].xy, Config.Stores[k][2].z + 1.25), '~g~E~w~ - To Get Plastic Surgery')
                             end
                             if IsControlJustPressed(0, 38) then -- E
                                 if Config.Stores[k].shopType == "clothing" then
@@ -436,16 +436,16 @@ Citizen.CreateThread(function()
             local inRange = false
 
             for k, v in pairs(Config.ClothingRooms) do
-                local dist = #(pos - vector3(Config.ClothingRooms[k].x, Config.ClothingRooms[k].y, Config.ClothingRooms[k].z))
+                local dist = #(pos - Config.ClothingRooms[k][2])
 
                 if dist < 15 then
                     if not creatingCharacter then
-                        DrawMarker(2, Config.ClothingRooms[k].x, Config.ClothingRooms[k].y, Config.ClothingRooms[k].z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.4, 0.2, 255, 255, 255, 255, 0, 0, 0, 1, 0, 0, 0)
+                        DrawMarker(2, Config.ClothingRooms[k][2], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.4, 0.2, 255, 255, 255, 255, 0, 0, 0, 1, 0, 0, 0)
                         if dist < 2 then
                             if PlayerData.job.name == Config.ClothingRooms[k].requiredJob then
-                                DrawText3Ds(Config.ClothingRooms[k].x, Config.ClothingRooms[k].y, Config.ClothingRooms[k].z + 0.3, '~g~E~w~ - View Clothing')
+                                DrawText3Ds(Config.ClothingRooms[k][2] + 0.3, '~g~E~w~ - View Clothing')
                                 if IsControlJustPressed(0, 38) then -- E
-                                    customCamLocation = Config.ClothingRooms[k].cameraLocation
+                                    customCamLocation = Config.ClothingRooms[k][3].cameraLocation
                                     gender = "male"
                                     if QBCore.Functions.GetPlayerData().charinfo.gender == 1 then gender = "female" end
                                     QBCore.Functions.TriggerCallback('qb-clothing:server:getOutfits', function(result)
