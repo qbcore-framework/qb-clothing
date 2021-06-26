@@ -332,7 +332,7 @@ end
 Citizen.CreateThread(function()
     for k, v in pairs (Config.Stores) do
         if Config.Stores[k].shopType == "clothing" then
-            local clothingShop = AddBlipForCoord(Config.Stores[k][2])
+            local clothingShop = AddBlipForCoord(Config.Stores[k].coords)
             SetBlipSprite(clothingShop, 366)
             SetBlipColour(clothingShop, 47)
             SetBlipScale  (clothingShop, 0.7)
@@ -343,7 +343,7 @@ Citizen.CreateThread(function()
         end
         
         if Config.Stores[k].shopType == "barber" then
-            local barberShop = AddBlipForCoord(Config.Stores[k][2])
+            local barberShop = AddBlipForCoord(Config.Stores[k].coords)
             SetBlipSprite(barberShop, 71)
             SetBlipColour(barberShop, 0)
             SetBlipScale  (barberShop, 0.7)
@@ -354,7 +354,7 @@ Citizen.CreateThread(function()
         end
 
         if Config.Stores[k].shopType == "surgeon" then
-            local surgeonShop = AddBlipForCoord(Config.Stores[k][2])
+            local surgeonShop = AddBlipForCoord(Config.Stores[k].coords)
             SetBlipSprite(surgeonShop, 71)
             SetBlipColour(surgeonShop, 0)
             SetBlipScale  (surgeonShop, 0.7)
@@ -376,19 +376,19 @@ Citizen.CreateThread(function()
             local inRange = false
 
             for k, v in pairs(Config.Stores) do
-		local dist = #(pos - Config.Stores[k][2])
+		local dist = #(pos - Config.Stores[k].coords)
 
 
                 if dist < 30 then
                     if not creatingCharacter then
-                        DrawMarker(2, Config.Stores[k][2].x,Config.Stores[k][2].y,Config.Stores[k][2].z + 0.98, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.4, 0.2, 255, 255, 255, 255, 0, 0, 0, 1, 0, 0, 0)
+                        DrawMarker(2, Config.Stores[k].coords.x,Config.Stores[k].coords.y,Config.Stores[k].coords.z + 0.98, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.4, 0.2, 255, 255, 255, 255, 0, 0, 0, 1, 0, 0, 0)
                         if dist < 5 then
                             if Config.Stores[k].shopType == "clothing" then
-                                 DrawText3Ds((Config.Stores[k][2].xy, Config.Stores[k][2].z + 1.25), '~g~E~w~ - To Shop For Clothes')
+                                 DrawText3Ds((Config.Stores[k].coords.x, Config.Stores[k].coords.y, Config.Stores[k].coords.z + 1.25), '~g~E~w~ - To Shop For Clothes')
                             elseif Config.Stores[k].shopType == "barber" then
-                                DrawText3Ds((Config.Stores[k][2].xy, Config.Stores[k][2].z + 1.25), '~g~E~w~ - To Get A Haircut')
+                                DrawText3Ds((Config.Stores[k].coords.x, Config.Stores[k].coords.y, Config.Stores[k].coords.z + 1.25), '~g~E~w~ - To Get A Haircut')
                             elseif Config.Stores[k].shopType == "surgeon" then
-                                DrawText3Ds((Config.Stores[k][2].xy, Config.Stores[k][2].z + 1.25), '~g~E~w~ - To Get Plastic Surgery')
+                                DrawText3Ds((Config.Stores[k].coords.x, Config.Stores[k].coords.y, Config.Stores[k].coords.z + 1.25), '~g~E~w~ - To Get Plastic Surgery')
                             end
                             if IsControlJustPressed(0, 38) then -- E
                                 if Config.Stores[k].shopType == "clothing" then
@@ -436,14 +436,14 @@ Citizen.CreateThread(function()
             local inRange = false
 
             for k, v in pairs(Config.ClothingRooms) do
-                local dist = #(pos - Config.ClothingRooms[k][2])
+                local dist = #(pos - Config.ClothingRooms[k].coords)
 
                 if dist < 15 then
                     if not creatingCharacter then
-                        DrawMarker(2, Config.ClothingRooms[k][2], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.4, 0.2, 255, 255, 255, 255, 0, 0, 0, 1, 0, 0, 0)
+                        DrawMarker(2, Config.ClothingRooms[k].coords, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.4, 0.2, 255, 255, 255, 255, 0, 0, 0, 1, 0, 0, 0)
                         if dist < 2 then
                             if PlayerData.job.name == Config.ClothingRooms[k].requiredJob then
-                                DrawText3Ds(Config.ClothingRooms[k][2] + 0.3, '~g~E~w~ - View Clothing')
+                                DrawText3Ds((Config.ClothingRooms[k].coords.x, Config.ClothingRooms[k].coords.y, Config.ClothingRooms[k].coords.z + 0.3), '~g~E~w~ - View Clothing')
                                 if IsControlJustPressed(0, 38) then -- E
                                     customCamLocation = Config.ClothingRooms[k][3].cameraLocation
                                     gender = "male"
