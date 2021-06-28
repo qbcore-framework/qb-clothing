@@ -5,7 +5,6 @@ RegisterServerEvent("qb-clothing:saveSkin")
 AddEventHandler('qb-clothing:saveSkin', function(model, skin)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-
     if model ~= nil and skin ~= nil then 
         exports.ghmattimysql:execute('DELETE FROM playerskins WHERE citizenid=@citizenid', {['@citizenid'] = Player.PlayerData.citizenid}, function()
             exports.ghmattimysql:execute('INSERT INTO playerskins (citizenid, model, skin, active) VALUES (@citizenid, model, skin, active)', {
