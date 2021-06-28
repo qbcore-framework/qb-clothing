@@ -37,7 +37,7 @@ AddEventHandler("qb-clothes:saveOutfit", function(outfitName, model, skinData)
     local Player = QBCore.Functions.GetPlayer(src)
     if model ~= nil and skinData ~= nil then
         local outfitId = "outfit-"..math.random(1, 10).."-"..math.random(1111, 9999)
-        exports.ghmattimysql:execute('INSERT INTO playerskins (citizenid, outfitname, model, skin, outfitId) VALUES (@citizenid, @outfitname, @model, @skin, @outfitId)', {
+        exports.ghmattimysql:execute('INSERT INTO player_outfits (citizenid, outfitname, model, skin, outfitId) VALUES (@citizenid, @outfitname, @model, @skin, @outfitId)', {
             ['@citizenid'] = Player.PlayerData.citizenid,
             ['@outfitname'] = outfitName,
             ['@model'] = model,
