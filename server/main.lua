@@ -1,6 +1,3 @@
-QBCore = nil
-TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end)
-
 RegisterServerEvent("qb-clothing:saveSkin")
 AddEventHandler('qb-clothing:saveSkin', function(model, skin)
     local src = source
