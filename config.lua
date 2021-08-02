@@ -1115,7 +1115,6 @@ Config.Outfits = {
 				},
             },
             [5] = {
-                outfitLabel = "Placeholder",
                 outfitLabel = "short sleeve blue button up",
                 outfitData = {
                     ["pants"]       = { item = 34, texture = 0},  -- PANTS
