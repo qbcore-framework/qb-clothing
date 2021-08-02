@@ -532,14 +532,11 @@ Config.Stores = {
 
 Config.ClothingRooms = {
     [1] = {requiredJob = "police", coords = vector3(1105.71, 115.26, 18.15), cameraLocation = vector4(1108.44, 115.43, 18.15,92.24)},
-    [2] = {requiredJob = "doctor", coords = vector3(1462.64, 693.23, 33.51), cameraLocation = vector4(1462.76,  695.59, 33.51,  175.01)},
-    [3] = {requiredJob = "ambulance", coords = vector3(1462.64, 693.23, 33.51), cameraLocation = vector4(1462.76,  695.59,  33.51, 175.01)},
-    [4] = {requiredJob = "police", coords = vector3(314.76, 671.78, 14.73), cameraLocation = vector4(317.62,  671.86,  14.73,  91.53)},
-    [5] = {requiredJob = "ambulance", coords = vector3(338.70, 659.61, 14.71), cameraLocation = vector4(339.27,  661.63,  14.71,  315.5)},    
-    [6] = {requiredJob = "doctor", coords = vector3(338.70, 659.61, 14.71), cameraLocation = vector4(339.27,  661.63,  14.71, 315.5)}, 
-    [7] = {requiredJob = "ambulance", coords = vector3(-1098.45, 1751.71, 23.35), cameraLocation = vector4(-1097.15, 1750.19,  23.35, 38.70)},    
-    [8] = {requiredJob = "doctor", coords = vector3(-1098.45, 1751.71, 23.35), cameraLocation = vector4(-1097.15,  1750.19, 23.35, 38.70)},
-    [9] = {requiredJob = "police", coords = vector3(-77.59, -129.17, 5.03), cameraLocation = vector4(-80.36,  -130.76,  5.03,  300.44)},
+    [2] = {requiredJob = "ambulance", coords = vector3(1462.64, 693.23, 33.51), cameraLocation = vector4(1462.76,  695.59,  33.51, 175.01)},
+    [3] = {requiredJob = "police", coords = vector3(314.76, 671.78, 14.73), cameraLocation = vector4(317.62,  671.86,  14.73,  91.53)},
+    [4] = {requiredJob = "ambulance", coords = vector3(338.70, 659.61, 14.71), cameraLocation = vector4(339.27,  661.63,  14.71,  315.5)},    
+    [5] = {requiredJob = "ambulance", coords = vector3(-1098.45, 1751.71, 23.35), cameraLocation = vector4(-1097.15, 1750.19,  23.35, 38.70)},    
+    [6] = {requiredJob = "police", coords = vector3(-77.59, -129.17, 5.03), cameraLocation = vector4(-80.36,  -130.76,  5.03,  300.44)},
 }
 
 Config.Outfits = {
