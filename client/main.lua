@@ -415,17 +415,12 @@ end)
 
 Citizen.CreateThread(function()
     while true do
-
         if isLoggedIn then
-
             local ped = PlayerPedId()
             local pos = GetEntityCoords(ped)
-
             local inRange = false
-
             for k, v in pairs(Config.ClothingRooms) do
                 local dist = #(pos - Config.ClothingRooms[k].coords)
-
                 if dist < 15 then
                     if not creatingCharacter then
                         DrawMarker(2, Config.ClothingRooms[k].coords, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.4, 0.2, 255, 255, 255, 255, 0, 0, 0, 1, 0, 0, 0)
@@ -443,8 +438,24 @@ Citizen.CreateThread(function()
                                             {menu = "character", label = "Clothing", selected = false},
                                             {menu = "accessoires", label = "Accessories", selected = false}
                                         })
-                                        
                                     end)
+                                end
+                            else
+                                if PlayerData.gang.name == Config.ClothingRooms[k].requiredJob then
+                                    DrawText3Ds(Config.ClothingRooms[k].coords.x, Config.ClothingRooms[k].coords.y, Config.ClothingRooms[k].coords.z + 0.3, '~g~E~w~ - View Clothing')
+                                    if IsControlJustPressed(0, 38) then -- E
+                                        customCamLocation = Config.ClothingRooms[k].cameraLocation
+                                        gender = "male"
+                                        if QBCore.Functions.GetPlayerData().charinfo.gender == 1 then gender = "female" end
+                                        QBCore.Functions.TriggerCallback('qb-clothing:server:getOutfits', function(result)
+                                            openMenu({
+                                                {menu = "roomOutfits", label = "Presets", selected = true, outfits = Config.Outfits[PlayerData.gang.name][gender]},
+                                                {menu = "myOutfits", label = "My Outfits", selected = false, outfits = result},
+                                                {menu = "character", label = "Clothing", selected = false},
+                                                {menu = "accessoires", label = "Accessories", selected = false}
+                                            })
+                                        end)
+                                    end
                                 end
                             end
                         end
@@ -452,13 +463,10 @@ Citizen.CreateThread(function()
                     end
                 end
             end
-
             if not inRange then
                 Citizen.Wait(2000)
             end
-
         end
-
         Citizen.Wait(3)
     end
 end)
