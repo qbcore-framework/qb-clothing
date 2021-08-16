@@ -16,8 +16,9 @@ time, mark, audio, video {
 	border: 0;
 	font-size: 100%;
     vertical-align: baseline;
-	font-family: 'Roboto';
+	font-family: 'Poppins', sans-serif;
 	overflow: hidden;
+	font-weight:900;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
