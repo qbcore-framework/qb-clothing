@@ -10,14 +10,14 @@
 
 .clothing-menu-container {
     display: none;
-    margin-top: 5vh;
+    margin-top: .5vh;
     margin-right: 5vh;
     position: absolute;
-    height: 90vh;
+    height: 99vh;
     width: 38vh;
     background-color: rgb(23 23 23 / 80%);
     right: -25vw;
-    border-radius:1.3vh
+    border-radius:1.3vh;
 }
 
 .clothing-menu-header {
@@ -51,6 +51,7 @@
     text-transform: uppercase;
     font-size: 1.vh;
     letter-spacing: 0.1vh;
+    margin-bottom: -10px;
 }
 
 .clothing-menu-header-cameras {
@@ -249,6 +250,8 @@
     color: #ededed;
     padding: 0.8vh;
     width: 100%;
+    margin-top: -10px;
+    margin-bottom: -15px;
 }
 
 .clothing-menu-option-header > p {
