@@ -2,11 +2,8 @@ local creatingCharacter = false
 local cam = -1
 local heading = 332.219879
 local zoom = "character"
-
 local customCamLocation = nil
-
 local isLoggedIn = false
-
 local PlayerData = {}
 
 local skinData = {
