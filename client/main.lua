@@ -2,12 +2,10 @@ local creatingCharacter = false
 local cam = -1
 local heading = 332.219879
 local zoom = "character"
-
 local customCamLocation = nil
-
 local isLoggedIn = false
-
 local PlayerData = {}
+local previousSkinData = {}
 
 local skinData = {
     ["face"] = {
@@ -283,8 +281,6 @@ local skinData = {
     },
 } 
 
-local previousSkinData = {}
-
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded')
 AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
     TriggerServerEvent("qb-clothes:loadPlayerSkin")
@@ -360,13 +356,10 @@ Citizen.CreateThread(function()
 
             local ped = PlayerPedId()
             local pos = GetEntityCoords(ped)
-            
             local inRange = false
 
             for k, v in pairs(Config.Stores) do
 		local dist = #(pos - Config.Stores[k].coords)
-
-
                 if dist < 30 then
                     if not creatingCharacter then
                         DrawMarker(2, Config.Stores[k].coords.x,Config.Stores[k].coords.y,Config.Stores[k].coords.z + 0.98, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.4, 0.2, 255, 255, 255, 255, 0, 0, 0, 1, 0, 0, 0)
@@ -864,12 +857,8 @@ function resetClothing(data)
     -- Bag
     SetPedComponentVariation(ped, 5, data["bag"].item, 0, 2)
     SetPedComponentVariation(ped, 5, data["bag"].item, data["bag"].texture, 0)
-
     SetPedEyeColor(ped, data['eye_color'].item)
-
-
     SetPedHeadOverlay(ped, 9, data['moles'].item, data['moles'].texture)
-
     SetPedFaceFeature(ped, 0, data['nose_0'].item)
     SetPedFaceFeature(ped, 1, data['nose_1'].item)
     SetPedFaceFeature(ped, 2, data['nose_2'].item)
@@ -953,7 +942,6 @@ RegisterNUICallback('removeOutfit', function(data, cb)
 end)
 
 function ChangeVariation(data)
-    -- print(tprint(data))
     local ped = PlayerPedId()
     local clothingCategory = data.clothingType
     local type = data.type
@@ -1075,8 +1063,7 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 0, newitem)
             skinData["nose_0"].item = item
-        elseif type == "texture" then
-            
+        elseif type == "texture" then 
         end
         
     elseif clothingCategory == "nose_1" then
@@ -1541,26 +1528,6 @@ function ChangeToSkinNoUpdate(skin)
             end
         end
     end)
-
-    -- SetEntityInvincible(ped, true)
-    -- if IsModelInCdimage(model) and IsModelValid(model) then
-    --     LoadPlayerModel(model)
-    --     SetPlayerModel(PlayerId(), model)
-
-    --     for k, v in pairs(skinData) do
-    --         skinData[k].item = skinData[k].defaultItem
-    --         skinData[k].texture = skinData[k].defaultTexture
-    --     end
-
-    --     if isPedAllowedRandom() then
-    --         SetPedRandomComponentVariation(ped, true)
-    --     end
-        
-    --     SendNUIMessage({action = "toggleChange", allow = true})
-	-- 	SetModelAsNoLongerNeeded(model)
-	-- end
-	-- SetEntityInvincible(ped, false)
-    -- GetMaxValues()
 end
 
 RegisterNUICallback('setCurrentPed', function(data, cb)
@@ -1772,8 +1739,6 @@ AddEventHandler('qb-clothing:client:loadPlayerClothing', function(data, ped)
     SetPedFaceFeature(ped, 17, (data['chimp_bone_width'].item / 10))
     SetPedFaceFeature(ped, 18, (data['chimp_hole'].item / 10))
     SetPedFaceFeature(ped, 19, (data['neck_thikness'].item / 10))
-
-
     skinData = data
 end)
 
