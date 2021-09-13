@@ -5,7 +5,7 @@ AddEventHandler('qb-clothing:saveSkin', function(model, skin)
     if model ~= nil and skin ~= nil then
         -- TODO: Update primary key to be citizenid so this can be an insert on duplicate update query
         exports.oxmysql:execute('DELETE FROM playerskins WHERE citizenid = ?', { Player.PlayerData.citizenid }, function()
-            exports.oxmysql:insert('INSERT INTO playerskins (citizenid, model, skin, active) VALUES (?)', {
+            exports.oxmysql:insert('INSERT INTO playerskins (citizenid, model, skin, active) VALUES (?, ?, ?, ?)', {
                 Player.PlayerData.citizenid,
                 model,
                 skin,
@@ -33,7 +33,7 @@ AddEventHandler("qb-clothes:saveOutfit", function(outfitName, model, skinData)
     local Player = QBCore.Functions.GetPlayer(src)
     if model ~= nil and skinData ~= nil then
         local outfitId = "outfit-"..math.random(1, 10).."-"..math.random(1111, 9999)
-        exports.oxmysql:insert('INSERT INTO player_outfits (citizenid, outfitname, model, skin, outfitId) VALUES (?)', {
+        exports.oxmysql:insert('INSERT INTO player_outfits (citizenid, outfitname, model, skin, outfitId) VALUES (?, ?, ?, ?, ?)', {
             Player.PlayerData.citizenid,
             outfitName,
             model,
