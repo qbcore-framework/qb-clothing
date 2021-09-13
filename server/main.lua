@@ -19,7 +19,7 @@ RegisterServerEvent("qb-clothes:loadPlayerSkin")
 AddEventHandler('qb-clothes:loadPlayerSkin', function()
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    local result = exports.oxmysql:fetchSync('SELECT * FROM playerskins WHERE citizenid  ? AND active = ?', { Player.PlayerData.citizenid, 1 })
+    local result = exports.oxmysql:fetchSync('SELECT * FROM playerskins WHERE citizenid = ? AND active = ?', { Player.PlayerData.citizenid, 1 })
     if result[1] ~= nil then
         TriggerClientEvent("qb-clothes:loadSkin", src, false, result[1].model, result[1].skin)
     else
