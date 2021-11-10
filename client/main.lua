@@ -2,7 +2,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 local creatingCharacter = false
 local cam = -1
 local customCamLocation = nil
-local PlayerData = {}
+local PlayerData = QBCore.Functions.GetPlayerData()
 local previousSkinData = {}
 
 local skinData = {
@@ -280,8 +280,8 @@ local skinData = {
 }
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
-    TriggerServerEvent("qb-clothes:loadPlayerSkin")
     PlayerData = QBCore.Functions.GetPlayerData()
+    TriggerServerEvent("qb-clothes:loadPlayerSkin")
 end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
