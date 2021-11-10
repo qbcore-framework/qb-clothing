@@ -1,10 +1,9 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-RegisterServerEvent("qb-clothing:saveSkin")
-AddEventHandler('qb-clothing:saveSkin', function(model, skin)
+RegisterNetEvent('qb-clothing:saveSkin', function(model, skin)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    if model ~= nil and skin ~= nil then
+    if model and skin then
         -- TODO: Update primary key to be citizenid so this can be an insert on duplicate update query
         exports.oxmysql:execute('DELETE FROM playerskins WHERE citizenid = ?', { Player.PlayerData.citizenid }, function()
             exports.oxmysql:insert('INSERT INTO playerskins (citizenid, model, skin, active) VALUES (?, ?, ?, ?)', {
@@ -17,23 +16,21 @@ AddEventHandler('qb-clothing:saveSkin', function(model, skin)
     end
 end)
 
-RegisterServerEvent("qb-clothes:loadPlayerSkin")
-AddEventHandler('qb-clothes:loadPlayerSkin', function()
+RegisterNetEvent('qb-clothes:loadPlayerSkin', function()
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local result = exports.oxmysql:executeSync('SELECT * FROM playerskins WHERE citizenid = ? AND active = ?', { Player.PlayerData.citizenid, 1 })
-    if result[1] ~= nil then
+    if result[1] then
         TriggerClientEvent("qb-clothes:loadSkin", src, false, result[1].model, result[1].skin)
     else
         TriggerClientEvent("qb-clothes:loadSkin", src, true)
     end
 end)
 
-RegisterServerEvent("qb-clothes:saveOutfit")
-AddEventHandler("qb-clothes:saveOutfit", function(outfitName, model, skinData)
+RegisterNetEvent("qb-clothes:saveOutfit", function(outfitName, model, skinData)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    if model ~= nil and skinData ~= nil then
+    if model and skinData then
         local outfitId = "outfit-"..math.random(1, 10).."-"..math.random(1111, 9999)
         exports.oxmysql:insert('INSERT INTO player_outfits (citizenid, outfitname, model, skin, outfitId) VALUES (?, ?, ?, ?, ?)', {
             Player.PlayerData.citizenid,
@@ -43,7 +40,7 @@ AddEventHandler("qb-clothes:saveOutfit", function(outfitName, model, skinData)
             outfitId
         }, function()
             local result = exports.oxmysql:executeSync('SELECT * FROM player_outfits WHERE citizenid = ?', { Player.PlayerData.citizenid })
-            if result[1] ~= nil then
+            if result[1] then
                 TriggerClientEvent('qb-clothing:client:reloadOutfits', src, result)
             else
                 TriggerClientEvent('qb-clothing:client:reloadOutfits', src, nil)
@@ -52,8 +49,7 @@ AddEventHandler("qb-clothes:saveOutfit", function(outfitName, model, skinData)
     end
 end)
 
-RegisterServerEvent("qb-clothing:server:removeOutfit")
-AddEventHandler("qb-clothing:server:removeOutfit", function(outfitName, outfitId)
+RegisterNetEvent("qb-clothing:server:removeOutfit", function(outfitName, outfitId)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     exports.oxmysql:execute('DELETE FROM player_outfits WHERE citizenid = ? AND outfitname = ? AND outfitId = ?', {
@@ -62,7 +58,7 @@ AddEventHandler("qb-clothing:server:removeOutfit", function(outfitName, outfitId
         outfitId
     }, function()
         local result = exports.oxmysql:executeSync('SELECT * FROM player_outfits WHERE citizenid = ?', { Player.PlayerData.citizenid })
-        if result[1] ~= nil then
+        if result[1] then
             TriggerClientEvent('qb-clothing:client:reloadOutfits', src, result)
         else
             TriggerClientEvent('qb-clothing:client:reloadOutfits', src, nil)
@@ -73,15 +69,15 @@ end)
 QBCore.Functions.CreateCallback('qb-clothing:server:getOutfits', function(source, cb)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    local anusVal = {}
+    local retVal = {}
 
     local result = exports.oxmysql:executeSync('SELECT * FROM player_outfits WHERE citizenid = ?', { Player.PlayerData.citizenid })
-    if result[1] ~= nil then
+    if result[1] then
         for k, v in pairs(result) do
             result[k].skin = json.decode(result[k].skin)
-            anusVal[k] = v
+            retVal[k] = v
         end
-        cb(anusVal)
+        cb(retVal)
     end
-    cb(anusVal)
+    cb(retVal)
 end)
