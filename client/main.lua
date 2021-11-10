@@ -1,9 +1,9 @@
+local QBCore = exports['qb-core']:GetCoreObject()
 local creatingCharacter = false
 local cam = -1
 local heading = 332.219879
 local zoom = "character"
 local customCamLocation = nil
-local isLoggedIn = false
 local PlayerData = {}
 local previousSkinData = {}
 
@@ -12,103 +12,103 @@ local skinData = {
         item = 0,
         texture = 0,
         defaultItem = 0,
-        defaultTexture = 0,        
+        defaultTexture = 0,
     },
     ["pants"] = {
         item = 0,
         texture = 0,
         defaultItem = 0,
-        defaultTexture = 0,        
+        defaultTexture = 0,
     },
     ["hair"] = {
         item = 0,
         texture = 0,
         defaultItem = 0,
-        defaultTexture = 0,        
+        defaultTexture = 0,
     },
     ["eyebrows"] = {
         item = -1,
         texture = 1,
         defaultItem = -1,
-        defaultTexture = 1,        
+        defaultTexture = 1,
     },
     ["beard"] = {
         item = -1,
         texture = 1,
         defaultItem = -1,
-        defaultTexture = 1,        
+        defaultTexture = 1,
     },
     ["blush"] = {
         item = -1,
         texture = 1,
         defaultItem = -1,
-        defaultTexture = 1,        
+        defaultTexture = 1,
     },
     ["lipstick"] = {
         item = -1,
         texture = 1,
         defaultItem = -1,
-        defaultTexture = 1,        
+        defaultTexture = 1,
     },
     ["makeup"] = {
         item = -1,
         texture = 1,
         defaultItem = -1,
-        defaultTexture = 1,        
+        defaultTexture = 1,
     },
     ["ageing"] = {
         item = -1,
         texture = 0,
         defaultItem = -1,
-        defaultTexture = 0,        
+        defaultTexture = 0,
     },
     ["arms"] = {
         item = 0,
         texture = 0,
         defaultItem = 0,
-        defaultTexture = 0,        
+        defaultTexture = 0,
     },
     ["t-shirt"] = {
         item = 1,
         texture = 0,
         defaultItem = 1,
-        defaultTexture = 0,        
+        defaultTexture = 0,
     },
     ["torso2"] = {
         item = 0,
         texture = 0,
         defaultItem = 0,
-        defaultTexture = 0,        
+        defaultTexture = 0,
     },
     ["vest"] = {
         item = 0,
         texture = 0,
         defaultItem = 0,
-        defaultTexture = 0,        
+        defaultTexture = 0,
     },
     ["bag"] = {
         item = 0,
         texture = 0,
         defaultItem = 0,
-        defaultTexture = 0,        
+        defaultTexture = 0,
     },
     ["shoes"] = {
         item = 0,
         texture = 0,
         defaultItem = 1,
-        defaultTexture = 0,        
+        defaultTexture = 0,
     },
     ["mask"] = {
         item = 0,
         texture = 0,
         defaultItem = 0,
-        defaultTexture = 0,        
+        defaultTexture = 0,
     },
     ["hat"] = {
         item = -1,
         texture = 0,
         defaultItem = -1,
-        defaultTexture = 0, 
+        defaultTexture = 0,
     },
     ["glass"] = {
         item = 0,
@@ -138,159 +138,153 @@ local skinData = {
         item = 0,
         texture = 0,
         defaultItem = 0,
-        defaultTexture = 0,      
+        defaultTexture = 0,
     },
     ["decals"] = {
         item = 0,
         texture = 0,
         defaultItem = 0,
-        defaultTexture = 0,      
+        defaultTexture = 0,
     },
     ["eye_color"] = {
         item = -1,
         texture = 0,
         defaultItem = -1,
-        defaultTexture = 0,      
+        defaultTexture = 0,
     },
     ["moles"] = {
         item = 0,
         texture = 0,
         defaultItem = -1,
-        defaultTexture = 0,      
+        defaultTexture = 0,
     },
     ["nose_0"] = {
         item = 0,
         texture = 0,
         defaultItem = 0,
-        defaultTexture = 0,      
+        defaultTexture = 0,
     },
     ["nose_1"] = {
         item = 0,
         texture = 0,
         defaultItem = 0,
-        defaultTexture = 0,      
+        defaultTexture = 0,
     },
     ["nose_2"] = {
         item = 0,
         texture = 0,
         defaultItem = 0,
-        defaultTexture = 0,      
+        defaultTexture = 0,
     },
     ["nose_3"] = {
         item = 0,
         texture = 0,
         defaultItem = 0,
-        defaultTexture = 0,      
+        defaultTexture = 0,
     },
 
     ["nose_4"] = {
         item = 0,
         texture = 0,
         defaultItem = 0,
-        defaultTexture = 0,      
+        defaultTexture = 0,
     },
     ["nose_5"] = {
         item = 0,
         texture = 0,
         defaultItem = 0,
-        defaultTexture = 0,      
+        defaultTexture = 0,
     },
     ["cheek_1"] = {
         item = 0,
         texture = 0,
         defaultItem = 0,
-        defaultTexture = 0,      
+        defaultTexture = 0,
     },
     ["cheek_2"] = {
         item = 0,
         texture = 0,
         defaultItem = 0,
-        defaultTexture = 0,      
+        defaultTexture = 0,
     },
     ["cheek_3"] = {
         item = 0,
         texture = 0,
         defaultItem = 0,
-        defaultTexture = 0,      
+        defaultTexture = 0,
     },
     ["eye_opening"] = {
         item = 0,
         texture = 0,
         defaultItem = 0,
-        defaultTexture = 0,      
+        defaultTexture = 0,
     },
     ["lips_thickness"] = {
         item = 0,
         texture = 0,
         defaultItem = 0,
-        defaultTexture = 0,      
+        defaultTexture = 0,
     },
     ["jaw_bone_width"] = {
         item = 0,
         texture = 0,
         defaultItem = 0,
-        defaultTexture = 0,      
+        defaultTexture = 0,
     },
     ["eyebrown_high"] = {
         item = 0,
         texture = 0,
         defaultItem = 0,
-        defaultTexture = 0,      
+        defaultTexture = 0,
     },
     ["eyebrown_forward"] = {
         item = 0,
         texture = 0,
         defaultItem = 0,
-        defaultTexture = 0,      
+        defaultTexture = 0,
     },
     ["jaw_bone_back_lenght"] = {
         item = 0,
         texture = 0,
         defaultItem = 0,
-        defaultTexture = 0,      
+        defaultTexture = 0,
     },
     ["chimp_bone_lowering"] = {
         item = 0,
         texture = 0,
         defaultItem = 0,
-        defaultTexture = 0,      
+        defaultTexture = 0,
     },
     ["chimp_bone_lenght"] = {
         item = 0,
         texture = 0,
         defaultItem = 0,
-        defaultTexture = 0,      
+        defaultTexture = 0,
     },
     ["chimp_bone_width"] = {
         item = 0,
         texture = 0,
         defaultItem = 0,
-        defaultTexture = 0,      
+        defaultTexture = 0,
     },
     ["chimp_hole"] = {
         item = 0,
         texture = 0,
         defaultItem = 0,
-        defaultTexture = 0,      
+        defaultTexture = 0,
     },
     ["neck_thikness"] = {
         item = 0,
         texture = 0,
         defaultItem = 0,
-        defaultTexture = 0,      
+        defaultTexture = 0,
     },
-} 
+}
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded')
 AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
     TriggerServerEvent("qb-clothes:loadPlayerSkin")
     PlayerData = QBCore.Functions.GetPlayerData()
-    isLoggedIn = true
-end)
-
-RegisterNetEvent('QBCore:Client:OnPlayerUnload')
-AddEventHandler('QBCore:Client:OnPlayerUnload', function()
-    isLoggedIn = false
 end)
 
 RegisterNetEvent('QBCore:Client:OnJobUpdate')
@@ -325,7 +319,7 @@ Citizen.CreateThread(function()
             AddTextComponentString("Clothing store")
             EndTextCommandSetBlipName(clothingShop)
         end
-        
+
         if Config.Stores[k].shopType == "barber" then
             local barberShop = AddBlipForCoord(Config.Stores[k].coords)
             SetBlipSprite(barberShop, 71)
@@ -352,7 +346,7 @@ end)
 Citizen.CreateThread(function()
     while true do
 
-        if isLoggedIn then
+        if LocalPlayer.state.isLoggedIn then
 
             local ped = PlayerPedId()
             local pos = GetEntityCoords(ped)
@@ -408,7 +402,7 @@ end)
 
 Citizen.CreateThread(function()
     while true do
-        if isLoggedIn then
+        if LocalPlayer.state.isLoggedIn then
             local ped = PlayerPedId()
             local pos = GetEntityCoords(ped)
             local inRange = false
@@ -599,7 +593,7 @@ function GetMaxValues()
         ["ear"]         = {type = "accessoires", item = 0, texture = 0},
         ["watch"]       = {type = "accessoires", item = 0, texture = 0},
         ["bracelet"]    = {type = "accessoires", item = 0, texture = 0},
-        
+
     }
     local ped = PlayerPedId()
     for k, v in pairs(clothingCategorys) do
@@ -724,7 +718,7 @@ function enableCam()
         SetCamCoord(cam, coords.x, coords.y, coords.z + 0.5)
         SetCamRot(cam, 0.0, 0.0, GetEntityHeading(PlayerPedId()) + 180)
     end
-    
+
     if customCamLocation ~= nil then
         SetCamCoord(cam, customCamLocation.x, customCamLocation.y, customCamLocation.z)
     end
@@ -920,7 +914,7 @@ RegisterNUICallback('close', function()
     SetNuiFocus(false, false)
     creatingCharacter = false
     disableCam()
-    
+
     FreezeEntityPosition(PlayerPedId(), false)
 end)
 
@@ -1063,9 +1057,9 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 0, newitem)
             skinData["nose_0"].item = item
-        elseif type == "texture" then 
+        elseif type == "texture" then
         end
-        
+
     elseif clothingCategory == "nose_1" then
         if type == "item" then
             local newitem = (item / 10)
@@ -1073,7 +1067,7 @@ function ChangeVariation(data)
             SetPedFaceFeature(ped, 1, newitem)
             skinData["nose_1"].item = item
         elseif type == "texture" then
-            
+
         end
     elseif clothingCategory == "nose_2" then
         if type == "item" then
@@ -1085,7 +1079,7 @@ function ChangeVariation(data)
             skinData["nose_2"].item = item
         elseif type == "texture" then
             -- local curItem = GetPedDrawableVariation(ped, 1)
-            
+
         end
     elseif clothingCategory == "nose_3" then
         if type == "item" then
@@ -1097,7 +1091,7 @@ function ChangeVariation(data)
             skinData["nose_3"].item = item
         elseif type == "texture" then
             -- local curItem = GetPedDrawableVariation(ped, 1)
-            
+
         end
     elseif clothingCategory == "nose_4" then
         if type == "item" then
@@ -1109,7 +1103,7 @@ function ChangeVariation(data)
             skinData["nose_4"].item = item
         elseif type == "texture" then
             -- local curItem = GetPedDrawableVariation(ped, 1)
-            
+
         end
     elseif clothingCategory == "nose_5" then
         if type == "item" then
@@ -1121,7 +1115,7 @@ function ChangeVariation(data)
             skinData["nose_5"].item = item
         elseif type == "texture" then
             -- local curItem = GetPedDrawableVariation(ped, 1)
-           
+
         end
     elseif clothingCategory == "eyebrown_high" then
         if type == "item" then
@@ -1133,7 +1127,7 @@ function ChangeVariation(data)
             skinData["eyebrown_high"].item = item
         elseif type == "texture" then
             -- local curItem = GetPedDrawableVariation(ped, 1)
-           
+
         end
     elseif clothingCategory == "eyebrown_forward" then
         if type == "item" then
@@ -1145,7 +1139,7 @@ function ChangeVariation(data)
             skinData["eyebrown_forward"].item = item
         elseif type == "texture" then
             -- local curItem = GetPedDrawableVariation(ped, 1)
-            
+
         end
     elseif clothingCategory == "cheek_1" then
         if type == "item" then
@@ -1158,7 +1152,7 @@ function ChangeVariation(data)
         elseif type == "texture" then
 
             -- local curItem = GetPedDrawableVariation(ped, 1)
-            
+
         end
     elseif clothingCategory == "cheek_2" then
         if type == "item" then
@@ -1170,7 +1164,7 @@ function ChangeVariation(data)
             skinData["cheek_1"].item = item
         elseif type == "texture" then
             -- local curItem = GetPedDrawableVariation(ped, 1)
-            
+
         end
     elseif clothingCategory == "cheek_3" then
         if type == "item" then
@@ -1182,7 +1176,7 @@ function ChangeVariation(data)
             skinData["cheek_3"].item = item
         elseif type == "texture" then
             -- local curItem = GetPedDrawableVariation(ped, 1)
-            
+
         end
     elseif clothingCategory == "eye_opening" then
         if type == "item" then
@@ -1194,7 +1188,7 @@ function ChangeVariation(data)
             skinData["eye_opening"].item = item
         elseif type == "texture" then
             -- local curItem = GetPedDrawableVariation(ped, 1)
-            
+
         end
     elseif clothingCategory == "lips_thickness" then
         if type == "item" then
@@ -1206,7 +1200,7 @@ function ChangeVariation(data)
             skinData["lips_thickness"].item = item
         elseif type == "texture" then
             -- local curItem = GetPedDrawableVariation(ped, 1)
-            
+
         end
     elseif clothingCategory == "jaw_bone_width" then
         if type == "item" then
@@ -1218,7 +1212,7 @@ function ChangeVariation(data)
             skinData["jaw_bone_width"].item = item
         elseif type == "texture" then
             -- local curItem = GetPedDrawableVariation(ped, 1)
-            
+
         end
     elseif clothingCategory == "jaw_bone_back_lenght" then
         if type == "item" then
@@ -1230,7 +1224,7 @@ function ChangeVariation(data)
             skinData["jaw_bone_back_lenght"].item = item
         elseif type == "texture" then
             -- local curItem = GetPedDrawableVariation(ped, 1)
-            
+
         end
     elseif clothingCategory == "chimp_bone_lowering" then
         if type == "item" then
@@ -1242,7 +1236,7 @@ function ChangeVariation(data)
             skinData["chimp_bone_lowering"].item = item
         elseif type == "texture" then
             -- local curItem = GetPedDrawableVariation(ped, 1)
-            
+
         end
     elseif clothingCategory == "chimp_bone_lenght" then
         if type == "item" then
@@ -1254,7 +1248,7 @@ function ChangeVariation(data)
             skinData["chimp_bone_lenght"].item = item
         elseif type == "texture" then
             -- local curItem = GetPedDrawableVariation(ped, 1)
-            
+
         end
     elseif clothingCategory == "chimp_bone_width" then
         if type == "item" then
@@ -1266,7 +1260,7 @@ function ChangeVariation(data)
             skinData["chimp_bone_width"].item = item
         elseif type == "texture" then
             -- local curItem = GetPedDrawableVariation(ped, 1)
-            
+
         end
     elseif clothingCategory == "chimp_hole" then
         if type == "item" then
@@ -1278,7 +1272,7 @@ function ChangeVariation(data)
             skinData["chimp_hole"].item = item
         elseif type == "texture" then
             -- local curItem = GetPedDrawableVariation(ped, 1)
-            
+
         end
     elseif clothingCategory == "neck_thikness" then
         if type == "item" then
@@ -1290,7 +1284,7 @@ function ChangeVariation(data)
             skinData["chimp_hole"].item = item
         elseif type == "texture" then
             -- local curItem = GetPedDrawableVariation(ped, 1)
-            
+
         end
     elseif clothingCategory == "t-shirt" then
         if type == "item" then
@@ -1428,13 +1422,13 @@ end
 function tprint (tbl, indent)
 	if not indent then indent = 0 end
 	local toprint = string.rep(" ", indent) .. "{\r\n"
-	indent = indent + 2 
+	indent = indent + 2
 	for k, v in pairs(tbl) do
 	  toprint = toprint .. string.rep(" ", indent)
 	  if (type(k) == "number") then
 		toprint = toprint .. "[" .. k .. "] = "
 	  elseif (type(k) == "string") then
-		toprint = toprint  .. k ..  "= "   
+		toprint = toprint  .. k ..  "= "
 	  end
 	  if (type(v) == "number") then
 		toprint = toprint .. v .. ",\r\n"
@@ -1510,7 +1504,7 @@ function ChangeToSkinNoUpdate(skin)
                     })
                 end
             end
-            
+
             if skin == "mp_m_freemode_01" or skin == "mp_f_freemode_01" then
                 ChangeVariation({
                     clothingType = k,
@@ -1562,10 +1556,10 @@ AddEventHandler('qb-clothes:client:CreateFirstCharacter', function()
             {menu = "accessoires", label = "Accessories", selected = false}
         })
 
-        if PlayerData.charinfo.gender == 1 then 
-            skin = "mp_f_freemode_01" 
+        if PlayerData.charinfo.gender == 1 then
+            skin = "mp_f_freemode_01"
         end
-        
+
         ChangeToSkinNoUpdate(skin)
         SendNUIMessage({
             action = "ResetValues",
@@ -1710,13 +1704,13 @@ AddEventHandler('qb-clothing:client:loadPlayerClothing', function(data, ped)
     if data["eye_color"].item ~= -1 and data["eye_color"].item ~= 0 then
         SetPedEyeColor(ped, data['eye_color'].item)
     else
-       
+
     end
 
     if data["moles"].item ~= -1 and data["moles"].item ~= 0 then
         SetPedHeadOverlay(ped, 9, data['moles'].item, (data['moles'].texture / 10))
     else
-       
+
     end
 
     SetPedFaceFeature(ped, 0, (data['nose_0'].item / 10))
@@ -1879,7 +1873,7 @@ function loadAnimDict( dict )
         RequestAnimDict( dict )
         Citizen.Wait( 5 )
     end
-end 
+end
 
 RegisterNetEvent("qb-clothing:client:adjustfacewear")
 AddEventHandler("qb-clothing:client:adjustfacewear",function(type)
@@ -1941,7 +1935,7 @@ AddEventHandler("qb-clothing:client:adjustfacewear",function(type)
 		PropIndex = 11
 		AnimSet = "oddjobs@basejump@ig_15"
 		AnimationOn = "puton_parachute"
-		AnimationOff = "puton_parachute"	
+		AnimationOff = "puton_parachute"
 		--mp_safehouseshower@male@ male_shower_idle_d_towel
 		--mp_character_creation@customise@male_a drop_clothes_a
 		--oddjobs@basejump@ig_15 puton_parachute_bag
