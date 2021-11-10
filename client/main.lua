@@ -666,21 +666,16 @@ end
 function openMenu(allowedMenus)
     previousSkinData = json.encode(skinData)
     creatingCharacter = true
-
-    local trackerMeta = PlayerData.metadata["tracker"]
-
     GetMaxValues()
     SendNUIMessage({
         action = "open",
         menus = allowedMenus,
         currentClothing = skinData,
-        hasTracker = trackerMeta,
+        hasTracker = PlayerData.metadata["tracker"],
     })
     SetNuiFocus(true, true)
     SetCursorLocation(0.9, 0.25)
-
     FreezeEntityPosition(PlayerPedId(), true)
-
     enableCam()
 end
 
@@ -1693,25 +1688,14 @@ RegisterNetEvent('qb-clothing:client:loadPlayerClothing', function(data, ped)
     skinData = data
 end)
 
-function typeof(var)
-    local _type = type(var);
-    if(_type ~= "table" and _type ~= "userdata") then
-        return _type;
-    end
-    local _meta = getmetatable(var);
-    if(_meta ~= nil and _meta._NAME ~= nil) then
-        return _meta._NAME;
-    else
-        return _type;
-    end
-end
-
 RegisterNetEvent('qb-clothing:client:loadOutfit', function(oData)
     local ped = PlayerPedId()
 
+    PlayerData = QBCore.Functions.GetPlayerData()
+
     data = oData.outfitData
 
-    if typeof(data) ~= "table" then data = json.decode(data) end
+    if type(data) ~= "table" then data = json.decode(data) end
 
     for k, v in pairs(data) do
         skinData[k].item = data[k].item
