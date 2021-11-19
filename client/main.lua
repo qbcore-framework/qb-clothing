@@ -1,7 +1,8 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local creatingCharacter = false
 local cam = -1
-local heading = 332.219879
+local headingToCam = GetEntityHeading(PlayerPedId())
+local camOffset = 2
 local zoom = "character"
 local customCamLocation = nil
 local PlayerData = {}
@@ -307,6 +308,15 @@ function DrawText3Ds(x, y, z, text)
     ClearDrawOrigin()
 end
 
+function GetPositionByRelativeHeading(ped, head, dist)
+    local pedPos = GetEntityCoords(PlayerPedId())
+
+    local finPosx = pedPos.x + math.cos(head * (math.pi / 180)) * dist
+    local finPosy = pedPos.y + math.sin(head * (math.pi / 180)) * dist
+
+    return finPosx, finPosy
+end
+
 Citizen.CreateThread(function()
     for k, v in pairs (Config.Stores) do
         if Config.Stores[k].shopType == "clothing" then
@@ -474,16 +484,32 @@ end)
 
 RegisterNUICallback('rotateRight', function()
     local ped = PlayerPedId()
-    local heading = GetEntityHeading(ped)
+    local pedPos = GetEntityCoords(ped)
+    local camPos = GetCamCoord(cam)
 
-    SetEntityHeading(ped, heading + 30)
+    local heading = headingToCam
+
+    heading = heading + 2.5
+    headingToCam = heading
+
+    local cx, cy = GetPositionByRelativeHeading(ped, heading, camOffset)
+    SetCamCoord(cam, cx, cy, camPos.z)
+    PointCamAtCoord(cam, pedPos.x, pedPos.y, camPos.z)
 end)
 
 RegisterNUICallback('rotateLeft', function()
     local ped = PlayerPedId()
-    local heading = GetEntityHeading(ped)
+    local pedPos = GetEntityCoords(ped)
+    local camPos = GetCamCoord(cam)
 
-    SetEntityHeading(ped, heading - 30)
+    local heading = headingToCam
+
+    heading = heading - 2.5
+    headingToCam = heading
+
+    local cx, cy = GetPositionByRelativeHeading(ped, heading, camOffset)
+    SetCamCoord(cam, cx, cy, camPos.z)
+    PointCamAtCoord(cam, pedPos.x, pedPos.y, camPos.z)
 end)
 
 firstChar = false
@@ -715,13 +741,16 @@ function enableCam()
         cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
         SetCamActive(cam, true)
         RenderScriptCams(true, false, 0, true, true)
-        SetCamCoord(cam, coords.x, coords.y, coords.z + 0.5)
+        SetCamCoord(cam, coords.x, coords.y, coords.z + 0.2)
         SetCamRot(cam, 0.0, 0.0, GetEntityHeading(PlayerPedId()) + 180)
     end
 
     if customCamLocation ~= nil then
         SetCamCoord(cam, customCamLocation.x, customCamLocation.y, customCamLocation.z)
     end
+
+    headingToCam = GetEntityHeading(PlayerPedId()) + 90
+    camOffset = 2.0
 end
 
 RegisterNUICallback('rotateCam', function(data)
@@ -742,19 +771,32 @@ end)
 
 RegisterNUICallback('setupCam', function(data)
     local value = data.value
+    local pedPos = GetEntityCoords(PlayerPedId())
 
     if value == 1 then
-        local coords = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0, 0.75, 0)
-        SetCamCoord(cam, coords.x, coords.y, coords.z + 0.65)
+        local coords = GetCamCoord(cam)
+		camOffset = 0.75
+		local cx, cy = GetPositionByRelativeHeading(PlayerPedId(), headingToCam, camOffset)
+        SetCamCoord(cam, cx, cy, pedPos.z + 0.65)
+        PointCamAtCoord(cam, pedPos.x, pedPos.y, pedPos.z + 0.65)
     elseif value == 2 then
-        local coords = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0, 1.0, 0)
-        SetCamCoord(cam, coords.x, coords.y, coords.z + 0.2)
+        local coords = GetCamCoord(cam)
+		camOffset = 1.0
+		local cx, cy = GetPositionByRelativeHeading(PlayerPedId(), headingToCam, camOffset)
+        SetCamCoord(cam, cx, cy, pedPos.z + 0.2)
+        PointCamAtCoord(cam, pedPos.x, pedPos.y, pedPos.z + 0.2)
     elseif value == 3 then
-        local coords = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0, 1.0, 0)
-        SetCamCoord(cam, coords.x, coords.y, coords.z + -0.5)
+        local coords = GetCamCoord(cam)
+		camOffset = 1.0
+		local cx, cy = GetPositionByRelativeHeading(PlayerPedId(), headingToCam, camOffset)
+        SetCamCoord(cam, cx, cy, pedPos.z + -0.5)
+        PointCamAtCoord(cam, pedPos.x, pedPos.y, pedPos.z + -0.5)
     else
-        local coords = GetOffsetFromEntityInWorldCoords(PlayerPedId(), 0, 2.0, 0)
-        SetCamCoord(cam, coords.x, coords.y, coords.z + 0.5)
+        local coords = GetCamCoord(cam)
+		camOffset = 2.0
+		local cx, cy = GetPositionByRelativeHeading(PlayerPedId(), headingToCam, camOffset)
+        SetCamCoord(cam, cx, cy, pedPos.z + 0.2)
+        PointCamAtCoord(cam, pedPos.x, pedPos.y, pedPos.z + 0.2)
     end
 end)
 

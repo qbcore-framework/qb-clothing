@@ -40,6 +40,7 @@
 
 .clothing-menu-header-btn:hover {
     color: #444444;
+    cursor: pointer;
 }
 
 .selected {
@@ -65,7 +66,7 @@
     position: relative;
     height: 55%;
     top: 3.2vh;
-    width: 33.33%;
+    width: 24%;
     float: left;
     color: #ededed;
     text-align: center;
@@ -79,6 +80,7 @@
 
 .clothing-menu-header-camera-btn:hover {
     color: #444444;
+    cursor: pointer;
 }
 
 .clothing-menu-header-camera-btn > i {
@@ -124,6 +126,7 @@
 
 .clothing-menu-outfit-option-button:hover {
     background-color: #444444;
+    cursor: pointer;
 }
 
 .clothing-menu-outfit-option-button > p {
@@ -149,6 +152,7 @@
 
 .clothing-menu-myOutfit-option-button:hover {
     background-color: #444444;
+    cursor: pointer;
 }
 
 .clothing-menu-myOutfit-option-button > p {
@@ -193,7 +197,7 @@
     left: 0.3vh;
     right: 0;
     top: 9vh;
-    height: 77vh;
+    height: 86vh;
     width: 92%;
     overflow-y: scroll !important;
 }
@@ -205,7 +209,7 @@
     left: 0.3vh;
     right: 0;
     top: 9vh;
-    height: 90vh;
+    height: 86vh;
     width: 92%;
     overflow-y: scroll !important;
 }
@@ -217,7 +221,7 @@
     left: 0.3vh;
     right: 0;
     top: 9vh;
-    height: 77vh;
+    height: 86vh;
     width: 92%;
     overflow-y: scroll !important;
 }
@@ -287,6 +291,7 @@
 
 .clothing-menu-option-item-left:hover {
     background-color: #444444;
+    cursor: pointer;
 }
 
 .clothing-menu-option-item-right {
@@ -305,6 +310,7 @@
 
 .clothing-menu-option-item-right:hover {
     background-color: #444444;
+    cursor: pointer;
 }
 
 .item-number {
@@ -358,6 +364,7 @@
 
 .clothing-menu-option-button:hover {
     background-color: #444444;
+    cursor: pointer;
 }
 
 .clothing-menu-option-button > p {
@@ -405,6 +412,7 @@
 
 .clothing-menu-save-outfit-name-button:hover {
     background: #444444;
+    cursor: pointer;
 }
 
 .clothing-menu-save-outfit-name-button > p {
@@ -490,6 +498,7 @@
 
 .change-camera-button:hover {
     background: #dc143c;
+    cursor: pointer;
 }
 
 .change-camera-button > i {
