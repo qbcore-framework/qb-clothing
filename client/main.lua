@@ -412,7 +412,6 @@ end)
 
 Citizen.CreateThread(function()
     while true do
-        if LocalPlayer.state.isLoggedIn then
             local ped = PlayerPedId()
             local pos = GetEntityCoords(ped)
             local inRange = false
@@ -422,7 +421,7 @@ Citizen.CreateThread(function()
                     if not creatingCharacter then
                         DrawMarker(2, Config.ClothingRooms[k].coords, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.4, 0.2, 255, 255, 255, 255, 0, 0, 0, 1, 0, 0, 0)
                         if dist < 2 then
-                            if PlayerData.job.name == Config.ClothingRooms[k].requiredJob then
+                            if QBCore.Functions.GetPlayerData().job.name == Config.ClothingRooms[k].requiredJob then
                                 DrawText3Ds(Config.ClothingRooms[k].coords.x, Config.ClothingRooms[k].coords.y, Config.ClothingRooms[k].coords.z + 0.3, '~g~E~w~ - View Clothing')
                                 if IsControlJustPressed(0, 38) then -- E
                                     customCamLocation = Config.ClothingRooms[k].cameraLocation
@@ -430,7 +429,7 @@ Citizen.CreateThread(function()
                                     if QBCore.Functions.GetPlayerData().charinfo.gender == 1 then gender = "female" end
                                     QBCore.Functions.TriggerCallback('qb-clothing:server:getOutfits', function(result)
                                         openMenu({
-                                            {menu = "roomOutfits", label = "Presets", selected = true, outfits = Config.Outfits[PlayerData.job.name][gender]},
+                                            {menu = "roomOutfits", label = "Presets", selected = true, outfits = Config.Outfits[QBCore.Functions.GetPlayerData().job.name][gender]},
                                             {menu = "myOutfits", label = "My Outfits", selected = false, outfits = result},
                                             {menu = "character", label = "Clothing", selected = false},
                                             {menu = "accessoires", label = "Accessories", selected = false}
@@ -438,7 +437,7 @@ Citizen.CreateThread(function()
                                     end)
                                 end
                             else
-                                if PlayerData.gang.name == Config.ClothingRooms[k].requiredJob then
+                                if QBCore.Functions.GetPlayerData().gang.name == Config.ClothingRooms[k].requiredJob then
                                     DrawText3Ds(Config.ClothingRooms[k].coords.x, Config.ClothingRooms[k].coords.y, Config.ClothingRooms[k].coords.z + 0.3, '~g~E~w~ - View Clothing')
                                     if IsControlJustPressed(0, 38) then -- E
                                         customCamLocation = Config.ClothingRooms[k].cameraLocation
@@ -446,7 +445,7 @@ Citizen.CreateThread(function()
                                         if QBCore.Functions.GetPlayerData().charinfo.gender == 1 then gender = "female" end
                                         QBCore.Functions.TriggerCallback('qb-clothing:server:getOutfits', function(result)
                                             openMenu({
-                                                {menu = "roomOutfits", label = "Presets", selected = true, outfits = Config.Outfits[PlayerData.gang.name][gender]},
+                                                {menu = "roomOutfits", label = "Presets", selected = true, outfits = Config.Outfits[QBCore.Functions.GetPlayerData().gang.name][gender]},
                                                 {menu = "myOutfits", label = "My Outfits", selected = false, outfits = result},
                                                 {menu = "character", label = "Clothing", selected = false},
                                                 {menu = "accessoires", label = "Accessories", selected = false}
@@ -463,7 +462,6 @@ Citizen.CreateThread(function()
             if not inRange then
                 Citizen.Wait(2000)
             end
-        end
         Citizen.Wait(3)
     end
 end)
