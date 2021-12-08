@@ -445,40 +445,41 @@ QBClothing.Close = function() {
     });
 }
 
-QBClothing.SetMaxValues = function(maxValues) {
-    $.each(maxValues, function(i, cat){
-        if (cat.type == "character") {
-            var containers = $(".clothing-menu-character-container").find('[data-type="'+i+'"]');
-            var itemMax = $(containers).find('[data-headertype="item-header"]');
-            var headerMax = $(containers).find('[data-headertype="texture-header"]');
-    
-            $(itemMax).data('maxItem', maxValues[containers.data('type')].item)
-            $(headerMax).data('maxTexture', maxValues[containers.data('type')].texture)
-    
-            $(itemMax).html("<p>Item: " + maxValues[containers.data('type')].item + "</p>")
-            $(headerMax).html("<p>Texture: " + maxValues[containers.data('type')].texture + "</p>")
-        } else if (cat.type == "hair") {
-            var containers = $(".clothing-menu-clothing-container").find('[data-type="'+i+'"]');
-            var itemMax = $(containers).find('[data-headertype="item-header"]');
-            var headerMax = $(containers).find('[data-headertype="texture-header"]');
-    
-            $(itemMax).data('maxItem', maxValues[containers.data('type')].item)
-            $(headerMax).data('maxTexture', maxValues[containers.data('type')].texture)
-    
-            $(itemMax).html("<p>Item: " + maxValues[containers.data('type')].item + "</p>")
-            $(headerMax).html("<p>Texture: " + maxValues[containers.data('type')].texture + "</p>")
-        } else if (cat.type == "accessoires") {
-            var containers = $(".clothing-menu-accessoires-container").find('[data-type="'+i+'"]');
-            var itemMax = $(containers).find('[data-headertype="item-header"]');
-            var headerMax = $(containers).find('[data-headertype="texture-header"]');
-    
-            $(itemMax).data('maxItem', maxValues[containers.data('type')].item)
-            $(headerMax).data('maxTexture', maxValues[containers.data('type')].texture)
-    
-            $(itemMax).html("<p>Item: " + maxValues[containers.data('type')].item + "</p>")
-            $(headerMax).html("<p>Texture: " + maxValues[containers.data('type')].texture + "</p>")
-        }
+QBClothing.SetMaxValues = function(limits) {
+
+    $.each(limits, function(i, cat){
+
+		let fill = cat.type != 'hair' ? cat.type : 'clothing';
+		let containers = $(`.clothing-menu-${fill}-container`).find('[data-type="'+i+'"]');
+
+		let item = {
+			header: $(containers).find('[data-headertype="item-header"]'),
+			input:  $(containers).find('input[data-type="item"]')
+		};
+
+		$(item.header).html("<p>Item: " + limits[containers.data('type')].item + "</p>");
+		
+		if ($(item.input)[0] != (undefined || null)) {;
+			let input = $(item.input)[0];
+			input.setAttribute('min', 0);
+			input.setAttribute('max', limits[containers.data('type')].item);
+		}
+
+		let texture = {
+			header: $(containers).find('[data-headertype="texture-header"]'),
+			input:  $(containers).find('input[data-type="texture"]')
+		}
+
+		$(texture.header).html("<p>Texture: " + limits[containers.data('type')].texture + "</p>");
+
+		if ($(texture.input)[0] != (undefined || null)) {
+			let input = $(texture.input)[0];
+			input.setAttribute('min', 0);
+			input.setAttribute('max', limits[containers.data('type')].texture);
+		}
+
     })
+
 }
 
 QBClothing.ResetValues = function() {
