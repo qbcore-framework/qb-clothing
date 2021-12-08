@@ -566,128 +566,131 @@ RegisterNetEvent('qb-clothing:client:openMenu')
 AddEventHandler('qb-clothing:client:openMenu', function()
     customCamLocation = nil
     openMenu({
-        {menu = "character", label = "Character", selected = true},
-        {menu = "clothing", label = "Features", selected = false},
-        {menu = "accessoires", label = "Accessories", selected = false}
+        {menu = "character", 	label = "Character", 	selected = true},
+        {menu = "clothing", 	label = "Features", 	selected = false},
+        {menu = "accessoires", 	label = "Accessories", 	selected = false}
     })
 end)
 
-function GetMaxValues()
-    maxModelValues = {
-        ["arms"]        = {type = "character", item = 0, texture = 0},
-        ["eye_color"]   = {type = "hair", item = 0, texture = 0},
-        ["t-shirt"]     = {type = "character", item = 0, texture = 0},
-        ["torso2"]      = {type = "character", item = 0, texture = 0},
-        ["pants"]       = {type = "character", item = 0, texture = 0},
-        ["shoes"]       = {type = "character", item = 0, texture = 0},
-        ["face"]        = {type = "character", item = 0, texture = 0},
-        ["vest"]        = {type = "character", item = 0, texture = 0},
-        ["accessory"]   = {type = "character", item = 0, texture = 0},
-        ["decals"]      = {type = "character", item = 0, texture = 0},
-        ["bag"]         = {type = "character", item = 0, texture = 0},
-        ["moles"]       = {type = "hair", item = 0, texture = 0},
-        ["hair"]        = {type = "hair", item = 0, texture = 0},
-        ["eyebrows"]    = {type = "hair", item = 0, texture = 0},
-        ["beard"]       = {type = "hair", item = 0, texture = 0},
-        ["eye_opening"]   = {type = "hair",  id = 1},
-        ["jaw_bone_width"]       = {type = "hair", item = 0, texture = 0},
-        ["jaw_bone_back_lenght"]       = {type = "hair", item = 0, texture = 0},
-        ["lips_thickness"]       = {type = "hair", item = 0, texture = 0},
-        ["cheek_1"]       = {type = "hair", item = 0, texture = 0},
-        ["cheek_2"]       = {type = "hair", item = 0, texture = 0},
-        ["cheek_3"]       = {type = "hair", item = 0, texture = 0},
-        ["eyebrown_high"]       = {type = "hair", item = 0, texture = 0},
-        ["eyebrown_forward"]       = {type = "hair", item = 0, texture = 0},
-        ["nose_0"]       = {type = "hair", item = 0, texture = 0},
-        ["nose_1"]       = {type = "hair", item = 0, texture = 0},
-        ["nose_2"]       = {type = "hair", item = 0, texture = 0},
-        ["nose_3"]       = {type = "hair", item = 0, texture = 0},
-        ["nose_4"]       = {type = "hair", item = 0, texture = 0},
-        ["nose_5"]       = {type = "hair", item = 0, texture = 0},
-        ["chimp_bone_lowering"]       = {type = "hair", item = 0, texture = 0},
-        ["chimp_bone_lenght"]       = {type = "hair", item = 0, texture = 0},
-        ["chimp_bone_width"]       = {type = "hair", item = 0, texture = 0},
-        ["chimp_hole"]       = {type = "hair", item = 0, texture = 0},
-        ["neck_thikness"]       = {type = "hair", item = 0, texture = 0},
-        ["blush"]       = {type = "hair", item = 0, texture = 0},
-        ["lipstick"]    = {type = "hair", item = 0, texture = 0},
-        ["makeup"]      = {type = "hair", item = 0, texture = 0},
-        ["ageing"]      = {type = "hair", item = 0, texture = 0},
-        ["mask"]        = {type = "accessoires", item = 0, texture = 0},
-        ["hat"]         = {type = "accessoires", item = 0, texture = 0},
-        ["glass"]       = {type = "accessoires", item = 0, texture = 0},
-        ["ear"]         = {type = "accessoires", item = 0, texture = 0},
-        ["watch"]       = {type = "accessoires", item = 0, texture = 0},
-        ["bracelet"]    = {type = "accessoires", item = 0, texture = 0},
+function GetLimitations()
+    ModelLimits = {
+        ["arms"]        			= {type = "character", 		item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["t-shirt"]     			= {type = "character", 		item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["torso2"]      			= {type = "character", 		item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["pants"]       			= {type = "character", 		item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["shoes"]       			= {type = "character", 		item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["face"]        			= {type = "character", 		item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["vest"]        			= {type = "character", 		item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["accessory"]   			= {type = "character", 		item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["decals"]      			= {type = "character", 		item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["bag"]         			= {type = "character", 		item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["eye_color"]   			= {type = "hair", 			item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["moles"]       			= {type = "hair", 			item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["hair"]        			= {type = "hair", 			item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["eyebrows"]    			= {type = "hair", 			item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["beard"]       			= {type = "hair", 			item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["eye_opening"]   			= {type = "hair",  			id = 1},
+        ["jaw_bone_width"]      	= {type = "hair", 			item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["jaw_bone_back_lenght"]    = {type = "hair", 			item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["lips_thickness"]       	= {type = "hair", 			item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["cheek_1"]       			= {type = "hair", 			item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["cheek_2"]       			= {type = "hair", 			item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["cheek_3"]       			= {type = "hair", 			item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["eyebrown_high"]       	= {type = "hair", 			item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["eyebrown_forward"]       	= {type = "hair", 			item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["nose_0"]       			= {type = "hair", 			item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["nose_1"]       			= {type = "hair", 			item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["nose_2"]       			= {type = "hair", 			item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["nose_3"]       			= {type = "hair", 			item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["nose_4"]       			= {type = "hair", 			item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["nose_5"]       			= {type = "hair", 			item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["chimp_bone_lowering"]     = {type = "hair", 			item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["chimp_bone_lenght"]       = {type = "hair", 			item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["chimp_bone_width"]       	= {type = "hair", 			item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["chimp_hole"]       		= {type = "hair", 			item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["neck_thikness"]       	= {type = "hair", 			item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["blush"]       			= {type = "hair", 			item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["lipstick"]    			= {type = "hair", 			item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["makeup"]      			= {type = "hair", 			item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["ageing"]      			= {type = "hair", 			item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["mask"]        			= {type = "accessoires", 	item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["hat"]         			= {type = "accessoires", 	item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["glass"]       			= {type = "accessoires", 	item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["ear"]         			= {type = "accessoires", 	item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["watch"]       			= {type = "accessoires", 	item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
+        ["bracelet"]    			= {type = "accessoires", 	item = { min = 0, max = 0 }, texture = { min = 0, max = 0 }},
 
     }
+
     local ped = PlayerPedId()
-    for k, v in pairs(clothingCategorys) do
+    
+	for k, v in pairs(clothingCategorys) do
+
         if v.type == "variation" then
-            maxModelValues[k].item = GetNumberOfPedDrawableVariations(ped, v.id)
-            maxModelValues[k].texture = GetNumberOfPedTextureVariations(ped, v.id, GetPedDrawableVariation(ped, v.id)) -1
+            ModelLimits[k].item.max = GetNumberOfPedDrawableVariations(ped, v.id)
+            ModelLimits[k].texture.max = GetNumberOfPedTextureVariations(ped, v.id, GetPedDrawableVariation(ped, v.id)) -1
         end
 
         if v.type == "hair" then
-            maxModelValues[k].item = GetNumberOfPedDrawableVariations(ped, v.id)
-            maxModelValues[k].texture = 45
+            ModelLimits[k].item.max = GetNumberOfPedDrawableVariations(ped, v.id)
+            ModelLimits[k].texture.max = 45
         end
 
         if v.type == "mask" then
-            maxModelValues[k].item = GetNumberOfPedDrawableVariations(ped, v.id)
-            maxModelValues[k].texture = GetNumberOfPedTextureVariations(ped, v.id, GetPedDrawableVariation(ped, v.id))
+            ModelLimits[k].item.max = GetNumberOfPedDrawableVariations(ped, v.id)
+            ModelLimits[k].texture.max = GetNumberOfPedTextureVariations(ped, v.id, GetPedDrawableVariation(ped, v.id))
         end
 
         if v.type == "face" then
-            maxModelValues[k].item = 44
-            maxModelValues[k].texture = 15
+            ModelLimits[k].item.max = 44
+            ModelLimits[k].texture.max = 15
         end
 
         if v.type == "ageing" then
-            maxModelValues[k].item = GetNumHeadOverlayValues(v.id)
-            maxModelValues[k].texture = 0
+            ModelLimits[k].item.max = GetNumHeadOverlayValues(v.id)
+            ModelLimits[k].texture.max = 0
         end
 
         if v.type == "overlay" then
-            maxModelValues[k].item = GetNumHeadOverlayValues(v.id)
-            maxModelValues[k].texture = 45
+            ModelLimits[k].item.max = GetNumHeadOverlayValues(v.id)
+            ModelLimits[k].texture.max = 45
         end
 
         if v.type == "prop" then
-            maxModelValues[k].item = GetNumberOfPedPropDrawableVariations(ped, v.id)
-            maxModelValues[k].texture = GetNumberOfPedPropTextureVariations(ped, v.id, GetPedPropIndex(ped, v.id))
+            ModelLimits[k].item.max = GetNumberOfPedPropDrawableVariations(ped, v.id)
+            ModelLimits[k].texture.max = GetNumberOfPedPropTextureVariations(ped, v.id, GetPedPropIndex(ped, v.id))
         end
 
         if v.type == "eye_color" then
-            maxModelValues[k].item = 31
-            maxModelValues[k].texture = 0
+            ModelLimits[k].item.max = 31
+            ModelLimits[k].texture.max = 0
         end
 
         if v.type == "moles" then
-            maxModelValues[k].item = GetNumHeadOverlayValues(9) -1
-            maxModelValues[k].texture = 10
+            ModelLimits[k].item.max = GetNumHeadOverlayValues(9) -1
+            ModelLimits[k].texture.max = 10
         end
 
         if v.type == "nose" then
-            maxModelValues[k].item = 30
-            maxModelValues[k].texture = 0
+            ModelLimits[k].item.max = 30
+            ModelLimits[k].texture.max = 0
         end
 
         if v.type == "cheek" then
-            maxModelValues[k].item = 30
-            maxModelValues[k].texture = 0
+            ModelLimits[k].item.max = 30
+            ModelLimits[k].texture.max = 0
         end
 
         if v.type == "chin" then
-            maxModelValues[k].item = 30
-            maxModelValues[k].texture = 0
+            ModelLimits[k].item.max = 30
+            ModelLimits[k].texture.max = 0
         end
 
     end
 
     SendNUIMessage({
         action = "updateMax",
-        maxValues = maxModelValues
+        limits = ModelLimits
     })
 end
 
