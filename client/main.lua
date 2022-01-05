@@ -15,6 +15,18 @@ local skinData = {
         defaultItem = 0,
         defaultTexture = 0,
     },
+    ["face2"] = {
+        item = 0,
+        texture = 0,
+        defaultItem = 0,
+        defaultTexture = 0,
+    },
+    ["facemix"] = {
+        skinMix = 0,
+        shapeMix = 0,
+        defaultSkinMix = 0,
+        defaultShapeMix = 0,
+    },
     ["pants"] = {
         item = 0,
         texture = 0,
@@ -525,6 +537,8 @@ local clothingCategorys = {
     ["hair"]        = {type = "hair",       id = 2},
     ["eyebrows"]    = {type = "overlay",    id = 2},
     ["face"]        = {type = "face",       id = 2},
+    ["face2"]       = {type = "face",       id = 2},
+    ["facemix"]     = {type = "face",       id = 2},
     ["beard"]       = {type = "overlay",    id = 1},
     ["blush"]       = {type = "overlay",    id = 5},
     ["lipstick"]    = {type = "overlay",    id = 8},
@@ -581,6 +595,8 @@ function GetMaxValues()
         ["pants"]       = {type = "character", item = 0, texture = 0},
         ["shoes"]       = {type = "character", item = 0, texture = 0},
         ["face"]        = {type = "character", item = 0, texture = 0},
+        ["face2"]       = {type = "character", item = 0, texture = 0},
+        ["facemix"]     = {type = "character", shapeMix = 0, skinMix = 0},
         ["vest"]        = {type = "character", item = 0, texture = 0},
         ["accessory"]   = {type = "character", item = 0, texture = 0},
         ["decals"]      = {type = "character", item = 0, texture = 0},
@@ -641,6 +657,16 @@ function GetMaxValues()
         if v.type == "face" then
             maxModelValues[k].item = 44
             maxModelValues[k].texture = 15
+        end
+
+        if v.type == "face2" then
+            maxModelValues[k].item = 45
+            maxModelValues[k].texture = 15
+        end
+
+        if v.type == "facemix" then
+            maxModelValues[k].shapeMix = 10
+            maxModelValues[k].skinMix = 10
         end
 
         if v.type == "ageing" then
@@ -824,7 +850,7 @@ function resetClothing(data)
     local ped = PlayerPedId()
 
     -- Face
-    SetPedHeadBlendData(ped, data["face"].item, data["face"].item, data["face"].item, data["face"].texture, data["face"].texture, data["face"].texture, 1.0, 1.0, 1.0, true)
+    SetPedHeadBlendData(ped, data["face"].item, data["face2"].item, nil, data["face"].texture, data["face2"].texture, nil, data["facemix"].shapeMix, data["facemix"].skinMix, nil, true)
 
     -- Pants
     SetPedComponentVariation(ped, 4, data["pants"].item, 0, 0)
@@ -994,14 +1020,30 @@ function ChangeVariation(data)
         end
     elseif clothingCategory == "face" then
         if type == "item" then
-            SetPedHeadBlendData(ped, tonumber(item), tonumber(item), tonumber(item), skinData["face"].texture, skinData["face"].texture, skinData["face"].texture, 1.0, 1.0, 1.0, true)
+            SetPedHeadBlendData(ped, tonumber(item), skinData["face2"].item, nil, skinData["face"].texture, skinData["face2"].texture, nil, skinData["facemix"].shapeMix, skinData["facemix"].skinMix, nil, true)         
             skinData["face"].item = item
         elseif type == "texture" then
-            SetPedHeadBlendData(ped, skinData["face"].item, skinData["face"].item, skinData["face"].item, item, item, item, 1.0, 1.0, 1.0, true)
+            SetPedHeadBlendData(ped, skinData["face"].item, skinData["face2"].item, nil, item, skinData["face2"].texture, nil, skinData["facemix"].shapeMix, skinData["facemix"].skinMix, nil, true)
             skinData["face"].texture = item
         end
+    elseif clothingCategory == "face2" then
+        if type == "item" then
+            SetPedHeadBlendData(ped, skinData["face"].item, tonumber(item), nil, skinData["face"].texture, skinData["face2"].texture, nil, skinData["facemix"].shapeMix, skinData["facemix"].skinMix , nil, true)
+            skinData["face2"].item = item
+        elseif type == "texture" then
+            SetPedHeadBlendData(ped, skinData["face"].item, skinData["face2"].item, nil, skinData["face"].texture, item, nil, skinData["facemix"].shapeMix, skinData["facemix"].skinMix , nil, true)
+            skinData["face2"].texture = item
+        end
+    elseif clothingCategory == "facemix" then
+        if type == "skinMix" then
+            SetPedHeadBlendData(ped, skinData["face"].item, skinData["face2"].item, nil, skinData["face"].texture, skinData["face2"].texture, nil, skinData["facemix"].shapeMix, item, nil, true)
+            skinData["facemix"].skinMix = item
+        elseif type == "shapeMix" then
+            SetPedHeadBlendData(ped, skinData["face"].item, skinData["face2"].item, nil, skinData["face"].texture, skinData["face2"].texture, nil, item, skinData["facemix"].skinMix , nil, true)
+            skinData["facemix"].shapeMix = item
+        end
     elseif clothingCategory == "hair" then
-        SetPedHeadBlendData(ped, skinData["face"].item, skinData["face"].item, skinData["face"].item, skinData["face"].texture, skinData["face"].texture, skinData["face"].texture, 1.0, 1.0, 1.0, true)
+        SetPedHeadBlendData(ped, skinData["face"].item, skinData["face2"].item, skinData["face"].item, skinData["face"].texture, skinData["face2"].texture, skinData["face"].texture, skinData["facemix"].shapeMix, skinData["facemix"].skinMix , nil, true)
         if type == "item" then
             SetPedComponentVariation(ped, 2, item, 0, 0)
             skinData["hair"].item = item
@@ -1538,7 +1580,7 @@ function ChangeToSkinNoUpdate(skin)
                     type = "item",
                 })
             else
-                if k ~= "face" and k ~= "hair" then
+                if k ~= "face" and k ~= "hair" and k ~= "face2" then
                     ChangeVariation({
                         clothingType = k,
                         articleNumber = v.defaultItem,
@@ -1554,7 +1596,7 @@ function ChangeToSkinNoUpdate(skin)
                     type = "texture",
                 })
             else
-                if k ~= "face" and k ~= "hair" then
+                if k ~= "face" and k ~= "hair" and k ~= "face2" then
                     ChangeVariation({
                         clothingType = k,
                         articleNumber = v.defaultTexture,
@@ -1638,7 +1680,7 @@ AddEventHandler('qb-clothing:client:loadPlayerClothing', function(data, ped)
     end
 
     -- Face
-    SetPedHeadBlendData(ped, data["face"].item, data["face"].item, data["face"].item, data["face"].texture, data["face"].texture, data["face"].texture, 1.0, 1.0, 1.0, true)
+    SetPedHeadBlendData(ped, data["face"].item, data["face2"].item, nil, data["face"].texture, data["face2"].texture, nil, data["facemix"].shapeMix, data["facemix"].skinMix, nil, true)
 
     -- Pants
     SetPedComponentVariation(ped, 4, data["pants"].item, 0, 0)
