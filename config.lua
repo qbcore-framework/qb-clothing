@@ -1,6 +1,7 @@
 Config = Config or {}
 
-Config.Price = 250 
+Config.Price = 250
+Config.paymentAccount = "cash" -- cash/bank/crypto
 
 Config.WomanPlayerModels = {
     'mp_f_freemode_01',
