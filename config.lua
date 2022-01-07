@@ -1,5 +1,7 @@
 Config = Config or {}
 
+Config.Price = 250 
+
 Config.WomanPlayerModels = {
     'mp_f_freemode_01',
     'a_f_m_beach_01',
