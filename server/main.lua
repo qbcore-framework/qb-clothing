@@ -1,10 +1,16 @@
 local QBCore = exports['qb-core']:GetCoreObject()
+local hasPaid = false
 
 RegisterServerEvent("qb-clothing:saveSkin")
 AddEventHandler('qb-clothing:saveSkin', function(model, skin)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     if model ~= nil and skin ~= nil then
+        --Check to make sure that the player isn't billed twice after saving the outfit and then the skin here
+        if not hasPaid then
+            Player.Functions.RemoveMoney(Config.PaymentAccount, Config.Price, "Clothing price")
+        end
+        hasPaid = false
         -- TODO: Update primary key to be citizenid so this can be an insert on duplicate update query
         exports.oxmysql:execute('DELETE FROM playerskins WHERE citizenid = ?', { Player.PlayerData.citizenid }, function()
             exports.oxmysql:insert('INSERT INTO playerskins (citizenid, model, skin, active) VALUES (?, ?, ?, ?)', {
@@ -34,6 +40,8 @@ AddEventHandler("qb-clothes:saveOutfit", function(outfitName, model, skinData)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     if model ~= nil and skinData ~= nil then
+        Player.Functions.RemoveMoney(Config.PaymentAccount, Config.Price, "outfit price")
+        hasPaid = true
         local outfitId = "outfit-"..math.random(1, 10).."-"..math.random(1111, 9999)
         exports.oxmysql:insert('INSERT INTO player_outfits (citizenid, outfitname, model, skin, outfitId) VALUES (?, ?, ?, ?, ?)', {
             Player.PlayerData.citizenid,
