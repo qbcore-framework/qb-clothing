@@ -384,11 +384,17 @@ $(document).on('click', "#cancel-menu", function(e) {
 QBClothing.SetCurrentValues = function(clothingValues) {
     $.each(clothingValues, function(i, item) {
         var itemCats = $(".clothing-menu-container").find('[data-type="' + i + '"]');
-        var input = $(itemCats).find('input[data-type="item"]');
-        var texture = $(itemCats).find('input[data-type="texture"]');
 
-        $(input).val(item.item);
-        $(texture).val(item.texture);
+        if (i == "facemix") { //Added for special case with range sliders
+            $('#shapeMix').val(item.shapeMix);
+            $('#skinMix').val(item.skinMix);
+        } else {
+            var input = $(itemCats).find('input[data-type="item"]');
+            var texture = $(itemCats).find('input[data-type="texture"]');
+
+            $(input).val(item.item);
+            $(texture).val(item.texture);
+        }
     });
 }
 
