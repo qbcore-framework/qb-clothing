@@ -24,8 +24,8 @@ local skinData = {
     ["facemix"] = {
         skinMix = 0,
         shapeMix = 0,
-        defaultSkinMix = 0,
-        defaultShapeMix = 0,
+        defaultSkinMix = 0.0,
+        defaultShapeMix = 0.0,
     },
     ["pants"] = {
         item = 0,
@@ -655,7 +655,7 @@ function GetMaxValues()
         end
 
         if v.type == "face" then
-            maxModelValues[k].item = 44
+            maxModelValues[k].item = 45
             maxModelValues[k].texture = 15
         end
 
@@ -1043,7 +1043,7 @@ function ChangeVariation(data)
             skinData["facemix"].shapeMix = item
         end
     elseif clothingCategory == "hair" then
-        SetPedHeadBlendData(ped, skinData["face"].item, skinData["face2"].item, skinData["face"].item, skinData["face"].texture, skinData["face2"].texture, skinData["face"].texture, skinData["facemix"].shapeMix, skinData["facemix"].skinMix , nil, true)
+        SetPedHeadBlendData(ped, skinData["face"].item, skinData["face2"].item, nil, skinData["face"].texture, skinData["face2"].texture, nil, skinData["facemix"].shapeMix, skinData["facemix"].skinMix , nil, true)
         if type == "item" then
             SetPedComponentVariation(ped, 2, item, 0, 0)
             skinData["hair"].item = item
@@ -1680,6 +1680,13 @@ AddEventHandler('qb-clothing:client:loadPlayerClothing', function(data, ped)
     end
 
     -- Face
+    if not data["facemix"] or not data["face2"] then 
+        data["facemix"] = skinData["facemix"]
+        data["facemix"].shapeMix = data["facemix"].defaultShapeMix
+        data["facemix"].skinMix = data["facemix"].defaultSkinMix
+        data["face2"] = skinData["face2"]
+    end 
+
     SetPedHeadBlendData(ped, data["face"].item, data["face2"].item, nil, data["face"].texture, data["face2"].texture, nil, data["facemix"].shapeMix, data["facemix"].skinMix, nil, true)
 
     -- Pants
@@ -1844,6 +1851,15 @@ AddEventHandler('qb-clothing:client:loadOutfit', function(oData)
     for k, v in pairs(data) do
         skinData[k].item = data[k].item
         skinData[k].texture = data[k].texture
+
+        -- To secure backwards compability for facemixing
+        if data[k].shapeMix then
+            skinData[k].shapeMix = data[k].shapeMix
+        end
+
+        if data[k].skinMix then
+            skinData[k].skinMix = data[k].skinMix
+        end
     end
 
     -- Pants
