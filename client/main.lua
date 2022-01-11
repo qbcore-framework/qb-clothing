@@ -2102,12 +2102,14 @@ RegisterCommand("refreshskin", function(source, args, rawCommand)
     	local ped = PlayerPedId()
 	local model = GetEntityModel(ped)
         RequestModel(model)
+	Wait(1000) -- Safety Waits
     	SetPlayerModel(PlayerId(), model)
     	SetModelAsNoLongerNeeded(model) 
+	Wait(1000) -- Safety Waits
    	TriggerServerEvent("qb-clothes:loadPlayerSkin") -- LOADING PLAYER'S CLOTHES
     	TriggerServerEvent("qb-clothing:loadPlayerSkin") -- LOADING PLAYER'S CLOTHES - Event 2
 	for k, v in pairs(GetGamePool('CObject')) do
-        	if IsEntityAttachedToEntity(PlayerPedId(), v) then
+        	if IsEntityAttachedToEntity(ped, v) then
             		SetEntityAsMissionEntity(v, true, true)
             		DeleteObject(v)
             		DeleteEntity(v)
