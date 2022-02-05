@@ -766,7 +766,7 @@ Config.Outfits = {
 			}	},
         },
         ["female"] = { -- Gender
-			[0] -- Grade Level
+			[0] = { -- Grade Level
 				[1] = {
 					outfitLabel = "T-Shirt",
 					outfitData = {
