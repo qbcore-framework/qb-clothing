@@ -442,7 +442,7 @@ Citizen.CreateThread(function()
                                     if QBCore.Functions.GetPlayerData().charinfo.gender == 1 then gender = "female" end
                                     QBCore.Functions.TriggerCallback('qb-clothing:server:getOutfits', function(result)
                                         openMenu({
-                                            {menu = "roomOutfits", label = "Presets", selected = true, outfits = Config.Outfits[PlayerData.job.name][gender]},
+                                            {menu = "roomOutfits", label = "Presets", selected = true, outfits = Config.Outfits[PlayerData.job.name][gender][PlayerData.job.grade.level]},
                                             {menu = "myOutfits", label = "My Outfits", selected = false, outfits = result},
                                             {menu = "character", label = "Clothing", selected = false},
                                             {menu = "accessoires", label = "Accessories", selected = false}
@@ -458,7 +458,7 @@ Citizen.CreateThread(function()
                                         if QBCore.Functions.GetPlayerData().charinfo.gender == 1 then gender = "female" end
                                         QBCore.Functions.TriggerCallback('qb-clothing:server:getOutfits', function(result)
                                             openMenu({
-                                                {menu = "roomOutfits", label = "Presets", selected = true, outfits = Config.Outfits[PlayerData.gang.name][gender]},
+                                                {menu = "roomOutfits", label = "Presets", selected = true, outfits = Config.Outfits[PlayerData.gang.name][gender][PlayerData.gang.grade.level]},
                                                 {menu = "myOutfits", label = "My Outfits", selected = false, outfits = result},
                                                 {menu = "character", label = "Clothing", selected = false},
                                                 {menu = "accessoires", label = "Accessories", selected = false}
