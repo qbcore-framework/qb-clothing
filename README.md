@@ -510,7 +510,7 @@ Config.Outfits = {
     },
     ["doctor"] = {
         ["male"] = {
-			0 = {
+			[0] = {
 				[1] = {
 					outfitLabel = "Placeholder",
 					outfitData = {
