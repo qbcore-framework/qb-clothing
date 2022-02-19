@@ -338,7 +338,7 @@ Citizen.CreateThread(function()
             SetBlipScale  (clothingShop, 0.7)
             SetBlipAsShortRange(clothingShop, true)
             BeginTextCommandSetBlipName("STRING")
-            AddTextComponentString("Clothing store")
+            AddTextComponentString(Lang:t('info.clothing_store_blip'))
             EndTextCommandSetBlipName(clothingShop)
         end
 
@@ -349,7 +349,7 @@ Citizen.CreateThread(function()
             SetBlipScale  (barberShop, 0.7)
             SetBlipAsShortRange(barberShop, true)
             BeginTextCommandSetBlipName("STRING")
-            AddTextComponentString("Barber")
+            AddTextComponentString(Lang:t('info.barber_blip'))
             EndTextCommandSetBlipName(barberShop)
         end
 
@@ -360,7 +360,7 @@ Citizen.CreateThread(function()
             SetBlipScale  (surgeonShop, 0.7)
             SetBlipAsShortRange(surgeonShop, true)
             BeginTextCommandSetBlipName("STRING")
-            AddTextComponentString("Surgeon")
+            AddTextComponentString(Lang:t('info.surgeon_blip'))
             EndTextCommandSetBlipName(surgeonShop)
         end
     end
@@ -375,34 +375,34 @@ Citizen.CreateThread(function()
             local inRange = false
 
             for k, v in pairs(Config.Stores) do
-		local dist = #(pos - Config.Stores[k].coords)
+		        local dist = #(pos - Config.Stores[k].coords)
                 if dist < 30 then
                     if not creatingCharacter then
                         DrawMarker(2, Config.Stores[k].coords.x,Config.Stores[k].coords.y,Config.Stores[k].coords.z + 0.98, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.4, 0.2, 255, 255, 255, 255, 0, 0, 0, 1, 0, 0, 0)
                         if dist < 5 then
                             if Config.Stores[k].shopType == "clothing" then
-                                 DrawText3Ds(Config.Stores[k].coords.x, Config.Stores[k].coords.y, Config.Stores[k].coords.z + 1.25, '~g~E~w~ - To Shop For Clothes')
+                                 DrawText3Ds(Config.Stores[k].coords.x, Config.Stores[k].coords.y, Config.Stores[k].coords.z + 1.25, Lang:t('info.clothes'))
                             elseif Config.Stores[k].shopType == "barber" then
-                                DrawText3Ds(Config.Stores[k].coords.x, Config.Stores[k].coords.y, Config.Stores[k].coords.z + 1.25, '~g~E~w~ - To Get A Haircut')
+                                DrawText3Ds(Config.Stores[k].coords.x, Config.Stores[k].coords.y, Config.Stores[k].coords.z + 1.25, Lang:t('info.haircut'))
                             elseif Config.Stores[k].shopType == "surgeon" then
-                                DrawText3Ds(Config.Stores[k].coords.x, Config.Stores[k].coords.y, Config.Stores[k].coords.z + 1.25, '~g~E~w~ - To Get Plastic Surgery')
+                                DrawText3Ds(Config.Stores[k].coords.x, Config.Stores[k].coords.y, Config.Stores[k].coords.z + 1.25, Lang:t('info.plastic_surgery'))
                             end
                             if IsControlJustPressed(0, 38) then -- E
                                 if Config.Stores[k].shopType == "clothing" then
                                     customCamLocation = nil
                                     openMenu({
-                                        {menu = "character", label = "Clothing", selected = true},
-                                        {menu = "accessoires", label = "Accessories", selected = false}
+                                        {menu = "character", label = Lang:t('menu.clothing'), selected = true},
+                                        {menu = "accessoires", label = Lang:t('menu.accessories'), selected = false}
                                     })
                                 elseif Config.Stores[k].shopType == "barber" then
                                     customCamLocation = nil
                                     openMenu({
-                                        {menu = "clothing", label = "Hair", selected = true},
+                                        {menu = "clothing", label = Lang:t('menu.hair'), selected = true},
                                     })
                                 elseif Config.Stores[k].shopType == "surgeon" then
                                     customCamLocation = nil
                                     openMenu({
-                                        {menu = "clothing", label = "Features", selected = true},
+                                        {menu = "clothing", label = Lang:t('menu.features'), selected = true},
                                     })
                                 end
                             end
@@ -435,33 +435,33 @@ Citizen.CreateThread(function()
                         DrawMarker(2, Config.ClothingRooms[k].coords, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.4, 0.2, 255, 255, 255, 255, 0, 0, 0, 1, 0, 0, 0)
                         if dist < 2 then
                             if PlayerData.job.name == Config.ClothingRooms[k].requiredJob then
-                                DrawText3Ds(Config.ClothingRooms[k].coords.x, Config.ClothingRooms[k].coords.y, Config.ClothingRooms[k].coords.z + 0.3, '~g~E~w~ - View Clothing')
+                                DrawText3Ds(Config.ClothingRooms[k].coords.x, Config.ClothingRooms[k].coords.y, Config.ClothingRooms[k].coords.z + 0.3, Lang:t('info.view_clothing'))
                                 if IsControlJustPressed(0, 38) then -- E
                                     customCamLocation = Config.ClothingRooms[k].cameraLocation
                                     gender = "male"
                                     if QBCore.Functions.GetPlayerData().charinfo.gender == 1 then gender = "female" end
                                     QBCore.Functions.TriggerCallback('qb-clothing:server:getOutfits', function(result)
                                         openMenu({
-                                            {menu = "roomOutfits", label = "Presets", selected = true, outfits = Config.Outfits[PlayerData.job.name][gender][PlayerData.job.grade.level]},
-                                            {menu = "myOutfits", label = "My Outfits", selected = false, outfits = result},
-                                            {menu = "character", label = "Clothing", selected = false},
-                                            {menu = "accessoires", label = "Accessories", selected = false}
+                                            {menu = "roomOutfits", label = Lang:t('menu.presets'), selected = true, outfits = Config.Outfits[PlayerData.job.name][gender][PlayerData.job.grade.level]},
+                                            {menu = "myOutfits", label = Lang:t('menu.my_outfits'), selected = false, outfits = result},
+                                            {menu = "character", label = Lang:t('menu.clothing'), selected = false},
+                                            {menu = "accessoires", label = Lang:t('menu.accessories'), selected = false}
                                         })
                                     end)
                                 end
                             else
                                 if PlayerData.gang.name == Config.ClothingRooms[k].requiredJob then
-                                    DrawText3Ds(Config.ClothingRooms[k].coords.x, Config.ClothingRooms[k].coords.y, Config.ClothingRooms[k].coords.z + 0.3, '~g~E~w~ - View Clothing')
+                                    DrawText3Ds(Config.ClothingRooms[k].coords.x, Config.ClothingRooms[k].coords.y, Config.ClothingRooms[k].coords.z + 0.3, Lang:t('info.view_clothing'))
                                     if IsControlJustPressed(0, 38) then -- E
                                         customCamLocation = Config.ClothingRooms[k].cameraLocation
                                         gender = "male"
                                         if QBCore.Functions.GetPlayerData().charinfo.gender == 1 then gender = "female" end
                                         QBCore.Functions.TriggerCallback('qb-clothing:server:getOutfits', function(result)
                                             openMenu({
-                                                {menu = "roomOutfits", label = "Presets", selected = true, outfits = Config.Outfits[PlayerData.gang.name][gender][PlayerData.gang.grade.level]},
-                                                {menu = "myOutfits", label = "My Outfits", selected = false, outfits = result},
-                                                {menu = "character", label = "Clothing", selected = false},
-                                                {menu = "accessoires", label = "Accessories", selected = false}
+                                                {menu = "roomOutfits", label = Lang:t('menu.presets'), selected = true, outfits = Config.Outfits[PlayerData.gang.name][gender][PlayerData.gang.grade.level]},
+                                                {menu = "myOutfits", label = Lang:t('menu.my_outfits'), selected = false, outfits = result},
+                                                {menu = "character", label = Lang:t('menu.clothing'), selected = false},
+                                                {menu = "accessoires", label = Lang:t('menu.accessories'), selected = false}
                                             })
                                         end)
                                     end
@@ -484,7 +484,7 @@ RegisterNetEvent('qb-clothing:client:openOutfitMenu')
 AddEventHandler('qb-clothing:client:openOutfitMenu', function()
     QBCore.Functions.TriggerCallback('qb-clothing:server:getOutfits', function(result)
         openMenu({
-            {menu = "myOutfits", label = "My Outfits", selected = true, outfits = result},
+            {menu = "myOutfits", label = Lang:t('menu.my_outfits'), selected = true, outfits = result},
         })
     end)
 end)
@@ -580,9 +580,9 @@ RegisterNetEvent('qb-clothing:client:openMenu')
 AddEventHandler('qb-clothing:client:openMenu', function()
     customCamLocation = nil
     openMenu({
-        {menu = "character", label = "Character", selected = true},
-        {menu = "clothing", label = "Features", selected = false},
-        {menu = "accessoires", label = "Accessories", selected = false}
+        {menu = "character", label = Lang:t('menu.character'), selected = true},
+        {menu = "clothing", label = Lang:t('menu.features'), selected = false},
+        {menu = "accessoires", label = Lang:t('menu.accessories'), selected = false}
     })
 end)
 
@@ -740,7 +740,7 @@ function openMenu(allowedMenus)
 end
 
 RegisterNUICallback('TrackerError', function()
-    QBCore.Functions.Notify("You can't remove your ankle bracelet ..", "error")
+    QBCore.Functions.Notify(Lang:t('error.ankle_bracelet'), "error")
 end)
 
 RegisterNUICallback('saveOutfit', function(data, cb)
@@ -1000,7 +1000,7 @@ end)
 
 RegisterNUICallback('removeOutfit', function(data, cb)
     TriggerServerEvent('qb-clothing:server:removeOutfit', data.outfitName, data.outfitId)
-    QBCore.Functions.Notify("You have deleted your"..data.outfitName.." outfit!")
+    QBCore.Functions.Notify(Lang:t('info.deleted_outfit', {value = data.outfitName}))
 end)
 
 function ChangeVariation(data)
@@ -1635,9 +1635,9 @@ AddEventHandler('qb-clothes:client:CreateFirstCharacter', function()
     QBCore.Functions.GetPlayerData(function(PlayerData)
         local skin = "mp_m_freemode_01"
         openMenu({
-            {menu = "character", label = "Character", selected = true},
-            {menu = "clothing", label = "Features", selected = false},
-            {menu = "accessoires", label = "Accessories", selected = false}
+            {menu = "character", label = Lang:t('menu.character'), selected = true},
+            {menu = "clothing", label = Lang:t('menu.features'), selected = false},
+            {menu = "accessoires", label = Lang:t('menu.accessories'), selected = false}
         })
 
         if PlayerData.charinfo.gender == 1 then
@@ -1955,7 +1955,7 @@ AddEventHandler('qb-clothing:client:loadOutfit', function(oData)
     end
 
     if oData.outfitName ~= nil then
-        QBCore.Functions.Notify("You have chosen "..oData.outfitName.."! Press Confirm to confirm outfit.")
+        QBCore.Functions.Notify(Lang:t('info.confirm_outfit',{value = oData.outfitName}))
     end
 end)
 
