@@ -1898,7 +1898,7 @@ AddEventHandler('qb-clothing:client:loadOutfit', function(oData)
     end
 
     -- Badge
-    if data["badge"] ~= nil then
+    if data["decals"] ~= nil then
         SetPedComponentVariation(ped, 10, data["decals"].item, data["decals"].texture, 0)
     end
 
