@@ -6,7 +6,7 @@ var selectedCam = null;
 var hasTracker = false;
 var canChange = true;
 
-var clothingCategorys = [];
+var clothingCategories = [];
 
 $(document).on('click', '.clothing-menu-header-btn', function(e) {
     var category = $(this).data('category');
@@ -23,7 +23,7 @@ $(document).on('click', '.clothing-menu-header-btn', function(e) {
 
 QBClothing.ResetItemTexture = function(obj, category) {
     var itemTexture = $(obj).parent().parent().find('[data-type="texture"]');
-    var defaultTextureValue = clothingCategorys[category].defaultTexture;
+    var defaultTextureValue = clothingCategories[category].defaultTexture;
     $(itemTexture).val(defaultTextureValue);
 
     $.post('https://qb-clothing/updateSkin', JSON.stringify({
@@ -126,7 +126,7 @@ $(document).on('click', '.clothing-menu-option-item-left', function(e) {
                 }
             } else {
                 if (buttonType == "item") {
-                    if (newValue >= clothingCategorys[clothingCategory].defaultItem) {
+                    if (newValue >= clothingCategories[clothingCategory].defaultItem) {
                         if (clothingCategory == "accessory" && newValue == 13) {
                             $(inputElem).val(12);
                             $.post('https://qb-clothing/updateSkin', JSON.stringify({
@@ -145,7 +145,7 @@ $(document).on('click', '.clothing-menu-option-item-left', function(e) {
                     }
                     QBClothing.ResetItemTexture(this, clothingCategory);
                 } else {
-                    if (newValue >= clothingCategorys[clothingCategory].defaultTexture) {
+                    if (newValue >= clothingCategories[clothingCategory].defaultTexture) {
                         if (clothingCategory == "accessory" && newValue == 13) {
                             $(inputElem).val(12);
                             $.post('https://qb-clothing/updateSkin', JSON.stringify({
@@ -192,7 +192,7 @@ $(document).on('input', '.clothing-menu-option-item-slider', function(e) {
                 }
             } else {
                 if (buttonType == "item") {
-                    if (newValue >= clothingCategorys[clothingCategory].defaultItem) {
+                    if (newValue >= clothingCategories[clothingCategory].defaultItem) {
                         if (clothingCategory == "accessory" && newValue == 13) {
                             $(inputElem).val(12);
                             $.post('https://qb-clothing/updateSkin', JSON.stringify({
@@ -211,7 +211,7 @@ $(document).on('input', '.clothing-menu-option-item-slider', function(e) {
                     }
                     QBClothing.ResetItemTexture(this, clothingCategory);
                 } else {
-                    if (newValue >= clothingCategorys[clothingCategory].defaultTexture) {
+                    if (newValue >= clothingCategories[clothingCategory].defaultTexture) {
                         if (clothingCategory == "accessory" && newValue == 13) {
                             $(inputElem).val(12);
                             $.post('https://qb-clothing/updateSkin', JSON.stringify({
@@ -399,7 +399,7 @@ QBClothing.SetCurrentValues = function(clothingValues) {
 }
 
 QBClothing.Open = function(data) {
-    clothingCategorys = data.currentClothing;
+    clothingCategories = data.currentClothing;
 
     if (data.hasTracker) {
         hasTracker = true;
@@ -554,7 +554,7 @@ QBClothing.SetMaxValues = function(maxValues) {
 }
 
 QBClothing.ResetValues = function() {
-    $.each(clothingCategorys, function(i, cat) {
+    $.each(clothingCategories, function(i, cat) {
         var itemCats = $(".clothing-menu-container").find('[data-type="' + i + '"]');
         var input = $(itemCats).find('input[data-type="item"]');
         var texture = $(itemCats).find('input[data-type="texture"]');
