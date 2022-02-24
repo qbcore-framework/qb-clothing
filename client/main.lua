@@ -526,7 +526,7 @@ end)
 
 firstChar = false
 
-local clothingCategorys = {
+local clothingCategories = {
     ["arms"]        = {type = "variation",  id = 3},
     ["t-shirt"]     = {type = "variation",  id = 8},
     ["torso2"]      = {type = "variation",  id = 11},
@@ -638,7 +638,7 @@ function GetMaxValues()
 
     }
     local ped = PlayerPedId()
-    for k, v in pairs(clothingCategorys) do
+    for k, v in pairs(clothingCategories) do
         if v.type == "variation" then
             maxModelValues[k].item = GetNumberOfPedDrawableVariations(ped, v.id)
             maxModelValues[k].texture = GetNumberOfPedTextureVariations(ped, v.id, GetPedDrawableVariation(ped, v.id)) -1
