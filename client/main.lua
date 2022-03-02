@@ -424,9 +424,9 @@ if Config.UseTarget then
 
             exports['qb-target']:AddBoxZone(v.shopType .. k, v.coords, v.length, v.width, {
                 name = v.shopType .. k,
-                debugPoly = false,
-                minZ = v.minZ,
-                maxZ = v.maxZ,
+                debugPoly = true,
+                minZ = v.coords.z-1,
+                maxZ = v.coords.z+1,
             }, {
                 options = {
                     {
