@@ -424,7 +424,7 @@ if Config.UseTarget then
 
             exports['qb-target']:AddBoxZone(v.shopType .. k, v.coords, v.length, v.width, {
                 name = v.shopType .. k,
-                debugPoly = true,
+                debugPoly = false,
                 minZ = v.minZ,
                 maxZ = v.maxZ,
             }, {
@@ -458,7 +458,7 @@ if Config.UseTarget then
 
             exports['qb-target']:AddBoxZone('clothing_' .. v.requiredJob .. k, v.coords, v.length, v.width, {
                 name = 'clothing_' .. v.requiredJob .. k,
-                debugPoly = true,
+                debugPoly = false,
                 minZ = v.minZ,
                 maxZ = v.maxZ,
             }, {
@@ -511,7 +511,7 @@ else
             roomZones[#roomZones+1] = BoxZone:Create(
                 v.coords, v.length, v.width, {
                 name='ClothingRooms_' .. k,
-                debugPoly=true,
+                debugPoly=false,
             })
         end
 
@@ -522,8 +522,6 @@ else
                 if (PlayerData.job.name == Config.ClothingRooms[tonumber(string.sub(zone.name, 15))].requiredJob) then
                     inZone = true
                     exports['qb-core']:DrawText('[E] - Clothing Shop', 'left')
-                else
-                    print('incorrect job')
                 end
             else
                 inZone = false
