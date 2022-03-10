@@ -8,291 +8,69 @@ local customCamLocation = nil
 local PlayerData = {}
 local previousSkinData = {}
 
-local skinData = {
-    ["face"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["face2"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["facemix"] = {
-        skinMix = 0,
-        shapeMix = 0,
-        defaultSkinMix = 0.0,
-        defaultShapeMix = 0.0,
-    },
-    ["pants"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["hair"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["eyebrows"] = {
-        item = -1,
-        texture = 1,
-        defaultItem = -1,
-        defaultTexture = 1,
-    },
-    ["beard"] = {
-        item = -1,
-        texture = 1,
-        defaultItem = -1,
-        defaultTexture = 1,
-    },
-    ["blush"] = {
-        item = -1,
-        texture = 1,
-        defaultItem = -1,
-        defaultTexture = 1,
-    },
-    ["lipstick"] = {
-        item = -1,
-        texture = 1,
-        defaultItem = -1,
-        defaultTexture = 1,
-    },
-    ["makeup"] = {
-        item = -1,
-        texture = 1,
-        defaultItem = -1,
-        defaultTexture = 1,
-    },
-    ["ageing"] = {
-        item = -1,
-        texture = 0,
-        defaultItem = -1,
-        defaultTexture = 0,
-    },
-    ["arms"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["t-shirt"] = {
-        item = 1,
-        texture = 0,
-        defaultItem = 1,
-        defaultTexture = 0,
-    },
-    ["torso2"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["vest"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["bag"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["shoes"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 1,
-        defaultTexture = 0,
-    },
-    ["mask"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["hat"] = {
-        item = -1,
-        texture = 0,
-        defaultItem = -1,
-        defaultTexture = 0,
-    },
-    ["glass"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["ear"] = {
-        item = -1,
-        texture = 0,
-        defaultItem = -1,
-        defaultTexture = 0,
-    },
-    ["watch"] = {
-        item = -1,
-        texture = 0,
-        defaultItem = -1,
-        defaultTexture = 0,
-    },
-    ["bracelet"] = {
-        item = -1,
-        texture = 0,
-        defaultItem = -1,
-        defaultTexture = 0,
-    },
-    ["accessory"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["decals"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["eye_color"] = {
-        item = -1,
-        texture = 0,
-        defaultItem = -1,
-        defaultTexture = 0,
-    },
-    ["moles"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = -1,
-        defaultTexture = 0,
-    },
-    ["nose_0"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["nose_1"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["nose_2"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["nose_3"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
+local skinDataMale = {}
+local skinDataFemale = {}
+local skinsAreLoaded = false
 
-    ["nose_4"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["nose_5"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["cheek_1"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["cheek_2"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["cheek_3"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["eye_opening"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["lips_thickness"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["jaw_bone_width"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["eyebrown_high"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["eyebrown_forward"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["jaw_bone_back_lenght"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["chimp_bone_lowering"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["chimp_bone_lenght"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["chimp_bone_width"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["chimp_hole"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["neck_thikness"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-}
+function loadSkinData()
+    skinsAreLoaded = false
+    for k, v in pairs(Config.Defaults['male']) do
+        skinDataMale[k] = {
+            item = v['item'],
+            texture = v['texture'],
+            defaultItem = v['item'],
+            defaultTexture = v['texture']
+        }
+    end
+    
+    for k, v in pairs(Config.Defaults['female']) do
+        skinDataFemale[k] = {
+            item = v['item'],
+            texture = v['texture'],
+            defaultItem = v['item'],
+            defaultTexture = v['texture']
+        }
+    end
+    skinsAreLoaded = true
+end
+
+function getGender()
+    local genderInt = 0
+
+    if #PlayerData ~= 0 then
+        genderInt = PlayerData.charinfo.gender
+    else
+        genderInt = QBCore.Functions.GetPlayerData().charinfo.gender
+    end
+
+    local gender = "m"
+    if genderInt == 1 then
+        gender = "f"
+    end
+
+    return gender
+end
+
+function getSkinData(ped)
+    if not skinsAreLoaded then
+        loadSkinData()
+    end
+    local gender = getGender()
+    if(gender == 'f') then
+        return skinDataFemale
+    else
+        return skinDataMale
+    end
+end
+
+function setSkinData(ped, data)
+    local gender = getGender()
+    if(gender == "f") then
+        skinDataFemale = data
+    else
+        skinDataMale = data
+    end
+end
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded')
 AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
@@ -718,6 +496,8 @@ function GetMaxValues()
 end
 
 function openMenu(allowedMenus)
+    local skinData = getSkinData(PlayerPedId())
+
     previousSkinData = json.encode(skinData)
     creatingCharacter = true
 
@@ -746,6 +526,7 @@ end)
 RegisterNUICallback('saveOutfit', function(data, cb)
     local ped = PlayerPedId()
     local model = GetEntityModel(ped)
+    local skinData = getSkinData(ped)
 
     TriggerServerEvent('qb-clothes:saveOutfit', data.outfitName, model, skinData)
 end)
@@ -842,7 +623,7 @@ end
 
 RegisterNUICallback('resetOutfit', function()
     resetClothing(json.decode(previousSkinData))
-    skinData = json.decode(previousSkinData)
+    setSkinData(PlayerPedId(), json.decode(previousSkinData))
     previousSkinData = {}
 end)
 
@@ -1005,6 +786,7 @@ end)
 
 function ChangeVariation(data)
     local ped = PlayerPedId()
+    local skinData = getSkinData(ped)
     local clothingCategory = data.clothingType
     local type = data.type
     local item = data.articleNumber
@@ -1499,7 +1281,7 @@ function ChangeVariation(data)
             skinData["bracelet"].texture = item
         end
     end
-
+    setSkinData(ped, skinData)
     GetMaxValues()
 end
 
@@ -1563,6 +1345,7 @@ end
 function ChangeToSkinNoUpdate(skin)
     local ped = PlayerPedId()
     local model = GetHashKey(skin)
+    local skinData = getSkinData(ped)
     Citizen.CreateThread(function()
         RequestModel(model)
         while not HasModelLoaded(model) do
@@ -1625,7 +1408,9 @@ RegisterNUICallback('saveClothing', function(data)
 end)
 
 function SaveSkin()
-	local model = GetEntityModel(PlayerPedId())
+    local ped = PlayerPedId()
+	local model = GetEntityModel(ped)
+    local skinData = getSkinData(ped)
     clothing = json.encode(skinData)
 	TriggerServerEvent("qb-clothing:saveSkin", model, clothing)
 end
@@ -1670,7 +1455,7 @@ end)
 RegisterNetEvent('qb-clothing:client:loadPlayerClothing')
 AddEventHandler('qb-clothing:client:loadPlayerClothing', function(data, ped)
     if ped == nil then ped = PlayerPedId() end
-
+    local skinData = getSkinData(ped)
     for i = 0, 11 do
         SetPedComponentVariation(ped, i, 0, 0, 0)
     end
@@ -1825,6 +1610,7 @@ AddEventHandler('qb-clothing:client:loadPlayerClothing', function(data, ped)
     SetPedFaceFeature(ped, 18, (data['chimp_hole'].item / 10))
     SetPedFaceFeature(ped, 19, (data['neck_thikness'].item / 10))
     skinData = data
+    setSkinData(ped, skinData)
 end)
 
 function typeof(var)
@@ -1843,6 +1629,7 @@ end
 RegisterNetEvent('qb-clothing:client:loadOutfit')
 AddEventHandler('qb-clothing:client:loadOutfit', function(oData)
     local ped = PlayerPedId()
+    local skinData = getSkinData(ped)
 
     data = oData.outfitData
 
@@ -1861,6 +1648,7 @@ AddEventHandler('qb-clothing:client:loadOutfit', function(oData)
             skinData[k].skinMix = data[k].skinMix
         end
     end
+    setSkinData(ped, skinData)
 
     -- Pants
     if data["pants"] ~= nil then
