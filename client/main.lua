@@ -424,7 +424,7 @@ if Config.UseTarget then
 
             exports['qb-target']:AddBoxZone(v.shopType .. k, v.coords, v.length, v.width, {
                 name = v.shopType .. k,
-                debugPoly = true,
+                debugPoly = false,
                 minZ = v.coords.z-1,
                 maxZ = v.coords.z+1,
             }, {
@@ -483,8 +483,8 @@ else
         for k, v in pairs(Config.Stores) do
             zones[#zones+1] = BoxZone:Create(
                 v.coords, v.length, v.width, {
-                name=v.shopType,
-                debugPoly=false,
+                name = v.shopType,
+                debugPoly = false,
             })
         end
 
@@ -510,8 +510,8 @@ else
         for k, v in pairs(Config.ClothingRooms) do
             roomZones[#roomZones+1] = BoxZone:Create(
                 v.coords, v.length, v.width, {
-                name='ClothingRooms_' .. k,
-                debugPoly=false,
+                name = 'ClothingRooms_' .. k,
+                debugPoly = false,
             })
         end
 
@@ -576,8 +576,7 @@ else
     end)
 end
 
-RegisterNetEvent('qb-clothing:client:openOutfitMenu')
-AddEventHandler('qb-clothing:client:openOutfitMenu', function()
+RegisterNetEvent('qb-clothing:client:openOutfitMenu', function()
     QBCore.Functions.TriggerCallback('qb-clothing:server:getOutfits', function(result)
         openMenu({
             {menu = "myOutfits", label = "My Outfits", selected = true, outfits = result},
@@ -2229,5 +2228,4 @@ function reloadSkin(health)
     SetPedMaxHealth(PlayerId(), maxhealth)
     Citizen.Wait(1000) -- Safety Delay
     SetEntityHealth(PlayerPedId(), health)
-
 end
