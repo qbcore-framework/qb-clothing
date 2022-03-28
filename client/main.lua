@@ -7,6 +7,8 @@ local zoom = "character"
 local customCamLocation = nil
 local PlayerData = {}
 local previousSkinData = {}
+local zoneName = nil
+local inZone = false
 
 local skinData = {
     ["face"] = {
@@ -306,7 +308,7 @@ AddEventHandler('QBCore:Client:OnJobUpdate', function(JobInfo)
 end)
 
 function DrawText3Ds(x, y, z, text)
-	SetTextScale(0.35, 0.35)
+    SetTextScale(0.35, 0.35)
     SetTextFont(4)
     SetTextProportional(1)
     SetTextColour(255, 255, 255, 215)
@@ -365,120 +367,214 @@ Citizen.CreateThread(function()
         end
     end
 end)
-Citizen.CreateThread(function()
-    while true do
 
-        if LocalPlayer.state.isLoggedIn then
+RegisterNetEvent('qb-clothing:client:getOutfits', function(requiredJob, gradeLevel)
+    local gender = "male"
+    if QBCore.Functions.GetPlayerData().charinfo.gender == 1 then gender = "female" end
+    QBCore.Functions.TriggerCallback('qb-clothing:server:getOutfits', function(result)
+        openMenu({
+            {menu = "roomOutfits", label = "Presets", selected = true, outfits = Config.Outfits[requiredJob][gender][gradeLevel]},
+            {menu = "myOutfits", label = "My Outfits", selected = false, outfits = result},
+            {menu = "character", label = "Clothing", selected = false},
+            {menu = "accessoires", label = "Accessories", selected = false}
+        })
+    end)
+end)
 
-            local ped = PlayerPedId()
-            local pos = GetEntityCoords(ped)
-            local inRange = false
+if Config.UseTarget then
 
-            for k, v in pairs(Config.Stores) do
-		local dist = #(pos - Config.Stores[k].coords)
-                if dist < 30 then
-                    if not creatingCharacter then
-                        DrawMarker(2, Config.Stores[k].coords.x,Config.Stores[k].coords.y,Config.Stores[k].coords.z + 0.98, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.4, 0.2, 255, 255, 255, 255, 0, 0, 0, 1, 0, 0, 0)
-                        if dist < 5 then
-                            if Config.Stores[k].shopType == "clothing" then
-                                 DrawText3Ds(Config.Stores[k].coords.x, Config.Stores[k].coords.y, Config.Stores[k].coords.z + 1.25, '~g~E~w~ - To Shop For Clothes')
-                            elseif Config.Stores[k].shopType == "barber" then
-                                DrawText3Ds(Config.Stores[k].coords.x, Config.Stores[k].coords.y, Config.Stores[k].coords.z + 1.25, '~g~E~w~ - To Get A Haircut')
-                            elseif Config.Stores[k].shopType == "surgeon" then
-                                DrawText3Ds(Config.Stores[k].coords.x, Config.Stores[k].coords.y, Config.Stores[k].coords.z + 1.25, '~g~E~w~ - To Get Plastic Surgery')
-                            end
-                            if IsControlJustPressed(0, 38) then -- E
-                                if Config.Stores[k].shopType == "clothing" then
-                                    customCamLocation = nil
-                                    openMenu({
-                                        {menu = "character", label = "Clothing", selected = true},
-                                        {menu = "accessoires", label = "Accessories", selected = false}
-                                    })
-                                elseif Config.Stores[k].shopType == "barber" then
-                                    customCamLocation = nil
-                                    openMenu({
-                                        {menu = "clothing", label = "Hair", selected = true},
-                                    })
-                                elseif Config.Stores[k].shopType == "surgeon" then
-                                    customCamLocation = nil
-                                    openMenu({
-                                        {menu = "clothing", label = "Features", selected = true},
-                                    })
-                                end
-                            end
-                        end
-                    end
-                    inRange = true
+    CreateThread(function()
+        for k, v in pairs(Config.Stores) do
+            local opts = {}
+            if v.shopType == 'barber' then
+                opts = {
+                    action = function(entity)
+                        customCamLocation = nil
+                        openMenu({
+                            {menu = "clothing", label = "Hair", selected = true},
+                        })
+                    end,
+                    icon = "fas fa-chair-office",
+                    label = "Barber",
+                }
+            elseif v.shopType == 'clothing' then
+                opts = {
+                    action = function(entity)
+                        customCamLocation = nil
+                        openMenu({
+                            {menu = "character", label = "Clothing", selected = true},
+                            {menu = "accessoires", label = "Accessories", selected = false}
+                        })
+                    end,
+                    icon = "fas fa-clothes-hanger",
+                    label = "Clothing Store",
+                }
+            elseif v.shopType == 'surgeon' then
+                opts = {
+                    action = function(entity)
+                        customCamLocation = nil
+                        openMenu({
+                            {menu = "clothing", label = "Features", selected = true},
+                        })
+                    end,
+                    icon = "fas fa-scalpel",
+                    label = "Plastic Surgeon",
+                }
+            end
+
+            exports['qb-target']:AddBoxZone(v.shopType .. k, v.coords, v.length, v.width, {
+                name = v.shopType .. k,
+                debugPoly = true,
+                minZ = v.coords.z-1,
+                maxZ = v.coords.z+1,
+            }, {
+                options = {
+                    {
+                        type = "client",
+                        action = opts.action,
+                        icon = opts.icon,
+                        label = opts.label,
+                    },
+                },
+                distance = 3
+            })
+        end
+
+        for k, v in pairs(Config.ClothingRooms) do
+            local action = nil
+            if v.isGang then
+                action = function(entity)
+                    customCamLocation = v.cameraLocation
+                    local gradeLevel = PlayerData.gang.grade.level
+                    TriggerEvent('qb-clothing:client:getOutfits', v.requiredJob, gradeLevel)
+                end
+            else
+                action = function(entity)
+                    customCamLocation = v.cameraLocation
+                    local gradeLevel = PlayerData.job.grade.level
+                    TriggerEvent('qb-clothing:client:getOutfits', v.requiredJob, gradeLevel)
                 end
             end
 
-            if not inRange then
-                Citizen.Wait(2000)
-            end
+            exports['qb-target']:AddBoxZone('clothing_' .. v.requiredJob .. k, v.coords, v.length, v.width, {
+                name = 'clothing_' .. v.requiredJob .. k,
+                debugPoly = false,
+                minZ = v.minZ,
+                maxZ = v.maxZ,
+            }, {
+                options = {
+                    {
+                        type = "client",
+                        action = action,
+                        icon = "fas fa-sign-in-alt",
+                        label = "Clothing",
+                        job = v.requiredJob
+                    },
+                },
+                distance = 3
+            })
+        end
+    end)
 
+else
+    CreateThread(function()
+
+        local zones = {}
+        for k, v in pairs(Config.Stores) do
+            zones[#zones+1] = BoxZone:Create(
+                v.coords, v.length, v.width, {
+                name=v.shopType,
+                debugPoly=false,
+            })
         end
 
-        Citizen.Wait(3)
-    end
-end)
+        local clothingCombo = ComboZone:Create(zones, {name = "clothingCombo", debugPoly = false})
+        clothingCombo:onPlayerInOut(function(isPointInside, point, zone)
+            if isPointInside then
+                inZone = true
+                zoneName = zone.name
+                if zoneName == 'surgeon' then
+                    exports['qb-core']:DrawText('[E] - Plastic Surgery', 'left')
+                elseif zoneName == 'clothing' then
+                    exports['qb-core']:DrawText('[E] - Clothing Shop', 'left')
+                elseif zoneName == 'barber' then
+                    exports['qb-core']:DrawText('[E] - Barber', 'left')
+                end
+            else
+                inZone = false
+                exports['qb-core']:HideText()
+            end
+        end)
 
-Citizen.CreateThread(function()
-    while true do
-        if LocalPlayer.state.isLoggedIn then
-            local ped = PlayerPedId()
-            local pos = GetEntityCoords(ped)
-            local inRange = false
-            for k, v in pairs(Config.ClothingRooms) do
-                local dist = #(pos - Config.ClothingRooms[k].coords)
-                if dist < 15 then
-                    if not creatingCharacter then
-                        DrawMarker(2, Config.ClothingRooms[k].coords, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.4, 0.2, 255, 255, 255, 255, 0, 0, 0, 1, 0, 0, 0)
-                        if dist < 2 then
-                            if PlayerData.job.name == Config.ClothingRooms[k].requiredJob then
-                                DrawText3Ds(Config.ClothingRooms[k].coords.x, Config.ClothingRooms[k].coords.y, Config.ClothingRooms[k].coords.z + 0.3, '~g~E~w~ - View Clothing')
-                                if IsControlJustPressed(0, 38) then -- E
-                                    customCamLocation = Config.ClothingRooms[k].cameraLocation
-                                    gender = "male"
-                                    if QBCore.Functions.GetPlayerData().charinfo.gender == 1 then gender = "female" end
-                                    QBCore.Functions.TriggerCallback('qb-clothing:server:getOutfits', function(result)
-                                        openMenu({
-                                            {menu = "roomOutfits", label = "Presets", selected = true, outfits = Config.Outfits[PlayerData.job.name][gender][PlayerData.job.grade.level]},
-                                            {menu = "myOutfits", label = "My Outfits", selected = false, outfits = result},
-                                            {menu = "character", label = "Clothing", selected = false},
-                                            {menu = "accessoires", label = "Accessories", selected = false}
-                                        })
-                                    end)
-                                end
-                            else
-                                if PlayerData.gang.name == Config.ClothingRooms[k].requiredJob then
-                                    DrawText3Ds(Config.ClothingRooms[k].coords.x, Config.ClothingRooms[k].coords.y, Config.ClothingRooms[k].coords.z + 0.3, '~g~E~w~ - View Clothing')
-                                    if IsControlJustPressed(0, 38) then -- E
-                                        customCamLocation = Config.ClothingRooms[k].cameraLocation
-                                        gender = "male"
-                                        if QBCore.Functions.GetPlayerData().charinfo.gender == 1 then gender = "female" end
-                                        QBCore.Functions.TriggerCallback('qb-clothing:server:getOutfits', function(result)
-                                            openMenu({
-                                                {menu = "roomOutfits", label = "Presets", selected = true, outfits = Config.Outfits[PlayerData.gang.name][gender][PlayerData.gang.grade.level]},
-                                                {menu = "myOutfits", label = "My Outfits", selected = false, outfits = result},
-                                                {menu = "character", label = "Clothing", selected = false},
-                                                {menu = "accessoires", label = "Accessories", selected = false}
-                                            })
-                                        end)
-                                    end
-                                end
-                            end
-                        end
-                        inRange = true
+        local roomZones = {}
+        for k, v in pairs(Config.ClothingRooms) do
+            roomZones[#roomZones+1] = BoxZone:Create(
+                v.coords, v.length, v.width, {
+                name='ClothingRooms_' .. k,
+                debugPoly=false,
+            })
+        end
+
+        local clothingRoomsCombo = ComboZone:Create(roomZones, {name = "clothingRoomsCombo", debugPoly = false})
+        clothingRoomsCombo:onPlayerInOut(function(isPointInside, point, zone)
+            if isPointInside then
+                zoneName = zone.name
+                if (PlayerData.job.name == Config.ClothingRooms[tonumber(string.sub(zone.name, 15))].requiredJob) then
+                    inZone = true
+                    exports['qb-core']:DrawText('[E] - Clothing Shop', 'left')
+                end
+            else
+                inZone = false
+                exports['qb-core']:HideText()
+            end
+        end)
+    end)
+
+    -- Clothing Thread
+    CreateThread(function ()
+        Wait(1000)
+        while true do
+            local sleep = 1000
+            if inZone then
+                sleep = 5
+                if string.find(zoneName, 'ClothingRooms_') then
+                    if IsControlJustReleased(0, 38) then
+                        local clothingRoom = Config.ClothingRooms[tonumber(string.sub(zoneName, 15))]
+                        customCamLocation = clothingRoom.cameraLocation
+                        local gradeLevel = 0
+                        if clothingRoom.isGang then gradeLevel = PlayerData.gang.grade.level else gradeLevel = PlayerData.job.grade.level end
+                        TriggerEvent('qb-clothing:client:getOutfits', clothingRoom.requiredJob, gradeLevel)
+                    end
+                elseif zoneName == 'surgeon' then
+                    if IsControlJustReleased(0, 38) then
+                        customCamLocation = nil
+                        openMenu({
+                            {menu = "clothing", label = "Features", selected = true},
+                        })
+                    end
+                elseif zoneName == 'clothing' then
+                    if IsControlJustReleased(0, 38) then
+                        customCamLocation = nil
+                        openMenu({
+                            {menu = "character", label = "Clothing", selected = true},
+                            {menu = "accessoires", label = "Accessories", selected = false}
+                        })
+                    end
+                elseif zoneName == 'barber' then
+                    if IsControlJustReleased(0, 38) then
+                        customCamLocation = nil
+                        openMenu({
+                            {menu = "clothing", label = "Hair", selected = true},
+                        })
                     end
                 end
+            else
+                sleep = 1000
             end
-            if not inRange then
-                Citizen.Wait(2000)
-            end
+            Wait(sleep)
         end
-        Citizen.Wait(3)
-    end
-end)
+    end)
+end
 
 RegisterNetEvent('qb-clothing:client:openOutfitMenu')
 AddEventHandler('qb-clothing:client:openOutfitMenu', function()
@@ -801,26 +897,26 @@ RegisterNUICallback('setupCam', function(data)
 
     if value == 1 then
         local coords = GetCamCoord(cam)
-		camOffset = 0.75
-		local cx, cy = GetPositionByRelativeHeading(PlayerPedId(), headingToCam, camOffset)
+        camOffset = 0.75
+        local cx, cy = GetPositionByRelativeHeading(PlayerPedId(), headingToCam, camOffset)
         SetCamCoord(cam, cx, cy, pedPos.z + 0.65)
         PointCamAtCoord(cam, pedPos.x, pedPos.y, pedPos.z + 0.65)
     elseif value == 2 then
         local coords = GetCamCoord(cam)
-		camOffset = 1.0
-		local cx, cy = GetPositionByRelativeHeading(PlayerPedId(), headingToCam, camOffset)
+        camOffset = 1.0
+        local cx, cy = GetPositionByRelativeHeading(PlayerPedId(), headingToCam, camOffset)
         SetCamCoord(cam, cx, cy, pedPos.z + 0.2)
         PointCamAtCoord(cam, pedPos.x, pedPos.y, pedPos.z + 0.2)
     elseif value == 3 then
         local coords = GetCamCoord(cam)
-		camOffset = 1.0
-		local cx, cy = GetPositionByRelativeHeading(PlayerPedId(), headingToCam, camOffset)
+        camOffset = 1.0
+        local cx, cy = GetPositionByRelativeHeading(PlayerPedId(), headingToCam, camOffset)
         SetCamCoord(cam, cx, cy, pedPos.z + -0.5)
         PointCamAtCoord(cam, pedPos.x, pedPos.y, pedPos.z + -0.5)
     else
         local coords = GetCamCoord(cam)
-		camOffset = 2.0
-		local cx, cy = GetPositionByRelativeHeading(PlayerPedId(), headingToCam, camOffset)
+        camOffset = 2.0
+        local cx, cy = GetPositionByRelativeHeading(PlayerPedId(), headingToCam, camOffset)
         SetCamCoord(cam, cx, cy, pedPos.z + 0.2)
         PointCamAtCoord(cam, pedPos.x, pedPos.y, pedPos.z + 0.2)
     end
@@ -1020,7 +1116,7 @@ function ChangeVariation(data)
         end
     elseif clothingCategory == "face" then
         if type == "item" then
-            SetPedHeadBlendData(ped, tonumber(item), skinData["face2"].item, nil, skinData["face"].texture, skinData["face2"].texture, nil, skinData["facemix"].shapeMix, skinData["facemix"].skinMix, nil, true)         
+            SetPedHeadBlendData(ped, tonumber(item), skinData["face2"].item, nil, skinData["face"].texture, skinData["face2"].texture, nil, skinData["facemix"].shapeMix, skinData["facemix"].skinMix, nil, true)
             skinData["face"].item = item
         elseif type == "texture" then
             SetPedHeadBlendData(ped, skinData["face"].item, skinData["face2"].item, nil, item, skinData["face2"].texture, nil, skinData["facemix"].shapeMix, skinData["facemix"].skinMix, nil, true)
@@ -1504,28 +1600,28 @@ function ChangeVariation(data)
 end
 
 function tprint (tbl, indent)
-	if not indent then indent = 0 end
-	local toprint = string.rep(" ", indent) .. "{\r\n"
-	indent = indent + 2
-	for k, v in pairs(tbl) do
-	  toprint = toprint .. string.rep(" ", indent)
-	  if (type(k) == "number") then
-		toprint = toprint .. "[" .. k .. "] = "
-	  elseif (type(k) == "string") then
-		toprint = toprint  .. k ..  "= "
-	  end
-	  if (type(v) == "number") then
-		toprint = toprint .. v .. ",\r\n"
-	  elseif (type(v) == "string") then
-		toprint = toprint .. "\"" .. v .. "\",\r\n"
-	  elseif (type(v) == "table") then
-		toprint = toprint .. tprint(v, indent + 2) .. ",\r\n"
-	  else
-		toprint = toprint .. "\"" .. tostring(v) .. "\",\r\n"
-	  end
-	end
-	toprint = toprint .. string.rep(" ", indent-2) .. "}"
-	return toprint
+    if not indent then indent = 0 end
+    local toprint = string.rep(" ", indent) .. "{\r\n"
+    indent = indent + 2
+    for k, v in pairs(tbl) do
+      toprint = toprint .. string.rep(" ", indent)
+      if (type(k) == "number") then
+        toprint = toprint .. "[" .. k .. "] = "
+      elseif (type(k) == "string") then
+        toprint = toprint  .. k ..  "= "
+      end
+      if (type(v) == "number") then
+        toprint = toprint .. v .. ",\r\n"
+      elseif (type(v) == "string") then
+        toprint = toprint .. "\"" .. v .. "\",\r\n"
+      elseif (type(v) == "table") then
+        toprint = toprint .. tprint(v, indent + 2) .. ",\r\n"
+      else
+        toprint = toprint .. "\"" .. tostring(v) .. "\",\r\n"
+      end
+    end
+    toprint = toprint .. string.rep(" ", indent-2) .. "}"
+    return toprint
   end
 
 
@@ -1625,9 +1721,9 @@ RegisterNUICallback('saveClothing', function(data)
 end)
 
 function SaveSkin()
-	local model = GetEntityModel(PlayerPedId())
+    local model = GetEntityModel(PlayerPedId())
     clothing = json.encode(skinData)
-	TriggerServerEvent("qb-clothing:saveSkin", model, clothing)
+    TriggerServerEvent("qb-clothing:saveSkin", model, clothing)
 end
 
 RegisterNetEvent('qb-clothes:client:CreateFirstCharacter')
@@ -1680,12 +1776,12 @@ AddEventHandler('qb-clothing:client:loadPlayerClothing', function(data, ped)
     end
 
     -- Face
-    if not data["facemix"] or not data["face2"] then 
+    if not data["facemix"] or not data["face2"] then
         data["facemix"] = skinData["facemix"]
         data["facemix"].shapeMix = data["facemix"].defaultShapeMix
         data["facemix"].skinMix = data["facemix"].defaultSkinMix
         data["face2"] = skinData["face2"]
-    end 
+    end
 
     SetPedHeadBlendData(ped, data["face"].item, data["face2"].item, nil, data["face"].texture, data["face2"].texture, nil, data["facemix"].shapeMix, data["facemix"].skinMix, nil, true)
 
@@ -1960,12 +2056,12 @@ AddEventHandler('qb-clothing:client:loadOutfit', function(oData)
 end)
 
 local faceProps = {
-	[1] = { ["Prop"] = -1, ["Texture"] = -1 },
-	[2] = { ["Prop"] = -1, ["Texture"] = -1 },
-	[3] = { ["Prop"] = -1, ["Texture"] = -1 },
-	[4] = { ["Prop"] = -1, ["Palette"] = -1, ["Texture"] = -1 }, -- this is actually a pedtexture variations, not a prop
-	[5] = { ["Prop"] = -1, ["Palette"] = -1, ["Texture"] = -1 }, -- this is actually a pedtexture variations, not a prop
-	[6] = { ["Prop"] = -1, ["Palette"] = -1, ["Texture"] = -1 }, -- this is actually a pedtexture variations, not a prop
+    [1] = { ["Prop"] = -1, ["Texture"] = -1 },
+    [2] = { ["Prop"] = -1, ["Texture"] = -1 },
+    [3] = { ["Prop"] = -1, ["Texture"] = -1 },
+    [4] = { ["Prop"] = -1, ["Palette"] = -1, ["Texture"] = -1 }, -- this is actually a pedtexture variations, not a prop
+    [5] = { ["Prop"] = -1, ["Palette"] = -1, ["Texture"] = -1 }, -- this is actually a pedtexture variations, not a prop
+    [6] = { ["Prop"] = -1, ["Palette"] = -1, ["Texture"] = -1 }, -- this is actually a pedtexture variations, not a prop
 }
 
 function loadAnimDict( dict )
@@ -1978,122 +2074,122 @@ end
 RegisterNetEvent("qb-clothing:client:adjustfacewear")
 AddEventHandler("qb-clothing:client:adjustfacewear",function(type)
     if QBCore.Functions.GetPlayerData().metadata["ishandcuffed"] then return end
-	removeWear = not removeWear
-	local AnimSet = "none"
-	local AnimationOn = "none"
-	local AnimationOff = "none"
-	local PropIndex = 0
+    removeWear = not removeWear
+    local AnimSet = "none"
+    local AnimationOn = "none"
+    local AnimationOff = "none"
+    local PropIndex = 0
 
-	local AnimSet = "mp_masks@on_foot"
-	local AnimationOn = "put_on_mask"
-	local AnimationOff = "put_on_mask"
+    local AnimSet = "mp_masks@on_foot"
+    local AnimationOn = "put_on_mask"
+    local AnimationOff = "put_on_mask"
 
-	faceProps[6]["Prop"] = GetPedDrawableVariation(PlayerPedId(), 0)
-	faceProps[6]["Palette"] = GetPedPaletteVariation(PlayerPedId(), 0)
-	faceProps[6]["Texture"] = GetPedTextureVariation(PlayerPedId(), 0)
+    faceProps[6]["Prop"] = GetPedDrawableVariation(PlayerPedId(), 0)
+    faceProps[6]["Palette"] = GetPedPaletteVariation(PlayerPedId(), 0)
+    faceProps[6]["Texture"] = GetPedTextureVariation(PlayerPedId(), 0)
 
-	for i = 0, 3 do
-		if GetPedPropIndex(PlayerPedId(), i) ~= -1 then
-			faceProps[i+1]["Prop"] = GetPedPropIndex(PlayerPedId(), i)
-		end
-		if GetPedPropTextureIndex(PlayerPedId(), i) ~= -1 then
-			faceProps[i+1]["Texture"] = GetPedPropTextureIndex(PlayerPedId(), i)
-		end
-	end
+    for i = 0, 3 do
+        if GetPedPropIndex(PlayerPedId(), i) ~= -1 then
+            faceProps[i+1]["Prop"] = GetPedPropIndex(PlayerPedId(), i)
+        end
+        if GetPedPropTextureIndex(PlayerPedId(), i) ~= -1 then
+            faceProps[i+1]["Texture"] = GetPedPropTextureIndex(PlayerPedId(), i)
+        end
+    end
 
-	if GetPedDrawableVariation(PlayerPedId(), 1) ~= -1 then
-		faceProps[4]["Prop"] = GetPedDrawableVariation(PlayerPedId(), 1)
-		faceProps[4]["Palette"] = GetPedPaletteVariation(PlayerPedId(), 1)
-		faceProps[4]["Texture"] = GetPedTextureVariation(PlayerPedId(), 1)
-	end
+    if GetPedDrawableVariation(PlayerPedId(), 1) ~= -1 then
+        faceProps[4]["Prop"] = GetPedDrawableVariation(PlayerPedId(), 1)
+        faceProps[4]["Palette"] = GetPedPaletteVariation(PlayerPedId(), 1)
+        faceProps[4]["Texture"] = GetPedTextureVariation(PlayerPedId(), 1)
+    end
 
-	if GetPedDrawableVariation(PlayerPedId(), 11) ~= -1 then
-		faceProps[5]["Prop"] = GetPedDrawableVariation(PlayerPedId(), 11)
-		faceProps[5]["Palette"] = GetPedPaletteVariation(PlayerPedId(), 11)
-		faceProps[5]["Texture"] = GetPedTextureVariation(PlayerPedId(), 11)
-	end
+    if GetPedDrawableVariation(PlayerPedId(), 11) ~= -1 then
+        faceProps[5]["Prop"] = GetPedDrawableVariation(PlayerPedId(), 11)
+        faceProps[5]["Palette"] = GetPedPaletteVariation(PlayerPedId(), 11)
+        faceProps[5]["Texture"] = GetPedTextureVariation(PlayerPedId(), 11)
+    end
 
-	if type == 1 then
-		PropIndex = 0
-	elseif type == 2 then
-		PropIndex = 1
+    if type == 1 then
+        PropIndex = 0
+    elseif type == 2 then
+        PropIndex = 1
 
-		AnimSet = "clothingspecs"
-		AnimationOn = "take_off"
-		AnimationOff = "take_off"
+        AnimSet = "clothingspecs"
+        AnimationOn = "take_off"
+        AnimationOff = "take_off"
 
-	elseif type == 3 then
-		PropIndex = 2
-	elseif type == 4 then
-		PropIndex = 1
-		if removeWear then
-			AnimSet = "missfbi4"
-			AnimationOn = "takeoff_mask"
-			AnimationOff = "takeoff_mask"
-		end
-	elseif type == 5 then
-		PropIndex = 11
-		AnimSet = "oddjobs@basejump@ig_15"
-		AnimationOn = "puton_parachute"
-		AnimationOff = "puton_parachute"
-		--mp_safehouseshower@male@ male_shower_idle_d_towel
-		--mp_character_creation@customise@male_a drop_clothes_a
-		--oddjobs@basejump@ig_15 puton_parachute_bag
-	end
+    elseif type == 3 then
+        PropIndex = 2
+    elseif type == 4 then
+        PropIndex = 1
+        if removeWear then
+            AnimSet = "missfbi4"
+            AnimationOn = "takeoff_mask"
+            AnimationOff = "takeoff_mask"
+        end
+    elseif type == 5 then
+        PropIndex = 11
+        AnimSet = "oddjobs@basejump@ig_15"
+        AnimationOn = "puton_parachute"
+        AnimationOff = "puton_parachute"
+        --mp_safehouseshower@male@ male_shower_idle_d_towel
+        --mp_character_creation@customise@male_a drop_clothes_a
+        --oddjobs@basejump@ig_15 puton_parachute_bag
+    end
 
-	loadAnimDict( AnimSet )
-	if type == 5 then
-		if removeWear then
-			SetPedComponentVariation(PlayerPedId(), 3, 2, faceProps[6]["Texture"], faceProps[6]["Palette"])
-		end
-	end
-	if removeWear then
-		TaskPlayAnim( PlayerPedId(), AnimSet, AnimationOff, 4.0, 3.0, -1, 49, 1.0, 0, 0, 0 )
-		Citizen.Wait(500)
-		if type ~= 5 then
-			if type == 4 then
-				SetPedComponentVariation(PlayerPedId(), PropIndex, -1, -1, -1)
-			else
-				if type ~= 2 then
-					ClearPedProp(PlayerPedId(), tonumber(PropIndex))
-				end
-			end
-		end
-	else
-		TaskPlayAnim( PlayerPedId(), AnimSet, AnimationOn, 4.0, 3.0, -1, 49, 1.0, 0, 0, 0 )
-		Citizen.Wait(500)
-		if type ~= 5 and type ~= 2 then
-			if type == 4 then
-				SetPedComponentVariation(PlayerPedId(), PropIndex, faceProps[type]["Prop"], faceProps[type]["Texture"], faceProps[type]["Palette"])
-			else
-				SetPedPropIndex( PlayerPedId(), tonumber(PropIndex), tonumber(faceProps[PropIndex+1]["Prop"]), tonumber(faceProps[PropIndex+1]["Texture"]), false)
-			end
-		end
-	end
-	if type == 5 then
-		if not removeWear then
-			SetPedComponentVariation(PlayerPedId(), 3, 1, faceProps[6]["Texture"], faceProps[6]["Palette"])
-			SetPedComponentVariation(PlayerPedId(), PropIndex, faceProps[type]["Prop"], faceProps[type]["Texture"], faceProps[type]["Palette"])
-		else
-			SetPedComponentVariation(PlayerPedId(), PropIndex, -1, -1, -1)
-		end
-		Citizen.Wait(1800)
-	end
-	if type == 2 then
-		Citizen.Wait(600)
-		if removeWear then
-			ClearPedProp(PlayerPedId(), tonumber(PropIndex))
-		end
+    loadAnimDict( AnimSet )
+    if type == 5 then
+        if removeWear then
+            SetPedComponentVariation(PlayerPedId(), 3, 2, faceProps[6]["Texture"], faceProps[6]["Palette"])
+        end
+    end
+    if removeWear then
+        TaskPlayAnim( PlayerPedId(), AnimSet, AnimationOff, 4.0, 3.0, -1, 49, 1.0, 0, 0, 0 )
+        Citizen.Wait(500)
+        if type ~= 5 then
+            if type == 4 then
+                SetPedComponentVariation(PlayerPedId(), PropIndex, -1, -1, -1)
+            else
+                if type ~= 2 then
+                    ClearPedProp(PlayerPedId(), tonumber(PropIndex))
+                end
+            end
+        end
+    else
+        TaskPlayAnim( PlayerPedId(), AnimSet, AnimationOn, 4.0, 3.0, -1, 49, 1.0, 0, 0, 0 )
+        Citizen.Wait(500)
+        if type ~= 5 and type ~= 2 then
+            if type == 4 then
+                SetPedComponentVariation(PlayerPedId(), PropIndex, faceProps[type]["Prop"], faceProps[type]["Texture"], faceProps[type]["Palette"])
+            else
+                SetPedPropIndex( PlayerPedId(), tonumber(PropIndex), tonumber(faceProps[PropIndex+1]["Prop"]), tonumber(faceProps[PropIndex+1]["Texture"]), false)
+            end
+        end
+    end
+    if type == 5 then
+        if not removeWear then
+            SetPedComponentVariation(PlayerPedId(), 3, 1, faceProps[6]["Texture"], faceProps[6]["Palette"])
+            SetPedComponentVariation(PlayerPedId(), PropIndex, faceProps[type]["Prop"], faceProps[type]["Texture"], faceProps[type]["Palette"])
+        else
+            SetPedComponentVariation(PlayerPedId(), PropIndex, -1, -1, -1)
+        end
+        Citizen.Wait(1800)
+    end
+    if type == 2 then
+        Citizen.Wait(600)
+        if removeWear then
+            ClearPedProp(PlayerPedId(), tonumber(PropIndex))
+        end
 
-		if not removeWear then
-			Citizen.Wait(140)
-			SetPedPropIndex( PlayerPedId(), tonumber(PropIndex), tonumber(faceProps[PropIndex+1]["Prop"]), tonumber(faceProps[PropIndex+1]["Texture"]), false)
-		end
-	end
-	if type == 4 and removeWear then
-		Citizen.Wait(1200)
-	end
-	ClearPedTasks(PlayerPedId())
+        if not removeWear then
+            Citizen.Wait(140)
+            SetPedPropIndex( PlayerPedId(), tonumber(PropIndex), tonumber(faceProps[PropIndex+1]["Prop"]), tonumber(faceProps[PropIndex+1]["Texture"]), false)
+        end
+    end
+    if type == 4 and removeWear then
+        Citizen.Wait(1200)
+    end
+    ClearPedTasks(PlayerPedId())
 end)
 
 ------------------------------refreshskin-------------------
@@ -2117,16 +2213,16 @@ function reloadSkin(health)
 
     if gender == 1 then -- Gender is ONE for FEMALE
     model = GetHashKey("mp_f_freemode_01") -- Female Model
-    else 
+    else
     model = GetHashKey("mp_m_freemode_01") -- Male Model
-    end 
+    end
 
     RequestModel(model)
 
     SetPlayerModel(PlayerId(), model)
     SetModelAsNoLongerNeeded(model)
     Citizen.Wait(1000) -- Safety Delay
-    
+
     TriggerServerEvent("qb-clothes:loadPlayerSkin") -- LOADING PLAYER'S CLOTHES
     TriggerServerEvent("qb-clothing:loadPlayerSkin") -- LOADING PLAYER'S CLOTHES - Event 2
 
