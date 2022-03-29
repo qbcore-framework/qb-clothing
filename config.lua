@@ -505,7 +505,7 @@ Config.ManPlayerModels = {
 Config.LoadedManModels = {}
 Config.LoadedWomanModels = {}
 
-Config.UseTarget = true
+Config.UseTarget = GetConvar('UseTarget', 'false') == 'true'
 
 -- width, length, minZ and maxZ are for the size and height of the PolyZone
 Config.Stores = {
