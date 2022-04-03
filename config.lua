@@ -505,42 +505,42 @@ Config.ManPlayerModels = {
 Config.LoadedManModels = {}
 Config.LoadedWomanModels = {}
 
-Config.UseTarget = true
+Config.UseTarget = GetConvar('UseTarget', 'false') == 'true' -- [qb-target interactions] (Do not change this! Go to your server.cfg and add `setr UseTarget true`(For Target) or `setr UseTarget false`(for drawtextui [E] interaction) )
 
 -- width, length, minZ and maxZ are for the size and height of the PolyZone
 Config.Stores = {
-    [1] = {shopType = 'clothing', coords = vector3(1693.32, 4823.48, 41.06), width = 1, length = 1},
-    [2] = {shopType = 'clothing', coords = vector3(-712.215881, -155.352982, 37.4151268), width = 1, length = 1},
-    [3] = {shopType = 'clothing', coords = vector3(-1192.94495, -772.688965, 17.3255997), width = 1, length = 1},
-    [4] = {shopType = 'clothing', coords = vector3(425.236, -806.008, 28.491), width = 1, length = 1},
-    [5] = {shopType = 'clothing', coords = vector3(-162.658, -303.397, 38.733), width = 1, length = 1},
-    [6] = {shopType = 'clothing', coords = vector3(75.950, -1392.891, 28.376), width = 1, length = 1},
-    [7] = {shopType = 'clothing', coords = vector3(-822.194, -1074.134, 10.328), width = 1, length = 1},
-    [8] = {shopType = 'clothing', coords = vector3(-1450.711, -236.83, 48.809), width = 1, length = 1},
-    [9] = {shopType = 'clothing', coords = vector3(4.254, 6512.813, 30.877), width = 1, length = 1},
-    [10] = {shopType = 'clothing', coords = vector3(615.180, 2762.933, 41.088), width = 1, length = 1},
-    [11] = {shopType = 'clothing', coords = vector3(1196.785, 2709.558, 37.222), width = 1, length = 1},
-    [12] = {shopType = 'clothing', coords = vector3(-3171.453, 1043.857, 19.863), width = 1, length = 1},
-    [13] = {shopType = 'clothing', coords = vector3(-1100.959, 2710.211, 18.107), width = 1, length = 1},
-    [14] = {shopType = 'clothing', coords = vector3(-1207.65, -1456.88, 4.3784737586975), width = 1, length = 1},
-    [15] = {shopType = 'clothing', coords = vector3(121.76, -224.6, 53.56), width = 1, length = 1},
-    [16] = {shopType = 'barber', coords = vector3(-814.3, -183.8, 36.6), width = 1, length = 1},
-    [17] = {shopType = 'barber', coords = vector3(136.8, -1708.4, 28.3), width = 1, length = 1},
-    [18] = {shopType = 'barber', coords = vector3(-1282.6, -1116.8, 6.0), width = 1, length = 1},
-    [19] = {shopType = 'barber', coords = vector3(1931.5, 3729.7, 31.8), width = 1, length = 1},
-    [20] = {shopType = 'barber', coords = vector3(1212.8, -472.9, 65.2), width = 1, length = 1},
-    [21] = {shopType = 'barber', coords = vector3(-32.9, -152.3, 56.1), width = 1, length = 1},
-    [22] = {shopType = 'barber', coords = vector3(-278.1, 6228.5, 30.7), width = 1, length = 1}
+    [1] = {shopType = 'clothing', coords = vector3(1693.32, 4823.48, 41.06), width = 2, length = 2},
+    [2] = {shopType = 'clothing', coords = vector3(-712.215881, -155.352982, 37.4151268), width = 2, length = 2},
+    [3] = {shopType = 'clothing', coords = vector3(-1192.94495, -772.688965, 17.3255997), width = 2, length = 2},
+    [4] = {shopType = 'clothing', coords = vector3(425.236, -806.008, 28.491), width = 2, length = 2},
+    [5] = {shopType = 'clothing', coords = vector3(-162.658, -303.397, 38.733), width = 2, length = 2},
+    [6] = {shopType = 'clothing', coords = vector3(75.950, -1392.891, 28.376), width = 2, length = 2},
+    [7] = {shopType = 'clothing', coords = vector3(-822.194, -1074.134, 10.328), width = 2, length = 2},
+    [8] = {shopType = 'clothing', coords = vector3(-1450.711, -236.83, 48.809), width = 2, length = 2},
+    [9] = {shopType = 'clothing', coords = vector3(4.254, 6512.813, 30.877), width = 2, length = 2},
+    [10] = {shopType = 'clothing', coords = vector3(615.180, 2762.933, 41.088), width = 2, length = 2},
+    [11] = {shopType = 'clothing', coords = vector3(1196.785, 2709.558, 37.222), width = 2, length = 2},
+    [12] = {shopType = 'clothing', coords = vector3(-3171.453, 1043.857, 19.863), width = 2, length = 2},
+    [13] = {shopType = 'clothing', coords = vector3(-1100.959, 2710.211, 18.107), width = 2, length = 2},
+    [14] = {shopType = 'clothing', coords = vector3(-1207.65, -1456.88, 4.3784737586975), width = 2, length = 2},
+    [15] = {shopType = 'clothing', coords = vector3(121.76, -224.6, 53.56), width = 2, length = 2},
+    [16] = {shopType = 'barber', coords = vector3(-814.3, -183.8, 36.6), width = 2, length = 2},
+    [17] = {shopType = 'barber', coords = vector3(136.8, -1708.4, 28.3), width = 2, length = 2},
+    [18] = {shopType = 'barber', coords = vector3(-1282.6, -1116.8, 6.0), width = 2, length = 2},
+    [19] = {shopType = 'barber', coords = vector3(1931.5, 3729.7, 31.8), width = 2, length = 2},
+    [20] = {shopType = 'barber', coords = vector3(1212.8, -472.9, 65.2), width = 2, length = 2},
+    [21] = {shopType = 'barber', coords = vector3(-32.9, -152.3, 56.1), width = 2, length = 2},
+    [22] = {shopType = 'barber', coords = vector3(-278.1, 6228.5, 30.7), width = 2, length = 2}
 }
 
 -- set isGang to true if the requiredJob is a gang
 Config.ClothingRooms = {
-    [1] = {requiredJob = 'police', isGang = false, coords = vector3(454.43, -988.85, 30.69), width = 1, length = 1, cameraLocation = vector4(454.42, -990.52, 30.69, 358.48)},
-    [2] = {requiredJob = 'ambulance', isGang = false, coords = vector3(318.15, -599.35, 43.29), width = 1, length = 1, cameraLocation = vector4(318.15, -599.35, 43.29, 332.09)}, -- Right double door in Hospital Map that is on QBCore GitHub
-    [3] = {requiredJob = 'police', isGang = false, coords = vector3(314.76, 671.78, 14.73), width = 1, length = 1, cameraLocation = vector4(317.62, 671.86, 14.73, 91.53)},
-    [4] = {requiredJob = 'ambulance', isGang = false, coords = vector3(338.70, 659.61, 14.71), width = 1, length = 1, cameraLocation = vector4(339.27, 661.63, 14.71, 315.5)},
-    [5] = {requiredJob = 'ambulance', isGang = false, coords = vector3(-1098.45, 1751.71, 23.35), width = 1, length = 1, cameraLocation = vector4(-1097.15, 1750.19, 23.35, 38.70)},
-    [6] = {requiredJob = 'police', isGang = false, coords = vector3(-77.59, -129.17, 5.03), width = 1, length = 1, cameraLocation = vector4(-80.36, -130.76, 5.03, 300.44)}
+    [1] = {requiredJob = 'police', isGang = false, coords = vector3(454.43, -988.85, 30.69), width = 2, length = 2, cameraLocation = vector4(454.42, -990.52, 30.69, 358.48)},
+    [2] = {requiredJob = 'ambulance', isGang = false, coords = vector3(318.15, -599.35, 43.29), width = 2, length = 2, cameraLocation = vector4(318.15, -599.35, 43.29, 332.09)}, -- Right double door in Hospital Map that is on QBCore GitHub
+    [3] = {requiredJob = 'police', isGang = false, coords = vector3(314.76, 671.78, 14.73), width = 2, length = 2, cameraLocation = vector4(317.62, 671.86, 14.73, 91.53)},
+    [4] = {requiredJob = 'ambulance', isGang = false, coords = vector3(338.70, 659.61, 14.71), width = 2, length = 2, cameraLocation = vector4(339.27, 661.63, 14.71, 315.5)},
+    [5] = {requiredJob = 'ambulance', isGang = false, coords = vector3(-1098.45, 1751.71, 23.35), width = 2, length = 2, cameraLocation = vector4(-1097.15, 1750.19, 23.35, 38.70)},
+    [6] = {requiredJob = 'police', isGang = false, coords = vector3(-77.59, -129.17, 5.03), width = 2, length = 2, cameraLocation = vector4(-80.36, -130.76, 5.03, 300.44)}
 }
 
 Config.Outfits = {
