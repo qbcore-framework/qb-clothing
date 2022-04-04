@@ -505,7 +505,9 @@ Config.ManPlayerModels = {
 Config.LoadedManModels = {}
 Config.LoadedWomanModels = {}
 
-Config.UseTarget = GetConvar('UseTarget', 'false') == 'true' -- [qb-target interactions] (Do not change this! Go to your server.cfg and add `setr UseTarget true`(For Target) or `setr UseTarget false`(for drawtextui [E] interaction) )
+-- Set to true or false or GetConvar('UseTarget', 'false') == 'true' to use global option or script specific
+-- These have to be a string thanks to how Convars are returned.
+Config.UseTarget = GetConvar('UseTarget', 'false') == 'true'
 
 -- width, length, minZ and maxZ are for the size and height of the PolyZone
 Config.Stores = {
