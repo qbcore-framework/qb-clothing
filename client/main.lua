@@ -459,8 +459,8 @@ if Config.UseTarget then
             exports['qb-target']:AddBoxZone('clothing_' .. v.requiredJob .. k, v.coords, v.length, v.width, {
                 name = 'clothing_' .. v.requiredJob .. k,
                 debugPoly = false,
-                minZ = v.minZ,
-                maxZ = v.maxZ,
+                minZ = v.coords.z - 1,
+                maxZ = v.coords.z + 1,
             }, {
                 options = {
                     {
