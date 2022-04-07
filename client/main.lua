@@ -459,8 +459,8 @@ if Config.UseTarget then
             exports['qb-target']:AddBoxZone('clothing_' .. v.requiredJob .. k, v.coords, v.length, v.width, {
                 name = 'clothing_' .. v.requiredJob .. k,
                 debugPoly = false,
-                minZ = v.coords.z - 1,
-                maxZ = v.coords.z + 1,
+                minZ = v.coords.z - 2,
+                maxZ = v.coords.z + 2,
             }, {
                 options = {
                     {
@@ -478,13 +478,14 @@ if Config.UseTarget then
 
 else
     CreateThread(function()
-
         local zones = {}
         for k, v in pairs(Config.Stores) do
             zones[#zones+1] = BoxZone:Create(
                 v.coords, v.length, v.width, {
                 name = v.shopType,
-                debugPoly = false,
+                minZ = v.coords.z - 2,
+                maxZ = v.coords.z + 2,
+                debugPoly = true,
             })
         end
 
@@ -519,10 +520,8 @@ else
         clothingRoomsCombo:onPlayerInOut(function(isPointInside, point, zone)
             if isPointInside then
                 zoneName = zone.name
-                if (PlayerData.job.name == Config.ClothingRooms[tonumber(string.sub(zone.name, 15))].requiredJob) then
-                    inZone = true
-                    exports['qb-core']:DrawText('[E] - Clothing Shop', 'left')
-                end
+                inZone = true
+                exports['qb-core']:DrawText('[E] - Clothing Shop', 'left')
             else
                 inZone = false
                 exports['qb-core']:HideText()
@@ -539,7 +538,6 @@ else
                 sleep = 5
                 if string.find(zoneName, 'ClothingRooms_') then
                     if IsControlJustReleased(0, 38) then
-                        local clothingRoom = Config.ClothingRooms[tonumber(string.sub(zoneName, 15))]
                         customCamLocation = clothingRoom.cameraLocation
                         local gradeLevel = 0
                         if clothingRoom.isGang then gradeLevel = PlayerData.gang.grade.level else gradeLevel = PlayerData.job.grade.level end
