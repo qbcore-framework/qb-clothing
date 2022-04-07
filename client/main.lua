@@ -485,7 +485,7 @@ else
                 name = v.shopType,
                 minZ = v.coords.z - 2,
                 maxZ = v.coords.z + 2,
-                debugPoly = true,
+                debugPoly = false,
             })
         end
 
