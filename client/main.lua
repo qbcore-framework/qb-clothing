@@ -296,17 +296,24 @@ local skinData = {
     },
 }
 
-RegisterNetEvent('QBCore:Client:OnPlayerLoaded')
-AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
+RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     TriggerServerEvent("qb-clothes:loadPlayerSkin")
     PlayerData = QBCore.Functions.GetPlayerData()
 end)
 
-RegisterNetEvent('QBCore:Client:OnJobUpdate')
-AddEventHandler('QBCore:Client:OnJobUpdate', function(JobInfo)
+RegisterNetEvent('QBCore:Client:OnJobUpdate', function(JobInfo)
     PlayerData.job = JobInfo
 end)
 
+RegisterNetEvent('QBCore:Client:OnGangUpdate', function(GangInfo)
+    PlayerData.gang = GangInfo
+end)
+
+AddEventHandler('onResourceStart', function(resourceName)
+    if (GetCurrentResourceName() ~= resourceName) then return end
+    PlayerData = QBCore.Functions.GetPlayerData()
+end)
+  
 function DrawText3Ds(x, y, z, text)
     SetTextScale(0.35, 0.35)
     SetTextFont(4)
@@ -492,8 +499,8 @@ else
         local clothingCombo = ComboZone:Create(zones, {name = "clothingCombo", debugPoly = false})
         clothingCombo:onPlayerInOut(function(isPointInside, point, zone)
             if isPointInside then
-                inZone = true
                 zoneName = zone.name
+                inZone = true
                 if zoneName == 'surgeon' then
                     exports['qb-core']:DrawText('[E] - Plastic Surgery', 'left')
                 elseif zoneName == 'clothing' then
@@ -512,6 +519,8 @@ else
             roomZones[#roomZones+1] = BoxZone:Create(
                 v.coords, v.length, v.width, {
                 name = 'ClothingRooms_' .. k,
+                minZ = v.coords.z - 2,
+                maxZ = v.coords.z + 2,
                 debugPoly = false,
             })
         end
@@ -519,9 +528,13 @@ else
         local clothingRoomsCombo = ComboZone:Create(roomZones, {name = "clothingRoomsCombo", debugPoly = false})
         clothingRoomsCombo:onPlayerInOut(function(isPointInside, point, zone)
             if isPointInside then
-                zoneName = zone.name
-                inZone = true
-                exports['qb-core']:DrawText('[E] - Clothing Shop', 'left')
+                local zoneID = tonumber(QBCore.Shared.SplitStr(zone.name, "_")[2])
+                local job = Config.ClothingRooms[zoneID].isGang and PlayerData.gang.name or PlayerData.job.name
+                if (job == Config.ClothingRooms[zoneID].requiredJob) then
+                    zoneName = zoneID
+                    inZone = true
+                    exports['qb-core']:DrawText('[E] - Clothing Shop', 'left')
+                end
             else
                 inZone = false
                 exports['qb-core']:HideText()
@@ -536,14 +549,7 @@ else
             local sleep = 1000
             if inZone then
                 sleep = 5
-                if string.find(zoneName, 'ClothingRooms_') then
-                    if IsControlJustReleased(0, 38) then
-                        customCamLocation = clothingRoom.cameraLocation
-                        local gradeLevel = 0
-                        if clothingRoom.isGang then gradeLevel = PlayerData.gang.grade.level else gradeLevel = PlayerData.job.grade.level end
-                        TriggerEvent('qb-clothing:client:getOutfits', clothingRoom.requiredJob, gradeLevel)
-                    end
-                elseif zoneName == 'surgeon' then
+                if zoneName == 'surgeon' then
                     if IsControlJustReleased(0, 38) then
                         customCamLocation = nil
                         openMenu({
@@ -564,6 +570,14 @@ else
                         openMenu({
                             {menu = "clothing", label = "Hair", selected = true},
                         })
+                    end
+                else
+                    if IsControlJustReleased(0, 38) then
+                        local clothingRoom = Config.ClothingRooms[zoneName]
+                        customCamLocation = clothingRoom.cameraLocation
+                        
+                        local gradeLevel = clothingRoom.isGang and PlayerData.gang.grade.level or PlayerData.job.grade.level
+                        TriggerEvent('qb-clothing:client:getOutfits', clothingRoom.requiredJob, gradeLevel)
                     end
                 end
             else
