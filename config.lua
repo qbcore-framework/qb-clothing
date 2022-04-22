@@ -1,5 +1,8 @@
 Config = Config or {}
 
+-- Should head props get knocked off?
+Config.headKnockOff = true -- Set to false to prevent hat/glasses from being knocked off
+
 Config.WomanPlayerModels = {
     'mp_f_freemode_01',
     'a_f_m_beach_01',
