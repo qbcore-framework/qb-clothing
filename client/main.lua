@@ -373,6 +373,14 @@ Citizen.CreateThread(function()
             EndTextCommandSetBlipName(surgeonShop)
         end
     end
+
+    if not Config.headKnockOff then
+        while true do
+            SetPedCanLosePropsOnDamage(PlayerPedId(), false, 0)
+            Wait(1)
+        end
+    end
+    
 end)
 
 RegisterNetEvent('qb-clothing:client:getOutfits', function(requiredJob, gradeLevel)
