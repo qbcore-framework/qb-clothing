@@ -945,6 +945,9 @@ function closeMenu()
         action = "close",
     })
     disableCam()
+    resetClothing(json.decode(previousSkinData))
+    skinData = json.decode(previousSkinData)
+    previousSkinData = {}
 end
 
 RegisterNUICallback('resetOutfit', function()
