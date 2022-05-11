@@ -1857,8 +1857,21 @@ AddEventHandler('qb-clothing:client:loadPlayerClothing', function(data, ped)
     SetPedComponentVariation(ped, 10, data["decals"].item, data["decals"].texture, 0)
 
     -- Accessory
-    SetPedComponentVariation(ped, 7, data["accessory"].item, 0, 2)
-    SetPedComponentVariation(ped, 7, data["accessory"].item, data["accessory"].texture, 0)
+    if QBCore.Functions.GetPlayerData().metadata["tracker"] then
+        local PlayerData = QBCore.Functions.GetPlayerData()
+        if PlayerData.charinfo.gender == 0 then
+            local drawableId = Config.Tracker["male"]["drawableId"]
+            local textureId = Config.Tracker["male"]["textureId"]
+            SetPedComponentVariation(ped, 7, drawableId, textureId, 0)
+        else
+            local drawableId = Config.Tracker["female"]["drawableId"]
+            local textureId = Config.Tracker["female"]["textureId"]
+            SetPedComponentVariation(ped, 7, drawableId, textureId, 0)
+        end
+    else
+        SetPedComponentVariation(ped, 7, data["accessory"].item, 0, 2)
+        SetPedComponentVariation(ped, 7, data["accessory"].item, data["accessory"].texture, 0)
+    end
 
     -- Bag
     SetPedComponentVariation(ped, 5, data["bag"].item, 0, 2)
@@ -2010,18 +2023,19 @@ AddEventHandler('qb-clothing:client:loadOutfit', function(oData)
     end
 
     -- Accessory
-    if data["accessory"] ~= nil then
-        if QBCore.Functions.GetPlayerData().metadata["tracker"] then
-            SetPedComponentVariation(ped, 7, 13, 0, 0)
+    if QBCore.Functions.GetPlayerData().metadata["tracker"] then
+        local PlayerData = QBCore.Functions.GetPlayerData()
+        if PlayerData.charinfo.gender == 0 then
+            local drawableId = Config.Tracker["male"]["drawableId"]
+            local textureId = Config.Tracker["male"]["textureId"]
+            SetPedComponentVariation(ped, 7, drawableId, textureId, 0)
         else
-            SetPedComponentVariation(ped, 7, data["accessory"].item, data["accessory"].texture, 0)
+            local drawableId = Config.Tracker["female"]["drawableId"]
+            local textureId = Config.Tracker["female"]["textureId"]
+            SetPedComponentVariation(ped, 7, drawableId, textureId, 0)
         end
-    else
-        if QBCore.Functions.GetPlayerData().metadata["tracker"] then
-            SetPedComponentVariation(ped, 7, 13, 0, 0)
-        else
-            SetPedComponentVariation(ped, 7, -1, 0, 2)
-        end
+    elseif data["accessory"] ~= nil then
+        SetPedComponentVariation(ped, 7, data["accessory"].item, data["accessory"].texture, 0)
     end
 
     -- Mask
