@@ -880,6 +880,7 @@ function enableCam()
 
     if customCamLocation ~= nil then
         SetCamCoord(cam, customCamLocation.x, customCamLocation.y, customCamLocation.z)
+        SetCamRot(cam, 0.0, 0.0, customCamLocation.w) -- this uses the vector4 W vector as a heading for the camera so you can set the specific starting point of it
     end
 
     headingToCam = GetEntityHeading(PlayerPedId()) + 90
