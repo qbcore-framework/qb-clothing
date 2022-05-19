@@ -313,7 +313,7 @@ AddEventHandler('onResourceStart', function(resourceName)
     if (GetCurrentResourceName() ~= resourceName) then return end
     PlayerData = QBCore.Functions.GetPlayerData()
 end)
-  
+
 function DrawText3Ds(x, y, z, text)
     SetTextScale(0.35, 0.35)
     SetTextFont(4)
@@ -575,7 +575,7 @@ else
                     if IsControlJustReleased(0, 38) then
                         local clothingRoom = Config.ClothingRooms[zoneName]
                         customCamLocation = clothingRoom.cameraLocation
-                        
+
                         local gradeLevel = clothingRoom.isGang and PlayerData.gang.grade.level or PlayerData.job.grade.level
                         TriggerEvent('qb-clothing:client:getOutfits', clothingRoom.requiredJob, gradeLevel)
                     end
@@ -596,39 +596,35 @@ RegisterNetEvent('qb-clothing:client:openOutfitMenu', function()
     end)
 end)
 
-RegisterNUICallback('selectOutfit', function(data)
-
+RegisterNUICallback('selectOutfit', function(data, cb)
     TriggerEvent('qb-clothing:client:loadOutfit', data)
+    cb('ok')
 end)
 
-RegisterNUICallback('rotateRight', function()
+RegisterNUICallback('rotateRight', function(_, cb)
     local ped = PlayerPedId()
     local pedPos = GetEntityCoords(ped)
     local camPos = GetCamCoord(cam)
-
     local heading = headingToCam
-
     heading = heading + 2.5
     headingToCam = heading
-
     local cx, cy = GetPositionByRelativeHeading(ped, heading, camOffset)
     SetCamCoord(cam, cx, cy, camPos.z)
     PointCamAtCoord(cam, pedPos.x, pedPos.y, camPos.z)
+    cb('ok')
 end)
 
-RegisterNUICallback('rotateLeft', function()
+RegisterNUICallback('rotateLeft', function(_, cb)
     local ped = PlayerPedId()
     local pedPos = GetEntityCoords(ped)
     local camPos = GetCamCoord(cam)
-
     local heading = headingToCam
-
     heading = heading - 2.5
     headingToCam = heading
-
     local cx, cy = GetPositionByRelativeHeading(ped, heading, camOffset)
     SetCamCoord(cam, cx, cy, camPos.z)
     PointCamAtCoord(cam, pedPos.x, pedPos.y, camPos.z)
+    cb('ok')
 end)
 
 firstChar = false
@@ -846,15 +842,16 @@ function openMenu(allowedMenus)
     enableCam()
 end
 
-RegisterNUICallback('TrackerError', function()
+RegisterNUICallback('TrackerError', function(_, cb)
     QBCore.Functions.Notify("You can't remove your ankle bracelet ..", "error")
+    cb('ok')
 end)
 
 RegisterNUICallback('saveOutfit', function(data, cb)
     local ped = PlayerPedId()
     local model = GetEntityModel(ped)
-
     TriggerServerEvent('qb-clothes:saveOutfit', data.outfitName, model, skinData)
+    cb('ok')
 end)
 
 RegisterNetEvent('qb-clothing:client:reloadOutfits')
@@ -886,11 +883,10 @@ function enableCam()
     camOffset = 2.0
 end
 
-RegisterNUICallback('rotateCam', function(data)
+RegisterNUICallback('rotateCam', function(data, cb)
     local rotType = data.type
     local ped = PlayerPedId()
     local coords = GetOffsetFromEntityInWorldCoords(ped, 0, 2.0, 0)
-
     if rotType == "left" then
         SetEntityHeading(ped, GetEntityHeading(ped) - 10)
         SetCamCoord(cam, coords.x, coords.y, coords.z + 0.5)
@@ -900,12 +896,12 @@ RegisterNUICallback('rotateCam', function(data)
         SetCamCoord(cam, coords.x, coords.y, coords.z + 0.5)
         SetCamRot(cam, 0.0, 0.0, GetEntityHeading(ped) + 180)
     end
+    cb('ok')
 end)
 
-RegisterNUICallback('setupCam', function(data)
+RegisterNUICallback('setupCam', function(data, cb)
     local value = data.value
     local pedPos = GetEntityCoords(PlayerPedId())
-
     if value == 1 then
         local coords = GetCamCoord(cam)
         camOffset = 0.75
@@ -931,6 +927,7 @@ RegisterNUICallback('setupCam', function(data)
         SetCamCoord(cam, cx, cy, pedPos.z + 0.2)
         PointCamAtCoord(cam, pedPos.x, pedPos.y, pedPos.z + 0.2)
     end
+    cb('ok')
 end)
 
 function disableCam()
@@ -947,10 +944,11 @@ function closeMenu()
     disableCam()
 end
 
-RegisterNUICallback('resetOutfit', function()
+RegisterNUICallback('resetOutfit', function(_, cb)
     resetClothing(json.decode(previousSkinData))
     skinData = json.decode(previousSkinData)
     previousSkinData = {}
+    cb('ok')
 end)
 
 function resetClothing(data)
@@ -1085,29 +1083,32 @@ function resetClothing(data)
     end
 end
 
-RegisterNUICallback('close', function()
+RegisterNUICallback('close', function(_, cb)
     SetNuiFocus(false, false)
     creatingCharacter = false
     disableCam()
-
     FreezeEntityPosition(PlayerPedId(), false)
+    cb('ok')
 end)
 
 RegisterNUICallback('getCatergoryItems', function(data, cb)
     cb(Config.Menus[data.category])
 end)
 
-RegisterNUICallback('updateSkin', function(data)
+RegisterNUICallback('updateSkin', function(data, cb)
     ChangeVariation(data)
+    cb('ok')
 end)
 
-RegisterNUICallback('updateSkinOnInput', function(data)
+RegisterNUICallback('updateSkinOnInput', function(data, cb)
     ChangeVariation(data)
+    cb('ok')
 end)
 
 RegisterNUICallback('removeOutfit', function(data, cb)
     TriggerServerEvent('qb-clothing:server:removeOutfit', data.outfitName, data.outfitId)
     QBCore.Functions.Notify("You have deleted your"..data.outfitName.." outfit!")
+    cb('ok')
 end)
 
 function ChangeVariation(data)
@@ -1717,7 +1718,6 @@ end
 
 RegisterNUICallback('setCurrentPed', function(data, cb)
     local playerData = QBCore.Functions.GetPlayerData()
-
     if playerData.charinfo.gender == 0 then
         cb(Config.ManPlayerModels[data.ped])
         ChangeToSkinNoUpdate(Config.ManPlayerModels[data.ped])
@@ -1727,8 +1727,9 @@ RegisterNUICallback('setCurrentPed', function(data, cb)
     end
 end)
 
-RegisterNUICallback('saveClothing', function(data)
+RegisterNUICallback('saveClothing', function(_, cb)
     SaveSkin()
+    cb('ok')
 end)
 
 function SaveSkin()
