@@ -433,7 +433,7 @@ if Config.UseTarget then
         end
 
         for k, v in pairs(Config.ClothingRooms) do
-            local action = nil
+            local action
             if v.isGang then
                 action = function()
                     customCamLocation = v.cameraLocation
@@ -2083,8 +2083,7 @@ RegisterCommand("refreshskin", function()
 end)
 
 function reloadSkin(health)
-
-    local model = nil
+    local model
 
     local gender = QBCore.Functions.GetPlayerData().charinfo.gender
     local maxhealth = GetEntityMaxHealth(PlayerPedId())
