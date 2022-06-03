@@ -1194,10 +1194,6 @@ function ChangeVariation(data)
             -- skinData["arms"].item = item
             SetPedEyeColor(ped, item)
             skinData["eye_color"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-            -- SetPedEyeColor(ped, item)
-            -- skinData["eye_color"].texture = item
         end
     elseif clothingCategory == "moles" then
         if type == "item" then
@@ -1548,14 +1544,6 @@ function tprint (tbl, indent)
     end
     toprint = toprint .. string.rep(" ", indent-2) .. "}"
     return toprint
-  end
-
-
-function LoadPlayerModel(skin)
-    RequestModel(skin)
-    while not HasModelLoaded(skin) do
-        Citizen.Wait(0)
-    end
 end
 
 local blockedPeds = {
@@ -1572,18 +1560,8 @@ local blockedPeds = {
     "ig_car3guy1_m",
 }
 
-function isPedAllowedRandom(skin)
-    local retval = false
-    for k, v in pairs(blockedPeds) do
-        if v ~= skin then
-            retval = true
-        end
-    end
-    return retval
-end
 
 function ChangeToSkinNoUpdate(skin)
-    local ped = PlayerPedId()
     local model = GetHashKey(skin)
     Citizen.CreateThread(function()
         RequestModel(model)
@@ -1648,13 +1626,13 @@ end)
 
 function SaveSkin()
     local model = GetEntityModel(PlayerPedId())
-    clothing = json.encode(skinData)
+    local clothing = json.encode(skinData)
     TriggerServerEvent("qb-clothing:saveSkin", model, clothing)
 end
 
 RegisterNetEvent('qb-clothes:client:CreateFirstCharacter')
 AddEventHandler('qb-clothes:client:CreateFirstCharacter', function()
-    QBCore.Functions.GetPlayerData(function(PlayerData)
+    QBCore.Functions.GetPlayerData(function(pData)
         local skin = "mp_m_freemode_01"
         openMenu({
             {menu = "character", label = "Character", selected = true},
@@ -1662,7 +1640,7 @@ AddEventHandler('qb-clothes:client:CreateFirstCharacter', function()
             {menu = "accessoires", label = "Accessories", selected = false}
         })
 
-        if PlayerData.charinfo.gender == 1 then
+        if pData.charinfo.gender == 1 then
             skin = "mp_f_freemode_01"
         end
 
@@ -1674,7 +1652,7 @@ AddEventHandler('qb-clothes:client:CreateFirstCharacter', function()
 end)
 
 RegisterNetEvent("qb-clothes:loadSkin")
-AddEventHandler("qb-clothes:loadSkin", function(new, model, data)
+AddEventHandler("qb-clothes:loadSkin", function(_, model, data)
     model = model ~= nil and tonumber(model) or false
     Citizen.CreateThread(function()
         RequestModel(model)
@@ -1684,7 +1662,7 @@ AddEventHandler("qb-clothes:loadSkin", function(new, model, data)
         end
         SetPlayerModel(PlayerId(), model)
         SetPedComponentVariation(PlayerPedId(), 0, 0, 0, 2)
-        data = json.decode(data)
+        local data = json.decode(data)
         TriggerEvent('qb-clothing:client:loadPlayerClothing', data, PlayerPedId())
     end)
 end)
@@ -1816,14 +1794,10 @@ AddEventHandler('qb-clothing:client:loadPlayerClothing', function(data, ped)
 
     if data["eye_color"].item ~= -1 and data["eye_color"].item ~= 0 then
         SetPedEyeColor(ped, data['eye_color'].item)
-    else
-
     end
 
     if data["moles"].item ~= -1 and data["moles"].item ~= 0 then
         SetPedHeadOverlay(ped, 9, data['moles'].item, (data['moles'].texture / 10))
-    else
-
     end
 
     SetPedFaceFeature(ped, 0, (data['nose_0'].item / 10))
@@ -1866,11 +1840,11 @@ RegisterNetEvent('qb-clothing:client:loadOutfit')
 AddEventHandler('qb-clothing:client:loadOutfit', function(oData)
     local ped = PlayerPedId()
 
-    data = oData.outfitData
+    local data = oData.outfitData
 
     if typeof(data) ~= "table" then data = json.decode(data) end
 
-    for k, v in pairs(data) do
+    for k in pairs(data) do
         skinData[k].item = data[k].item
         skinData[k].texture = data[k].texture
 
