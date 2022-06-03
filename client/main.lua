@@ -670,7 +670,7 @@ AddEventHandler('qb-clothing:client:openMenu', function()
 end)
 
 function GetMaxValues()
-    MaxModelValues = {
+    local maxModelValues = {
         ["arms"]        = {type = "character", item = 0, texture = 0},
         ["eye_color"]   = {type = "hair", item = 0, texture = 0},
         ["t-shirt"]     = {type = "character", item = 0, texture = 0},
@@ -722,80 +722,80 @@ function GetMaxValues()
     local ped = PlayerPedId()
     for k, v in pairs(clothingCategorys) do
         if v.type == "variation" then
-            MaxModelValues[k].item = GetNumberOfPedDrawableVariations(ped, v.id)
-            MaxModelValues[k].texture = GetNumberOfPedTextureVariations(ped, v.id, GetPedDrawableVariation(ped, v.id)) -1
+            maxModelValues[k].item = GetNumberOfPedDrawableVariations(ped, v.id)
+            maxModelValues[k].texture = GetNumberOfPedTextureVariations(ped, v.id, GetPedDrawableVariation(ped, v.id)) -1
         end
 
         if v.type == "hair" then
-            MaxModelValues[k].item = GetNumberOfPedDrawableVariations(ped, v.id)
-            MaxModelValues[k].texture = 45
+            maxModelValues[k].item = GetNumberOfPedDrawableVariations(ped, v.id)
+            maxModelValues[k].texture = 45
         end
 
         if v.type == "mask" then
-            MaxModelValues[k].item = GetNumberOfPedDrawableVariations(ped, v.id)
-            MaxModelValues[k].texture = GetNumberOfPedTextureVariations(ped, v.id, GetPedDrawableVariation(ped, v.id))
+            maxModelValues[k].item = GetNumberOfPedDrawableVariations(ped, v.id)
+            maxModelValues[k].texture = GetNumberOfPedTextureVariations(ped, v.id, GetPedDrawableVariation(ped, v.id))
         end
 
         if v.type == "face" then
-            MaxModelValues[k].item = 45
-            MaxModelValues[k].texture = 15
+            maxModelValues[k].item = 45
+            maxModelValues[k].texture = 15
         end
 
         if v.type == "face2" then
-            MaxModelValues[k].item = 45
-            MaxModelValues[k].texture = 15
+            maxModelValues[k].item = 45
+            maxModelValues[k].texture = 15
         end
 
         if v.type == "facemix" then
-            MaxModelValues[k].shapeMix = 10
-            MaxModelValues[k].skinMix = 10
+            maxModelValues[k].shapeMix = 10
+            maxModelValues[k].skinMix = 10
         end
 
         if v.type == "ageing" then
-            MaxModelValues[k].item = GetNumHeadOverlayValues(v.id)
-            MaxModelValues[k].texture = 0
+            maxModelValues[k].item = GetNumHeadOverlayValues(v.id)
+            maxModelValues[k].texture = 0
         end
 
         if v.type == "overlay" then
-            MaxModelValues[k].item = GetNumHeadOverlayValues(v.id)
-            MaxModelValues[k].texture = 45
+            maxModelValues[k].item = GetNumHeadOverlayValues(v.id)
+            maxModelValues[k].texture = 45
         end
 
         if v.type == "prop" then
-            MaxModelValues[k].item = GetNumberOfPedPropDrawableVariations(ped, v.id)
-            MaxModelValues[k].texture = GetNumberOfPedPropTextureVariations(ped, v.id, GetPedPropIndex(ped, v.id))
+            maxModelValues[k].item = GetNumberOfPedPropDrawableVariations(ped, v.id)
+            maxModelValues[k].texture = GetNumberOfPedPropTextureVariations(ped, v.id, GetPedPropIndex(ped, v.id))
         end
 
         if v.type == "eye_color" then
-            MaxModelValues[k].item = 31
-            MaxModelValues[k].texture = 0
+            maxModelValues[k].item = 31
+            maxModelValues[k].texture = 0
         end
 
         if v.type == "moles" then
-            MaxModelValues[k].item = GetNumHeadOverlayValues(9) -1
-            MaxModelValues[k].texture = 10
+            maxModelValues[k].item = GetNumHeadOverlayValues(9) -1
+            maxModelValues[k].texture = 10
         end
 
         if v.type == "nose" then
-            MaxModelValues[k].item = 30
-            MaxModelValues[k].texture = 0
+            maxModelValues[k].item = 30
+            maxModelValues[k].texture = 0
         end
 
         if v.type == "cheek" then
-            MaxModelValues[k].item = 30
-            MaxModelValues[k].texture = 0
+            maxModelValues[k].item = 30
+            maxModelValues[k].texture = 0
         end
 
         if v.type == "chin" then
-            MaxModelValues[k].item = 30
-            MaxModelValues[k].texture = 0
+            maxModelValues[k].item = 30
+            maxModelValues[k].texture = 0
         end
 
     end
 
     SendNUIMessage({
         action = "updateMax",
-        maxValues = MaxModelValues
+        maxValues = maxModelValues
     })
 end
 
