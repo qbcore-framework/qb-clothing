@@ -8,6 +8,7 @@ local PlayerData = {}
 local previousSkinData = {}
 local zoneName = nil
 local inZone = false
+local removeWear = false
 
 local skinData = {
     ["face"] = {
@@ -1546,21 +1547,6 @@ function tprint (tbl, indent)
     return toprint
 end
 
-local blockedPeds = {
-    "mp_m_freemode_01",
-    "mp_f_freemode_01",
-    "tony",
-    "g_m_m_chigoon_02_m",
-    "u_m_m_jesus_01",
-    "a_m_y_stbla_m",
-    "ig_terry_m",
-    "a_m_m_ktown_m",
-    "a_m_y_skater_m",
-    "u_m_y_coop",
-    "ig_car3guy1_m",
-}
-
-
 function ChangeToSkinNoUpdate(skin)
     local model = GetHashKey(skin)
     Citizen.CreateThread(function()
@@ -1662,7 +1648,7 @@ AddEventHandler("qb-clothes:loadSkin", function(_, model, data)
         end
         SetPlayerModel(PlayerId(), model)
         SetPedComponentVariation(PlayerPedId(), 0, 0, 0, 2)
-        local data = json.decode(data)
+        data = json.decode(data)
         TriggerEvent('qb-clothing:client:loadPlayerClothing', data, PlayerPedId())
     end)
 end)
@@ -1975,14 +1961,10 @@ RegisterNetEvent("qb-clothing:client:adjustfacewear")
 AddEventHandler("qb-clothing:client:adjustfacewear",function(type)
     if QBCore.Functions.GetPlayerData().metadata["ishandcuffed"] then return end
     removeWear = not removeWear
-    local AnimSet = "none"
-    local AnimationOn = "none"
-    local AnimationOff = "none"
-    local PropIndex = 0
-
     local AnimSet = "mp_masks@on_foot"
     local AnimationOn = "put_on_mask"
     local AnimationOff = "put_on_mask"
+    local PropIndex = 0
 
     faceProps[6]["Prop"] = GetPedDrawableVariation(PlayerPedId(), 0)
     faceProps[6]["Palette"] = GetPedPaletteVariation(PlayerPedId(), 0)
@@ -2094,15 +2076,10 @@ end)
 
 ------------------------------refreshskin-------------------
 
-RegisterCommand("refreshskin", function(source, args, rawCommand)
-
-
+RegisterCommand("refreshskin", function()
     local playerPed = PlayerPedId()
-    local maxhealth = GetEntityMaxHealth(playerPed)
     local health = GetEntityHealth(playerPed)
-
     reloadSkin(health)
-
 end)
 
 function reloadSkin(health)
@@ -2110,11 +2087,12 @@ function reloadSkin(health)
     local model = nil
 
     local gender = QBCore.Functions.GetPlayerData().charinfo.gender
+    local maxhealth = GetEntityMaxHealth(PlayerPedId())
 
     if gender == 1 then -- Gender is ONE for FEMALE
-    model = GetHashKey("mp_f_freemode_01") -- Female Model
+        model = GetHashKey("mp_f_freemode_01") -- Female Model
     else
-    model = GetHashKey("mp_m_freemode_01") -- Male Model
+        model = GetHashKey("mp_m_freemode_01") -- Male Model
     end
 
     RequestModel(model)
