@@ -609,8 +609,6 @@ RegisterNUICallback('rotateLeft', function(_, cb)
     cb('ok')
 end)
 
-firstChar = false
-
 local clothingCategorys = {
     ["arms"]        = {type = "variation",  id = 3},
     ["t-shirt"]     = {type = "variation",  id = 8},
@@ -802,9 +800,9 @@ function GetMaxValues()
     })
 end
 
-function isCreatingCharacter()
+exports('IsCreatingCharacter', function()
     return creatingCharacter
-end
+end)
 
 function openMenu(allowedMenus)
     previousSkinData = json.encode(skinData)
@@ -917,13 +915,6 @@ function disableCam()
     DestroyCam(cam, false)
 
     FreezeEntityPosition(PlayerPedId(), false)
-end
-
-function closeMenu()
-    SendNUIMessage({
-        action = "close",
-    })
-    disableCam()
 end
 
 RegisterNUICallback('resetOutfit', function(_, cb)
@@ -1231,7 +1222,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 0, newitem)
             skinData["nose_0"].item = item
-        elseif type == "texture" then
         end
 
     elseif clothingCategory == "nose_1" then
@@ -1240,8 +1230,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 1, newitem)
             skinData["nose_1"].item = item
-        elseif type == "texture" then
-
         end
     elseif clothingCategory == "nose_2" then
         if type == "item" then
@@ -1251,9 +1239,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 2, newitem)
             skinData["nose_2"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "nose_3" then
         if type == "item" then
@@ -1263,9 +1248,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 3, newitem)
             skinData["nose_3"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "nose_4" then
         if type == "item" then
@@ -1275,9 +1257,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 4, newitem)
             skinData["nose_4"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "nose_5" then
         if type == "item" then
@@ -1287,9 +1266,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 5, newitem)
             skinData["nose_5"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "eyebrown_high" then
         if type == "item" then
@@ -1299,9 +1275,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 6, newitem)
             skinData["eyebrown_high"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "eyebrown_forward" then
         if type == "item" then
@@ -1311,9 +1284,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 7, newitem)
             skinData["eyebrown_forward"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "cheek_1" then
         if type == "item" then
@@ -1323,10 +1293,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 8, newitem)
             skinData["cheek_1"].item = item
-        elseif type == "texture" then
-
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "cheek_2" then
         if type == "item" then
@@ -1336,9 +1302,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 9, newitem)
             skinData["cheek_1"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "cheek_3" then
         if type == "item" then
@@ -1348,9 +1311,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 10, newitem)
             skinData["cheek_3"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "eye_opening" then
         if type == "item" then
@@ -1360,9 +1320,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 11, newitem)
             skinData["eye_opening"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "lips_thickness" then
         if type == "item" then
@@ -1372,9 +1329,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 12, newitem)
             skinData["lips_thickness"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "jaw_bone_width" then
         if type == "item" then
@@ -1384,9 +1338,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 13, newitem)
             skinData["jaw_bone_width"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "jaw_bone_back_lenght" then
         if type == "item" then
@@ -1396,9 +1347,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 14, newitem)
             skinData["jaw_bone_back_lenght"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "chimp_bone_lowering" then
         if type == "item" then
@@ -1408,9 +1356,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 15, newitem)
             skinData["chimp_bone_lowering"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "chimp_bone_lenght" then
         if type == "item" then
@@ -1420,9 +1365,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 16, newitem)
             skinData["chimp_bone_lenght"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "chimp_bone_width" then
         if type == "item" then
@@ -1432,9 +1374,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 17, newitem)
             skinData["chimp_bone_width"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "chimp_hole" then
         if type == "item" then
@@ -1444,9 +1383,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 18, newitem)
             skinData["chimp_hole"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "neck_thikness" then
         if type == "item" then
@@ -1456,9 +1392,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 19, newitem)
             skinData["chimp_hole"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "t-shirt" then
         if type == "item" then
