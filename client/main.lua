@@ -3,7 +3,6 @@ local creatingCharacter = false
 local cam = -1
 local headingToCam = GetEntityHeading(PlayerPedId())
 local camOffset = 2
-local zoom = "character"
 local customCamLocation = nil
 local PlayerData = {}
 local previousSkinData = {}
@@ -314,23 +313,8 @@ AddEventHandler('onResourceStart', function(resourceName)
     PlayerData = QBCore.Functions.GetPlayerData()
 end)
 
-function DrawText3Ds(x, y, z, text)
-    SetTextScale(0.35, 0.35)
-    SetTextFont(4)
-    SetTextProportional(1)
-    SetTextColour(255, 255, 255, 215)
-    SetTextEntry("STRING")
-    SetTextCentre(true)
-    AddTextComponentString(text)
-    SetDrawOrigin(x, y, z, 0)
-    DrawText(0.0, 0.0)
-    local factor = (string.len(text)) / 370
-    DrawRect(0.0, 0.0+0.0125, 0.017+ factor, 0.03, 0, 0, 0, 75)
-    ClearDrawOrigin()
-end
-
 function GetPositionByRelativeHeading(ped, head, dist)
-    local pedPos = GetEntityCoords(PlayerPedId())
+    local pedPos = GetEntityCoords(ped)
 
     local finPosx = pedPos.x + math.cos(head * (math.pi / 180)) * dist
     local finPosy = pedPos.y + math.sin(head * (math.pi / 180)) * dist
@@ -339,12 +323,12 @@ function GetPositionByRelativeHeading(ped, head, dist)
 end
 
 Citizen.CreateThread(function()
-    for k, v in pairs (Config.Stores) do
+    for k, _ in pairs (Config.Stores) do
         if Config.Stores[k].shopType == "clothing" then
             local clothingShop = AddBlipForCoord(Config.Stores[k].coords)
             SetBlipSprite(clothingShop, 366)
             SetBlipColour(clothingShop, 47)
-            SetBlipScale  (clothingShop, 0.7)
+            SetBlipScale (clothingShop, 0.7)
             SetBlipAsShortRange(clothingShop, true)
             BeginTextCommandSetBlipName("STRING")
             AddTextComponentString("Clothing store")
@@ -355,7 +339,7 @@ Citizen.CreateThread(function()
             local barberShop = AddBlipForCoord(Config.Stores[k].coords)
             SetBlipSprite(barberShop, 71)
             SetBlipColour(barberShop, 0)
-            SetBlipScale  (barberShop, 0.7)
+            SetBlipScale (barberShop, 0.7)
             SetBlipAsShortRange(barberShop, true)
             BeginTextCommandSetBlipName("STRING")
             AddTextComponentString("Barber")
@@ -395,7 +379,7 @@ if Config.UseTarget then
             local opts = {}
             if v.shopType == 'barber' then
                 opts = {
-                    action = function(entity)
+                    action = function()
                         customCamLocation = nil
                         openMenu({
                             {menu = "clothing", label = "Hair", selected = true},
@@ -406,7 +390,7 @@ if Config.UseTarget then
                 }
             elseif v.shopType == 'clothing' then
                 opts = {
-                    action = function(entity)
+                    action = function()
                         customCamLocation = nil
                         openMenu({
                             {menu = "character", label = "Clothing", selected = true},
@@ -418,7 +402,7 @@ if Config.UseTarget then
                 }
             elseif v.shopType == 'surgeon' then
                 opts = {
-                    action = function(entity)
+                    action = function()
                         customCamLocation = nil
                         openMenu({
                             {menu = "clothing", label = "Features", selected = true},
@@ -450,13 +434,13 @@ if Config.UseTarget then
         for k, v in pairs(Config.ClothingRooms) do
             local action = nil
             if v.isGang then
-                action = function(entity)
+                action = function()
                     customCamLocation = v.cameraLocation
                     local gradeLevel = PlayerData.gang.grade.level
                     TriggerEvent('qb-clothing:client:getOutfits', v.requiredJob, gradeLevel)
                 end
             else
-                action = function(entity)
+                action = function()
                     customCamLocation = v.cameraLocation
                     local gradeLevel = PlayerData.job.grade.level
                     TriggerEvent('qb-clothing:client:getOutfits', v.requiredJob, gradeLevel)
@@ -486,7 +470,7 @@ if Config.UseTarget then
 else
     CreateThread(function()
         local zones = {}
-        for k, v in pairs(Config.Stores) do
+        for _, v in pairs(Config.Stores) do
             zones[#zones+1] = BoxZone:Create(
                 v.coords, v.length, v.width, {
                 name = v.shopType,
@@ -497,7 +481,7 @@ else
         end
 
         local clothingCombo = ComboZone:Create(zones, {name = "clothingCombo", debugPoly = false})
-        clothingCombo:onPlayerInOut(function(isPointInside, point, zone)
+        clothingCombo:onPlayerInOut(function(isPointInside, _, zone)
             if isPointInside then
                 zoneName = zone.name
                 inZone = true
@@ -526,7 +510,7 @@ else
         end
 
         local clothingRoomsCombo = ComboZone:Create(roomZones, {name = "clothingRoomsCombo", debugPoly = false})
-        clothingRoomsCombo:onPlayerInOut(function(isPointInside, point, zone)
+        clothingRoomsCombo:onPlayerInOut(function(isPointInside, _, zone)
             if isPointInside then
                 local zoneID = tonumber(QBCore.Shared.SplitStr(zone.name, "_")[2])
                 local job = Config.ClothingRooms[zoneID].isGang and PlayerData.gang.name or PlayerData.job.name
@@ -580,8 +564,6 @@ else
                         TriggerEvent('qb-clothing:client:getOutfits', clothingRoom.requiredJob, gradeLevel)
                     end
                 end
-            else
-                sleep = 1000
             end
             Wait(sleep)
         end
@@ -820,11 +802,15 @@ function GetMaxValues()
     })
 end
 
+function isCreatingCharacter()
+    return creatingCharacter
+end
+
 function openMenu(allowedMenus)
     previousSkinData = json.encode(skinData)
     creatingCharacter = true
 
-    local PlayerData = QBCore.Functions.GetPlayerData()
+    PlayerData = QBCore.Functions.GetPlayerData()
     local trackerMeta = PlayerData.metadata["tracker"]
 
     GetMaxValues()
@@ -903,25 +889,21 @@ RegisterNUICallback('setupCam', function(data, cb)
     local value = data.value
     local pedPos = GetEntityCoords(PlayerPedId())
     if value == 1 then
-        local coords = GetCamCoord(cam)
         camOffset = 0.75
         local cx, cy = GetPositionByRelativeHeading(PlayerPedId(), headingToCam, camOffset)
         SetCamCoord(cam, cx, cy, pedPos.z + 0.65)
         PointCamAtCoord(cam, pedPos.x, pedPos.y, pedPos.z + 0.65)
     elseif value == 2 then
-        local coords = GetCamCoord(cam)
         camOffset = 1.0
         local cx, cy = GetPositionByRelativeHeading(PlayerPedId(), headingToCam, camOffset)
         SetCamCoord(cam, cx, cy, pedPos.z + 0.2)
         PointCamAtCoord(cam, pedPos.x, pedPos.y, pedPos.z + 0.2)
     elseif value == 3 then
-        local coords = GetCamCoord(cam)
         camOffset = 1.0
         local cx, cy = GetPositionByRelativeHeading(PlayerPedId(), headingToCam, camOffset)
         SetCamCoord(cam, cx, cy, pedPos.z + -0.5)
         PointCamAtCoord(cam, pedPos.x, pedPos.y, pedPos.z + -0.5)
     else
-        local coords = GetCamCoord(cam)
         camOffset = 2.0
         local cx, cy = GetPositionByRelativeHeading(PlayerPedId(), headingToCam, camOffset)
         SetCamCoord(cam, cx, cy, pedPos.z + 0.2)
@@ -1088,7 +1070,6 @@ RegisterNUICallback('close', function(_, cb)
     creatingCharacter = false
     disableCam()
     FreezeEntityPosition(PlayerPedId(), false)
-    TriggerEvent('qb-clothing:client:onMenuClose')
     cb('ok')
 end)
 
