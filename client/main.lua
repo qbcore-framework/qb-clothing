@@ -1088,6 +1088,7 @@ RegisterNUICallback('close', function(_, cb)
     creatingCharacter = false
     disableCam()
     FreezeEntityPosition(PlayerPedId(), false)
+    TriggerEvent('qb-clothing:client:onMenuClose')
     cb('ok')
 end)
 
