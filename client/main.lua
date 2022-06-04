@@ -3,12 +3,12 @@ local creatingCharacter = false
 local cam = -1
 local headingToCam = GetEntityHeading(PlayerPedId())
 local camOffset = 2
-local zoom = "character"
 local customCamLocation = nil
 local PlayerData = {}
 local previousSkinData = {}
 local zoneName = nil
 local inZone = false
+local removeWear = false
 
 local skinData = {
     ["face"] = {
@@ -314,23 +314,8 @@ AddEventHandler('onResourceStart', function(resourceName)
     PlayerData = QBCore.Functions.GetPlayerData()
 end)
 
-function DrawText3Ds(x, y, z, text)
-    SetTextScale(0.35, 0.35)
-    SetTextFont(4)
-    SetTextProportional(1)
-    SetTextColour(255, 255, 255, 215)
-    SetTextEntry("STRING")
-    SetTextCentre(true)
-    AddTextComponentString(text)
-    SetDrawOrigin(x, y, z, 0)
-    DrawText(0.0, 0.0)
-    local factor = (string.len(text)) / 370
-    DrawRect(0.0, 0.0+0.0125, 0.017+ factor, 0.03, 0, 0, 0, 75)
-    ClearDrawOrigin()
-end
-
 function GetPositionByRelativeHeading(ped, head, dist)
-    local pedPos = GetEntityCoords(PlayerPedId())
+    local pedPos = GetEntityCoords(ped)
 
     local finPosx = pedPos.x + math.cos(head * (math.pi / 180)) * dist
     local finPosy = pedPos.y + math.sin(head * (math.pi / 180)) * dist
@@ -339,12 +324,12 @@ function GetPositionByRelativeHeading(ped, head, dist)
 end
 
 Citizen.CreateThread(function()
-    for k, v in pairs (Config.Stores) do
+    for k, _ in pairs (Config.Stores) do
         if Config.Stores[k].shopType == "clothing" then
             local clothingShop = AddBlipForCoord(Config.Stores[k].coords)
             SetBlipSprite(clothingShop, 366)
             SetBlipColour(clothingShop, 47)
-            SetBlipScale  (clothingShop, 0.7)
+            SetBlipScale (clothingShop, 0.7)
             SetBlipAsShortRange(clothingShop, true)
             BeginTextCommandSetBlipName("STRING")
             AddTextComponentString("Clothing store")
@@ -355,7 +340,7 @@ Citizen.CreateThread(function()
             local barberShop = AddBlipForCoord(Config.Stores[k].coords)
             SetBlipSprite(barberShop, 71)
             SetBlipColour(barberShop, 0)
-            SetBlipScale  (barberShop, 0.7)
+            SetBlipScale (barberShop, 0.7)
             SetBlipAsShortRange(barberShop, true)
             BeginTextCommandSetBlipName("STRING")
             AddTextComponentString("Barber")
@@ -395,7 +380,7 @@ if Config.UseTarget then
             local opts = {}
             if v.shopType == 'barber' then
                 opts = {
-                    action = function(entity)
+                    action = function()
                         customCamLocation = nil
                         openMenu({
                             {menu = "clothing", label = "Hair", selected = true},
@@ -406,7 +391,7 @@ if Config.UseTarget then
                 }
             elseif v.shopType == 'clothing' then
                 opts = {
-                    action = function(entity)
+                    action = function()
                         customCamLocation = nil
                         openMenu({
                             {menu = "character", label = "Clothing", selected = true},
@@ -418,7 +403,7 @@ if Config.UseTarget then
                 }
             elseif v.shopType == 'surgeon' then
                 opts = {
-                    action = function(entity)
+                    action = function()
                         customCamLocation = nil
                         openMenu({
                             {menu = "clothing", label = "Features", selected = true},
@@ -448,15 +433,15 @@ if Config.UseTarget then
         end
 
         for k, v in pairs(Config.ClothingRooms) do
-            local action = nil
+            local action
             if v.isGang then
-                action = function(entity)
+                action = function()
                     customCamLocation = v.cameraLocation
                     local gradeLevel = PlayerData.gang.grade.level
                     TriggerEvent('qb-clothing:client:getOutfits', v.requiredJob, gradeLevel)
                 end
             else
-                action = function(entity)
+                action = function()
                     customCamLocation = v.cameraLocation
                     local gradeLevel = PlayerData.job.grade.level
                     TriggerEvent('qb-clothing:client:getOutfits', v.requiredJob, gradeLevel)
@@ -486,7 +471,7 @@ if Config.UseTarget then
 else
     CreateThread(function()
         local zones = {}
-        for k, v in pairs(Config.Stores) do
+        for _, v in pairs(Config.Stores) do
             zones[#zones+1] = BoxZone:Create(
                 v.coords, v.length, v.width, {
                 name = v.shopType,
@@ -497,7 +482,7 @@ else
         end
 
         local clothingCombo = ComboZone:Create(zones, {name = "clothingCombo", debugPoly = false})
-        clothingCombo:onPlayerInOut(function(isPointInside, point, zone)
+        clothingCombo:onPlayerInOut(function(isPointInside, _, zone)
             if isPointInside then
                 zoneName = zone.name
                 inZone = true
@@ -526,7 +511,7 @@ else
         end
 
         local clothingRoomsCombo = ComboZone:Create(roomZones, {name = "clothingRoomsCombo", debugPoly = false})
-        clothingRoomsCombo:onPlayerInOut(function(isPointInside, point, zone)
+        clothingRoomsCombo:onPlayerInOut(function(isPointInside, _, zone)
             if isPointInside then
                 local zoneID = tonumber(QBCore.Shared.SplitStr(zone.name, "_")[2])
                 local job = Config.ClothingRooms[zoneID].isGang and PlayerData.gang.name or PlayerData.job.name
@@ -580,8 +565,6 @@ else
                         TriggerEvent('qb-clothing:client:getOutfits', clothingRoom.requiredJob, gradeLevel)
                     end
                 end
-            else
-                sleep = 1000
             end
             Wait(sleep)
         end
@@ -626,8 +609,6 @@ RegisterNUICallback('rotateLeft', function(_, cb)
     PointCamAtCoord(cam, pedPos.x, pedPos.y, camPos.z)
     cb('ok')
 end)
-
-firstChar = false
 
 local clothingCategorys = {
     ["arms"]        = {type = "variation",  id = 3},
@@ -690,7 +671,7 @@ AddEventHandler('qb-clothing:client:openMenu', function()
 end)
 
 function GetMaxValues()
-    maxModelValues = {
+    local maxModelValues = {
         ["arms"]        = {type = "character", item = 0, texture = 0},
         ["eye_color"]   = {type = "hair", item = 0, texture = 0},
         ["t-shirt"]     = {type = "character", item = 0, texture = 0},
@@ -738,7 +719,6 @@ function GetMaxValues()
         ["ear"]         = {type = "accessoires", item = 0, texture = 0},
         ["watch"]       = {type = "accessoires", item = 0, texture = 0},
         ["bracelet"]    = {type = "accessoires", item = 0, texture = 0},
-
     }
     local ped = PlayerPedId()
     for k, v in pairs(clothingCategorys) do
@@ -820,11 +800,15 @@ function GetMaxValues()
     })
 end
 
+exports('IsCreatingCharacter', function()
+    return creatingCharacter
+end)
+
 function openMenu(allowedMenus)
     previousSkinData = json.encode(skinData)
     creatingCharacter = true
 
-    local PlayerData = QBCore.Functions.GetPlayerData()
+    PlayerData = QBCore.Functions.GetPlayerData()
     local trackerMeta = PlayerData.metadata["tracker"]
 
     GetMaxValues()
@@ -903,25 +887,21 @@ RegisterNUICallback('setupCam', function(data, cb)
     local value = data.value
     local pedPos = GetEntityCoords(PlayerPedId())
     if value == 1 then
-        local coords = GetCamCoord(cam)
         camOffset = 0.75
         local cx, cy = GetPositionByRelativeHeading(PlayerPedId(), headingToCam, camOffset)
         SetCamCoord(cam, cx, cy, pedPos.z + 0.65)
         PointCamAtCoord(cam, pedPos.x, pedPos.y, pedPos.z + 0.65)
     elseif value == 2 then
-        local coords = GetCamCoord(cam)
         camOffset = 1.0
         local cx, cy = GetPositionByRelativeHeading(PlayerPedId(), headingToCam, camOffset)
         SetCamCoord(cam, cx, cy, pedPos.z + 0.2)
         PointCamAtCoord(cam, pedPos.x, pedPos.y, pedPos.z + 0.2)
     elseif value == 3 then
-        local coords = GetCamCoord(cam)
         camOffset = 1.0
         local cx, cy = GetPositionByRelativeHeading(PlayerPedId(), headingToCam, camOffset)
         SetCamCoord(cam, cx, cy, pedPos.z + -0.5)
         PointCamAtCoord(cam, pedPos.x, pedPos.y, pedPos.z + -0.5)
     else
-        local coords = GetCamCoord(cam)
         camOffset = 2.0
         local cx, cy = GetPositionByRelativeHeading(PlayerPedId(), headingToCam, camOffset)
         SetCamCoord(cam, cx, cy, pedPos.z + 0.2)
@@ -935,13 +915,6 @@ function disableCam()
     DestroyCam(cam, false)
 
     FreezeEntityPosition(PlayerPedId(), false)
-end
-
-function closeMenu()
-    SendNUIMessage({
-        action = "close",
-    })
-    disableCam()
 end
 
 RegisterNUICallback('resetOutfit', function(_, cb)
@@ -1222,10 +1195,6 @@ function ChangeVariation(data)
             -- skinData["arms"].item = item
             SetPedEyeColor(ped, item)
             skinData["eye_color"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-            -- SetPedEyeColor(ped, item)
-            -- skinData["eye_color"].texture = item
         end
     elseif clothingCategory == "moles" then
         if type == "item" then
@@ -1249,7 +1218,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 0, newitem)
             skinData["nose_0"].item = item
-        elseif type == "texture" then
         end
 
     elseif clothingCategory == "nose_1" then
@@ -1258,8 +1226,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 1, newitem)
             skinData["nose_1"].item = item
-        elseif type == "texture" then
-
         end
     elseif clothingCategory == "nose_2" then
         if type == "item" then
@@ -1269,9 +1235,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 2, newitem)
             skinData["nose_2"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "nose_3" then
         if type == "item" then
@@ -1281,9 +1244,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 3, newitem)
             skinData["nose_3"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "nose_4" then
         if type == "item" then
@@ -1293,9 +1253,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 4, newitem)
             skinData["nose_4"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "nose_5" then
         if type == "item" then
@@ -1305,9 +1262,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 5, newitem)
             skinData["nose_5"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "eyebrown_high" then
         if type == "item" then
@@ -1317,9 +1271,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 6, newitem)
             skinData["eyebrown_high"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "eyebrown_forward" then
         if type == "item" then
@@ -1329,9 +1280,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 7, newitem)
             skinData["eyebrown_forward"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "cheek_1" then
         if type == "item" then
@@ -1341,10 +1289,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 8, newitem)
             skinData["cheek_1"].item = item
-        elseif type == "texture" then
-
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "cheek_2" then
         if type == "item" then
@@ -1354,9 +1298,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 9, newitem)
             skinData["cheek_1"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "cheek_3" then
         if type == "item" then
@@ -1366,9 +1307,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 10, newitem)
             skinData["cheek_3"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "eye_opening" then
         if type == "item" then
@@ -1378,9 +1316,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 11, newitem)
             skinData["eye_opening"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "lips_thickness" then
         if type == "item" then
@@ -1390,9 +1325,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 12, newitem)
             skinData["lips_thickness"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "jaw_bone_width" then
         if type == "item" then
@@ -1402,9 +1334,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 13, newitem)
             skinData["jaw_bone_width"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "jaw_bone_back_lenght" then
         if type == "item" then
@@ -1414,9 +1343,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 14, newitem)
             skinData["jaw_bone_back_lenght"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "chimp_bone_lowering" then
         if type == "item" then
@@ -1426,9 +1352,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 15, newitem)
             skinData["chimp_bone_lowering"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "chimp_bone_lenght" then
         if type == "item" then
@@ -1438,9 +1361,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 16, newitem)
             skinData["chimp_bone_lenght"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "chimp_bone_width" then
         if type == "item" then
@@ -1450,9 +1370,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 17, newitem)
             skinData["chimp_bone_width"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "chimp_hole" then
         if type == "item" then
@@ -1462,9 +1379,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 18, newitem)
             skinData["chimp_hole"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "neck_thikness" then
         if type == "item" then
@@ -1474,9 +1388,6 @@ function ChangeVariation(data)
             -- print(newitem)
             SetPedFaceFeature(ped, 19, newitem)
             skinData["chimp_hole"].item = item
-        elseif type == "texture" then
-            -- local curItem = GetPedDrawableVariation(ped, 1)
-
         end
     elseif clothingCategory == "t-shirt" then
         if type == "item" then
@@ -1634,42 +1545,9 @@ function tprint (tbl, indent)
     end
     toprint = toprint .. string.rep(" ", indent-2) .. "}"
     return toprint
-  end
-
-
-function LoadPlayerModel(skin)
-    RequestModel(skin)
-    while not HasModelLoaded(skin) do
-        Citizen.Wait(0)
-    end
-end
-
-local blockedPeds = {
-    "mp_m_freemode_01",
-    "mp_f_freemode_01",
-    "tony",
-    "g_m_m_chigoon_02_m",
-    "u_m_m_jesus_01",
-    "a_m_y_stbla_m",
-    "ig_terry_m",
-    "a_m_m_ktown_m",
-    "a_m_y_skater_m",
-    "u_m_y_coop",
-    "ig_car3guy1_m",
-}
-
-function isPedAllowedRandom(skin)
-    local retval = false
-    for k, v in pairs(blockedPeds) do
-        if v ~= skin then
-            retval = true
-        end
-    end
-    return retval
 end
 
 function ChangeToSkinNoUpdate(skin)
-    local ped = PlayerPedId()
     local model = GetHashKey(skin)
     Citizen.CreateThread(function()
         RequestModel(model)
@@ -1734,13 +1612,13 @@ end)
 
 function SaveSkin()
     local model = GetEntityModel(PlayerPedId())
-    clothing = json.encode(skinData)
+    local clothing = json.encode(skinData)
     TriggerServerEvent("qb-clothing:saveSkin", model, clothing)
 end
 
 RegisterNetEvent('qb-clothes:client:CreateFirstCharacter')
 AddEventHandler('qb-clothes:client:CreateFirstCharacter', function()
-    QBCore.Functions.GetPlayerData(function(PlayerData)
+    QBCore.Functions.GetPlayerData(function(pData)
         local skin = "mp_m_freemode_01"
         openMenu({
             {menu = "character", label = "Character", selected = true},
@@ -1748,7 +1626,7 @@ AddEventHandler('qb-clothes:client:CreateFirstCharacter', function()
             {menu = "accessoires", label = "Accessories", selected = false}
         })
 
-        if PlayerData.charinfo.gender == 1 then
+        if pData.charinfo.gender == 1 then
             skin = "mp_f_freemode_01"
         end
 
@@ -1760,7 +1638,7 @@ AddEventHandler('qb-clothes:client:CreateFirstCharacter', function()
 end)
 
 RegisterNetEvent("qb-clothes:loadSkin")
-AddEventHandler("qb-clothes:loadSkin", function(new, model, data)
+AddEventHandler("qb-clothes:loadSkin", function(_, model, data)
     model = model ~= nil and tonumber(model) or false
     Citizen.CreateThread(function()
         RequestModel(model)
@@ -1902,14 +1780,10 @@ AddEventHandler('qb-clothing:client:loadPlayerClothing', function(data, ped)
 
     if data["eye_color"].item ~= -1 and data["eye_color"].item ~= 0 then
         SetPedEyeColor(ped, data['eye_color'].item)
-    else
-
     end
 
     if data["moles"].item ~= -1 and data["moles"].item ~= 0 then
         SetPedHeadOverlay(ped, 9, data['moles'].item, (data['moles'].texture / 10))
-    else
-
     end
 
     SetPedFaceFeature(ped, 0, (data['nose_0'].item / 10))
@@ -1952,11 +1826,11 @@ RegisterNetEvent('qb-clothing:client:loadOutfit')
 AddEventHandler('qb-clothing:client:loadOutfit', function(oData)
     local ped = PlayerPedId()
 
-    data = oData.outfitData
+    local data = oData.outfitData
 
     if typeof(data) ~= "table" then data = json.decode(data) end
 
-    for k, v in pairs(data) do
+    for k in pairs(data) do
         skinData[k].item = data[k].item
         skinData[k].texture = data[k].texture
 
@@ -2087,14 +1961,10 @@ RegisterNetEvent("qb-clothing:client:adjustfacewear")
 AddEventHandler("qb-clothing:client:adjustfacewear",function(type)
     if QBCore.Functions.GetPlayerData().metadata["ishandcuffed"] then return end
     removeWear = not removeWear
-    local AnimSet = "none"
-    local AnimationOn = "none"
-    local AnimationOff = "none"
-    local PropIndex = 0
-
     local AnimSet = "mp_masks@on_foot"
     local AnimationOn = "put_on_mask"
     local AnimationOff = "put_on_mask"
+    local PropIndex = 0
 
     faceProps[6]["Prop"] = GetPedDrawableVariation(PlayerPedId(), 0)
     faceProps[6]["Palette"] = GetPedPaletteVariation(PlayerPedId(), 0)
@@ -2206,27 +2076,22 @@ end)
 
 ------------------------------refreshskin-------------------
 
-RegisterCommand("refreshskin", function(source, args, rawCommand)
-
-
+RegisterCommand("refreshskin", function()
     local playerPed = PlayerPedId()
-    local maxhealth = GetEntityMaxHealth(playerPed)
     local health = GetEntityHealth(playerPed)
-
     reloadSkin(health)
-
 end)
 
 function reloadSkin(health)
-
-    local model = nil
+    local model
 
     local gender = QBCore.Functions.GetPlayerData().charinfo.gender
+    local maxhealth = GetEntityMaxHealth(PlayerPedId())
 
     if gender == 1 then -- Gender is ONE for FEMALE
-    model = GetHashKey("mp_f_freemode_01") -- Female Model
+        model = GetHashKey("mp_f_freemode_01") -- Female Model
     else
-    model = GetHashKey("mp_m_freemode_01") -- Male Model
+        model = GetHashKey("mp_m_freemode_01") -- Male Model
     end
 
     RequestModel(model)
