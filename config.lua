@@ -509,6 +509,17 @@ Config.LoadedWomanModels = {}
 -- These have to be a string thanks to how Convars are returned.
 Config.UseTarget = GetConvar('UseTarget', 'false') == 'true'
 
+Config.Tracker = {
+    ["male"] = {
+        ["drawableId"] = 11,
+        ["textureId"] = 0,
+    },
+    ["female"] = {
+        ["drawableId"] = 8,
+        ["textureId"] = 0,
+    }
+}
+
 -- width, length, minZ and maxZ are for the size and height of the PolyZone
 Config.Stores = {
     [1] = {shopType = 'clothing', coords = vector3(1693.32, 4823.48, 41.06), width = 2, length = 2},
