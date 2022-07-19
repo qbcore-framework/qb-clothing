@@ -660,8 +660,7 @@ local clothingCategorys = {
     ["neck_thikness"]   = {type = "cheek",  id = 5},
 }
 
-RegisterNetEvent('qb-clothing:client:openMenu')
-AddEventHandler('qb-clothing:client:openMenu', function()
+RegisterNetEvent('qb-clothing:client:openMenu', function()
     customCamLocation = nil
     openMenu({
         {menu = "character", label = "Character", selected = true},
@@ -838,8 +837,7 @@ RegisterNUICallback('saveOutfit', function(data, cb)
     cb('ok')
 end)
 
-RegisterNetEvent('qb-clothing:client:reloadOutfits')
-AddEventHandler('qb-clothing:client:reloadOutfits', function(myOutfits)
+RegisterNetEvent('qb-clothing:client:reloadOutfits', function(myOutfits)
     SendNUIMessage({
         action = "reloadMyOutfits",
         outfits = myOutfits
@@ -1617,8 +1615,8 @@ function SaveSkin()
     TriggerServerEvent("qb-clothing:saveSkin", model, clothing)
 end
 
-RegisterNetEvent('qb-clothes:client:CreateFirstCharacter')
-AddEventHandler('qb-clothes:client:CreateFirstCharacter', function()
+
+RegisterNetEvent('qb-clothes:client:CreateFirstCharacter', function()
     QBCore.Functions.GetPlayerData(function(pData)
         local skin = "mp_m_freemode_01"
         openMenu({
@@ -1638,8 +1636,7 @@ AddEventHandler('qb-clothes:client:CreateFirstCharacter', function()
     end)
 end)
 
-RegisterNetEvent("qb-clothes:loadSkin")
-AddEventHandler("qb-clothes:loadSkin", function(_, model, data)
+RegisterNetEvent("qb-clothes:loadSkin", function(_, model, data)
     model = model ~= nil and tonumber(model) or false
     Citizen.CreateThread(function()
         RequestModel(model)
@@ -1654,8 +1651,7 @@ AddEventHandler("qb-clothes:loadSkin", function(_, model, data)
     end)
 end)
 
-RegisterNetEvent('qb-clothing:client:loadPlayerClothing')
-AddEventHandler('qb-clothing:client:loadPlayerClothing', function(data, ped)
+RegisterNetEvent('qb-clothing:client:loadPlayerClothing', function(data, ped)
     if ped == nil then ped = PlayerPedId() end
 
     for i = 0, 11 do
@@ -1823,8 +1819,7 @@ function typeof(var)
     end
 end
 
-RegisterNetEvent('qb-clothing:client:loadOutfit')
-AddEventHandler('qb-clothing:client:loadOutfit', function(oData)
+RegisterNetEvent('qb-clothing:client:loadOutfit', function(oData)
     local ped = PlayerPedId()
 
     local data = oData.outfitData
@@ -1958,8 +1953,7 @@ function loadAnimDict( dict )
     end
 end
 
-RegisterNetEvent("qb-clothing:client:adjustfacewear")
-AddEventHandler("qb-clothing:client:adjustfacewear",function(type)
+RegisterNetEvent("qb-clothing:client:adjustfacewear",function(type)
     if QBCore.Functions.GetPlayerData().metadata["ishandcuffed"] then return end
     removeWear = not removeWear
     local AnimSet = "mp_masks@on_foot"
