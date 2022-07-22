@@ -1199,24 +1199,17 @@ function ChangeVariation(data)
         end
     elseif clothingCategory == "moles" then
         if type == "item" then
-            -- print(item)
-            -- SetPedHeadOverlay(ped, 3, item, 1.0)
-            -- print(item)
             SetPedHeadOverlay(ped, 9, item, 1.0)
             skinData["moles"].item = item
         elseif type == "texture" then
             local curItem = GetPedDrawableVariation(ped, 9)
-            -- (data['moles'].texture / 10) + 0.0
-            -- local curItem = GetPedDrawableVariation(ped, 9)
             local newitem = (item / 10)
-            -- print(newitem)
             SetPedHeadOverlayColor(ped, 9, curItem, newitem)
             skinData["moles"].texture = item
         end
     elseif clothingCategory == "nose_0" then
         if type == "item" then
             local newitem = (item / 10)
-            -- print(newitem)
             SetPedFaceFeature(ped, 0, newitem)
             skinData["nose_0"].item = item
         end
@@ -1224,169 +1217,114 @@ function ChangeVariation(data)
     elseif clothingCategory == "nose_1" then
         if type == "item" then
             local newitem = (item / 10)
-            -- print(newitem)
             SetPedFaceFeature(ped, 1, newitem)
             skinData["nose_1"].item = item
         end
     elseif clothingCategory == "nose_2" then
         if type == "item" then
-            -- SetPedEyeColor(ped, 12, item, 0, 2)
-            -- skinData["arms"].item = item
             local newitem = (item / 10)
-            -- print(newitem)
             SetPedFaceFeature(ped, 2, newitem)
             skinData["nose_2"].item = item
         end
     elseif clothingCategory == "nose_3" then
         if type == "item" then
-            -- SetPedEyeColor(ped, 12, item, 0, 2)
-            -- skinData["arms"].item = item
             local newitem = (item / 10)
-            -- print(newitem)
             SetPedFaceFeature(ped, 3, newitem)
             skinData["nose_3"].item = item
         end
     elseif clothingCategory == "nose_4" then
         if type == "item" then
-            -- SetPedEyeColor(ped, 12, item, 0, 2)
-            -- skinData["arms"].item = item
             local newitem = (item / 10)
-            -- print(newitem)
             SetPedFaceFeature(ped, 4, newitem)
             skinData["nose_4"].item = item
         end
     elseif clothingCategory == "nose_5" then
         if type == "item" then
-            -- SetPedEyeColor(ped, 12, item, 0, 2)
-            -- skinData["arms"].item = item
             local newitem = (item / 10)
-            -- print(newitem)
             SetPedFaceFeature(ped, 5, newitem)
             skinData["nose_5"].item = item
         end
     elseif clothingCategory == "eyebrown_high" then
         if type == "item" then
-            -- SetPedEyeColor(ped, 12, item, 0, 2)
-            -- skinData["arms"].item = item
             local newitem = (item / 10)
-            -- print(newitem)
             SetPedFaceFeature(ped, 6, newitem)
             skinData["eyebrown_high"].item = item
         end
     elseif clothingCategory == "eyebrown_forward" then
         if type == "item" then
-            -- SetPedEyeColor(ped, 12, item, 0, 2)
-            -- skinData["arms"].item = item
             local newitem = (item / 10)
-            -- print(newitem)
             SetPedFaceFeature(ped, 7, newitem)
             skinData["eyebrown_forward"].item = item
         end
     elseif clothingCategory == "cheek_1" then
         if type == "item" then
-            -- SetPedEyeColor(ped, 12, item, 0, 2)
-            -- skinData["arms"].item = item
             local newitem = (item / 10)
-            -- print(newitem)
             SetPedFaceFeature(ped, 8, newitem)
             skinData["cheek_1"].item = item
         end
     elseif clothingCategory == "cheek_2" then
         if type == "item" then
-            -- SetPedEyeColor(ped, 12, item, 0, 2)
-            -- skinData["arms"].item = item
             local newitem = (item / 10)
-            -- print(newitem)
             SetPedFaceFeature(ped, 9, newitem)
             skinData["cheek_1"].item = item
         end
     elseif clothingCategory == "cheek_3" then
         if type == "item" then
-            -- SetPedEyeColor(ped, 12, item, 0, 2)
-            -- skinData["arms"].item = item
             local newitem = (item / 10)
-            -- print(newitem)
             SetPedFaceFeature(ped, 10, newitem)
             skinData["cheek_3"].item = item
         end
     elseif clothingCategory == "eye_opening" then
         if type == "item" then
-            -- SetPedEyeColor(ped, 12, item, 0, 2)
-            -- skinData["arms"].item = item
             local newitem = (item / 10)
-            -- print(newitem)
             SetPedFaceFeature(ped, 11, newitem)
             skinData["eye_opening"].item = item
         end
     elseif clothingCategory == "lips_thickness" then
         if type == "item" then
-            -- SetPedEyeColor(ped, 12, item, 0, 2)
-            -- skinData["arms"].item = item
             local newitem = (item / 10)
-            -- print(newitem)
             SetPedFaceFeature(ped, 12, newitem)
             skinData["lips_thickness"].item = item
         end
     elseif clothingCategory == "jaw_bone_width" then
         if type == "item" then
-            -- SetPedEyeColor(ped, 12, item, 0, 2)
-            -- skinData["arms"].item = item
             local newitem = (item / 10)
-            -- print(newitem)
             SetPedFaceFeature(ped, 13, newitem)
             skinData["jaw_bone_width"].item = item
         end
     elseif clothingCategory == "jaw_bone_back_lenght" then
         if type == "item" then
-            -- SetPedEyeColor(ped, 12, item, 0, 2)
-            -- skinData["arms"].item = item
             local newitem = (item / 10)
-            -- print(newitem)
             SetPedFaceFeature(ped, 14, newitem)
             skinData["jaw_bone_back_lenght"].item = item
         end
     elseif clothingCategory == "chimp_bone_lowering" then
         if type == "item" then
-            -- SetPedEyeColor(ped, 12, item, 0, 2)
-            -- skinData["arms"].item = item
             local newitem = (item / 10)
-            -- print(newitem)
             SetPedFaceFeature(ped, 15, newitem)
             skinData["chimp_bone_lowering"].item = item
         end
     elseif clothingCategory == "chimp_bone_lenght" then
         if type == "item" then
-            -- SetPedEyeColor(ped, 12, item, 0, 2)
-            -- skinData["arms"].item = item
             local newitem = (item / 10)
-            -- print(newitem)
             SetPedFaceFeature(ped, 16, newitem)
             skinData["chimp_bone_lenght"].item = item
         end
     elseif clothingCategory == "chimp_bone_width" then
         if type == "item" then
-            -- SetPedEyeColor(ped, 12, item, 0, 2)
-            -- skinData["arms"].item = item
             local newitem = (item / 10)
-            -- print(newitem)
             SetPedFaceFeature(ped, 17, newitem)
             skinData["chimp_bone_width"].item = item
         end
     elseif clothingCategory == "chimp_hole" then
         if type == "item" then
-            -- SetPedEyeColor(ped, 12, item, 0, 2)
-            -- skinData["arms"].item = item
             local newitem = (item / 10)
-            -- print(newitem)
             SetPedFaceFeature(ped, 18, newitem)
             skinData["chimp_hole"].item = item
         end
     elseif clothingCategory == "neck_thikness" then
         if type == "item" then
-            -- SetPedEyeColor(ped, 12, item, 0, 2)
-            -- skinData["arms"].item = item
             local newitem = (item / 10)
-            -- print(newitem)
             SetPedFaceFeature(ped, 19, newitem)
             skinData["chimp_hole"].item = item
         end
@@ -1521,31 +1459,6 @@ function ChangeVariation(data)
     end
 
     GetMaxValues()
-end
-
-function tprint (tbl, indent)
-    if not indent then indent = 0 end
-    local toprint = string.rep(" ", indent) .. "{\r\n"
-    indent = indent + 2
-    for k, v in pairs(tbl) do
-      toprint = toprint .. string.rep(" ", indent)
-      if (type(k) == "number") then
-        toprint = toprint .. "[" .. k .. "] = "
-      elseif (type(k) == "string") then
-        toprint = toprint  .. k ..  "= "
-      end
-      if (type(v) == "number") then
-        toprint = toprint .. v .. ",\r\n"
-      elseif (type(v) == "string") then
-        toprint = toprint .. "\"" .. v .. "\",\r\n"
-      elseif (type(v) == "table") then
-        toprint = toprint .. tprint(v, indent + 2) .. ",\r\n"
-      else
-        toprint = toprint .. "\"" .. tostring(v) .. "\",\r\n"
-      end
-    end
-    toprint = toprint .. string.rep(" ", indent-2) .. "}"
-    return toprint
 end
 
 function ChangeToSkinNoUpdate(skin)
