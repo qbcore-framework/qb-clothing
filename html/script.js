@@ -426,9 +426,9 @@ QBClothing.Open = function(data) {
             $(".clothing-menu-" + menu.menu + "-container").css({ "display": "block" });
 
             if (menu.label == "Clothing") {
-                $("#faceoption").css("display", "none");
+                $(".faceoption").css("display", "none");
             } else {
-                $("#faceoption").css("display", "block");
+                $(".faceoption").css("display", "block");
             }
 
             selectedTab = "." + menu.menu + "Tab";
