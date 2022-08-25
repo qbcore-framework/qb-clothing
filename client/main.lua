@@ -393,10 +393,13 @@ if Config.UseTarget then
                 opts = {
                     action = function()
                         customCamLocation = nil
-                        openMenu({
-                            {menu = "character", label = "Clothing", selected = true},
-                            {menu = "accessoires", label = "Accessories", selected = false}
-                        })
+                        QBCore.Functions.TriggerCallback('qb-clothing:server:getOutfits', function(result)
+                            openMenu({
+                                {menu = "character", label = "Clothing", selected = true},
+                                {menu = "accessoires", label = "Accessories", selected = false},
+                                {menu = "myOutfits", label = "My Outfits", selected = false, outfits = result}
+                            })
+                        end)
                     end,
                     icon = "fas fa-clothes-hanger",
                     label = "Clothing Store",
@@ -544,10 +547,13 @@ else
                 elseif zoneName == 'clothing' then
                     if IsControlJustReleased(0, 38) then
                         customCamLocation = nil
-                        openMenu({
-                            {menu = "character", label = "Clothing", selected = true},
-                            {menu = "accessoires", label = "Accessories", selected = false}
-                        })
+                        QBCore.Functions.TriggerCallback('qb-clothing:server:getOutfits', function(result)
+                            openMenu({
+                                {menu = "character", label = "Clothing", selected = true},
+                                {menu = "accessoires", label = "Accessories", selected = false},
+                                {menu = "myOutfits", label = "My Outfits", selected = false, outfits = result}
+                            })
+                        end)
                     end
                 elseif zoneName == 'barber' then
                     if IsControlJustReleased(0, 38) then
