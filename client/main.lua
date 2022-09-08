@@ -489,7 +489,7 @@ else
                 if zoneName == 'surgeon' then
                     exports['qb-core']:DrawText('[E] - Plastic Surgery', 'left')
                 elseif zoneName == 'clothing' then
-                    exports['qb-core']:DrawText('[E] - Clothing Shop', 'left')
+                    exports['qb-core']:DrawText('[E] Clothing [G] Outfits', 'left')
                 elseif zoneName == 'barber' then
                     exports['qb-core']:DrawText('[E] - Barber', 'left')
                 end
