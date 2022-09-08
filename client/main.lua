@@ -548,6 +548,10 @@ else
                             {menu = "character", label = "Clothing", selected = true},
                             {menu = "accessoires", label = "Accessories", selected = false}
                         })
+                    elseif IsControlJustReleased(0, 47) then
+                        customCamLocation = nil
+                        TriggerServerEvent("InteractSound_SV:PlayOnSource", "Clothes1", 0.4)
+                        TriggerEvent('qb-clothing:client:openOutfitMenu')
                     end
                 elseif zoneName == 'barber' then
                     if IsControlJustReleased(0, 38) then
