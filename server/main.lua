@@ -16,7 +16,6 @@ AddEventHandler('qb-clothing:saveSkin', function(model, skin)
         end)
     end
 end)
-
 RegisterServerEvent("qb-clothes:loadPlayerSkin")
 AddEventHandler('qb-clothes:loadPlayerSkin', function()
     local src = source
@@ -28,7 +27,6 @@ AddEventHandler('qb-clothes:loadPlayerSkin', function()
         TriggerClientEvent("qb-clothes:loadSkin", src, true)
     end
 end)
-
 RegisterServerEvent("qb-clothes:saveOutfit")
 AddEventHandler("qb-clothes:saveOutfit", function(outfitName, model, skinData)
     local src = source
@@ -51,7 +49,6 @@ AddEventHandler("qb-clothes:saveOutfit", function(outfitName, model, skinData)
         end)
     end
 end)
-
 RegisterServerEvent("qb-clothing:server:removeOutfit")
 AddEventHandler("qb-clothing:server:removeOutfit", function(outfitName, outfitId)
     local src = source
@@ -69,7 +66,6 @@ AddEventHandler("qb-clothing:server:removeOutfit", function(outfitName, outfitId
         end
     end)
 end)
-
 QBCore.Functions.CreateCallback('qb-clothing:server:getOutfits', function(source, cb)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
