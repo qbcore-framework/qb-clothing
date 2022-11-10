@@ -353,30 +353,6 @@ local faceProps = {
     [6] = { ["Prop"] = -1, ["Palette"] = -1, ["Texture"] = -1 }, -- this is actually a pedtexture variations, not a prop
 }
 -- Functions
-local function tprint (tbl, indent)
-    if not indent then indent = 0 end
-    local toprint = string.rep(" ", indent) .. "{\r\n"
-    indent = indent + 2
-    for k, v in pairs(tbl) do
-      toprint = toprint .. string.rep(" ", indent)
-      if (type(k) == "number") then
-        toprint = toprint .. "[" .. k .. "] = "
-      elseif (type(k) == "string") then
-        toprint = toprint  .. k ..  "= "
-      end
-      if (type(v) == "number") then
-        toprint = toprint .. v .. ",\r\n"
-      elseif (type(v) == "string") then
-        toprint = toprint .. "\"" .. v .. "\",\r\n"
-      elseif (type(v) == "table") then
-        toprint = toprint .. tprint(v, indent + 2) .. ",\r\n"
-      else
-        toprint = toprint .. "\"" .. tostring(v) .. "\",\r\n"
-      end
-    end
-    toprint = toprint .. string.rep(" ", indent-2) .. "}"
-    return toprint
-end
 function GetMaxValues()
     local maxModelValues = {
         ["arms"]        = {type = "character", item = 0, texture = 0},
@@ -656,17 +632,6 @@ local function resetClothing(data)
     else
         ClearPedProp(ped, 7)
     end
-end
-local function SetBlip(conf)
-    local blip = AddBlipForCoord(conf.coords.x, conf.coords.y, conf.coords.z)
-    SetBlipSprite(blip, conf.blipNumber)
-    SetBlipAsShortRange(blip, conf.blipNumber)
-    SetBlipScale(blip, conf.blipScale)
-    SetBlipColour(blip, conf.blipColor)
-    SetBlipDisplay(blip, conf.blipDisplay)
-    BeginTextCommandSetBlipName("STRING")
-    AddTextComponentString(conf.blipName)
-    EndTextCommandSetBlipName(blip)
 end
 local function GetPositionByRelativeHeading(ped, head, dist)
     local pedPos = GetEntityCoords(ped)
@@ -1234,7 +1199,7 @@ end
 exports('IsCreatingCharacter', function()
     return creatingCharacter
 end)
-local function getOutfits(requiredJob, gradeLevel, data)
+local function getOutfits(gradeLevel, data)
     local gender = "male"
     if QBCore.Functions.GetPlayerData().charinfo.gender == 1 then gender = "female" end
     QBCore.Functions.TriggerCallback('qb-clothing:server:getOutfits', function(result)
@@ -1941,13 +1906,13 @@ if Config.UseTarget then
                 action = function()
                     customCamLocation = v.cameraLocation
                     local gradeLevel = PlayerData.gang.grade.level
-                    getOutfits(v.requiredJob, gradeLevel, Config.Outfits[v.requiredJob])
+                    getOutfits(gradeLevel, Config.ClothingRooms[v.requiredJob])
                 end
             else
                 action = function()
                     customCamLocation = v.cameraLocation
                     local gradeLevel = PlayerData.job.grade.level
-                    getOutfits(v.requiredJob, gradeLevel, Config.Outfits[v.requiredJob])
+                    getOutfits(gradeLevel, Config.ClothingRooms[v.requiredJob])
                 end
             end
 
@@ -2063,7 +2028,7 @@ else
                         customCamLocation = clothingRoom.cameraLocation
 
                         local gradeLevel = clothingRoom.isGang and PlayerData.gang.grade.level or PlayerData.job.grade.level
-                        getOutfits(clothingRoom.requiredJob, gradeLevel, Config.Outfits[clothingRoom.requiredJob])
+                        getOutfits(gradeLevel, Config.Outfits[clothingRoom.requiredJob])
                     end
                 end
             end
