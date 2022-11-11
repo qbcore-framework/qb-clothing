@@ -1842,7 +1842,6 @@ Citizen.CreateThread(function()
         end
     end
 end)
-QBCore.Debug(Config.ClothingRooms)
 if Config.UseTarget then
     CreateThread(function()
         for k, v in pairs(Config.Stores) do
