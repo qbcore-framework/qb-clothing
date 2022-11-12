@@ -1907,13 +1907,13 @@ if Config.UseTarget then
                     local gradeLevel = PlayerData.gang.grade.level
                     getOutfits(gradeLevel, Config.ClothingRooms[v.requiredJob])
                 end
-            else
+            elseif not QBCore.Shared.QBJobsStatus then
                 action = function()
                     customCamLocation = v.cameraLocation
                     local gradeLevel = PlayerData.job.grade.level
                     getOutfits(gradeLevel, Config.ClothingRooms[v.requiredJob])
                 end
-            end
+            else break end --this break is important if QBJobsStatus is true then the reste of the code in this loop does not need to run.
 
             exports['qb-target']:AddBoxZone('clothing_' .. v.requiredJob .. k, v.coords, v.length, v.width, {
                 name = 'clothing_' .. v.requiredJob .. k,
@@ -1964,33 +1964,33 @@ else
                 exports['qb-core']:HideText()
             end
         end)
-
-        local roomZones = {}
-        for k,v in pairs(Config.ClothingRooms) do
-            roomZones[#roomZones+1] = BoxZone:Create(
-                v.coords, v.length, v.width, {
-                name = 'ClothingRooms_' .. k,
-                minZ = v.coords.z - 2,
-                maxZ = v.coords.z + 2,
-                debugPoly = false,
-            })
-        end
-
-        local clothingRoomsCombo = ComboZone:Create(roomZones, {name = "clothingRoomsCombo", debugPoly = false})
-        clothingRoomsCombo:onPlayerInOut(function(isPointInside, _, zone)
-            if isPointInside then
-                local zoneID = tonumber(QBCore.Shared.SplitStr(zone.name, "_")[2])
-                local job = Config.ClothingRooms[zoneID].isGang and PlayerData.gang.name or PlayerData.job.name
-                if (job == Config.ClothingRooms[zoneID].requiredJob) then
-                    zoneName = zoneID
-                    inZone = true
-                    exports['qb-core']:DrawText('[E] - Clothing Shop', 'left')
-                end
-            else
-                inZone = false
-                exports['qb-core']:HideText()
+        if not QBCore.Shared.QBJobsStatus or PlayerData.gang.name then
+            local roomZones = {}
+            for k,v in pairs(Config.ClothingRooms) do
+                roomZones[#roomZones+1] = BoxZone:Create(
+                    v.coords, v.length, v.width, {
+                    name = 'ClothingRooms_' .. k,
+                    minZ = v.coords.z - 2,
+                    maxZ = v.coords.z + 2,
+                    debugPoly = false,
+                })
             end
-        end)
+            local clothingRoomsCombo = ComboZone:Create(roomZones, {name = "clothingRoomsCombo", debugPoly = false})
+            clothingRoomsCombo:onPlayerInOut(function(isPointInside, _, zone)
+                if isPointInside then
+                    local zoneID = tonumber(QBCore.Shared.SplitStr(zone.name, "_")[2])
+                    local job = Config.ClothingRooms[zoneID].isGang and PlayerData.gang.name or PlayerData.job.name
+                    if (job == Config.ClothingRooms[zoneID].requiredJob) then
+                        zoneName = zoneID
+                        inZone = true
+                        exports['qb-core']:DrawText('[E] - Clothing Shop', 'left')
+                    end
+                else
+                    inZone = false
+                    exports['qb-core']:HideText()
+                end
+            end)
+        end
     end)
     -- Clothing Thread
     CreateThread(function ()
