@@ -142,6 +142,7 @@ Config.WomanPlayerModels = {
     'a_f_y_femaleagent',
     'a_f_y_hippie_01'
 }
+
 Config.ManPlayerModels = {
     'mp_m_freemode_01',
     'ig_trafficwarden',
@@ -501,11 +502,14 @@ Config.ManPlayerModels = {
     'g_m_m_chigoon_02_m',
     'a_m_o_acult_01'
 }
+
 Config.LoadedManModels = {}
 Config.LoadedWomanModels = {}
+
 -- Set to true or false or GetConvar('UseTarget', 'false') == 'true' to use global option or script specific
 -- These have to be a string thanks to how Convars are returned.
 Config.UseTarget = GetConvar('UseTarget', 'false') == 'true'
+
 -- width, length, minZ and maxZ are for the size and height of the PolyZone
 Config.Stores = {
     [1] = {shopType = 'clothing', coords = vector3(1693.32, 4823.48, 41.06), width = 2, length = 2},
@@ -531,6 +535,7 @@ Config.Stores = {
     [21] = {shopType = 'barber', coords = vector3(-32.9, -152.3, 56.1), width = 2, length = 2},
     [22] = {shopType = 'barber', coords = vector3(-278.1, 6228.5, 30.7), width = 2, length = 2}
 }
+
 -- set isGang to true if the requiredJob is a gang
 Config.ClothingRooms = {
     [1] = {requiredJob = 'police', isGang = false, coords = vector3(454.43, -988.85, 30.69), width = 2, length = 2, cameraLocation = vector4(454.42, -990.52, 30.69, 358.48)},
@@ -541,6 +546,7 @@ Config.ClothingRooms = {
     [6] = {requiredJob = 'police', isGang = false, coords = vector3(-77.59, -129.17, 5.03), width = 2, length = 2, cameraLocation = vector4(-80.36, -130.76, 5.03, 300.44)},
     [7] = {requiredJob = "realestate", isGang = false, coords = vector3(-131.45, -633.74, 168.82), width = 2, length = 2, cameraLocation = vector4(-131.45, -633.74, 168.82,  2.18)}
 }
+
 Config.Outfits = {
     ['police'] = {
         -- Job
