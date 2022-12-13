@@ -1,10 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-RegisterNetEvent('QBCore:Server:UpdateObject', function()
-	if source ~= '' then return false end
-	QBCore = exports['qb-core']:GetCoreObject()
-end)
-RegisterServerEvent("qb-clothing:saveSkin")
-AddEventHandler('qb-clothing:saveSkin', function(model, skin)
+
+RegisterServerEvent("qb-clothing:saveSkin", function(model, skin)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     if model ~= nil and skin ~= nil then
@@ -19,8 +15,8 @@ AddEventHandler('qb-clothing:saveSkin', function(model, skin)
         end)
     end
 end)
-RegisterServerEvent("qb-clothes:loadPlayerSkin")
-AddEventHandler('qb-clothes:loadPlayerSkin', function()
+
+RegisterServerEvent("qb-clothes:loadPlayerSkin", function()
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local result = MySQL.query.await('SELECT * FROM playerskins WHERE citizenid = ? AND active = ?', { Player.PlayerData.citizenid, 1 })
@@ -30,8 +26,8 @@ AddEventHandler('qb-clothes:loadPlayerSkin', function()
         TriggerClientEvent("qb-clothes:loadSkin", src, true)
     end
 end)
-RegisterServerEvent("qb-clothes:saveOutfit")
-AddEventHandler("qb-clothes:saveOutfit", function(outfitName, model, skinData)
+
+RegisterServerEvent("qb-clothes:saveOutfit", function(outfitName, model, skinData)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     if model ~= nil and skinData ~= nil then
@@ -52,8 +48,8 @@ AddEventHandler("qb-clothes:saveOutfit", function(outfitName, model, skinData)
         end)
     end
 end)
-RegisterServerEvent("qb-clothing:server:removeOutfit")
-AddEventHandler("qb-clothing:server:removeOutfit", function(outfitName, outfitId)
+
+RegisterServerEvent("qb-clothing:server:removeOutfit", function(outfitName, outfitId)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     MySQL.query('DELETE FROM player_outfits WHERE citizenid = ? AND outfitname = ? AND outfitId = ?', {
@@ -69,6 +65,7 @@ AddEventHandler("qb-clothing:server:removeOutfit", function(outfitName, outfitId
         end
     end)
 end)
+
 QBCore.Functions.CreateCallback('qb-clothing:server:getOutfits', function(source, cb)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
