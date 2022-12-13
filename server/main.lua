@@ -1,5 +1,8 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-
+RegisterNetEvent('QBCore:Server:UpdateObject', function()
+	if source ~= '' then return false end
+	QBCore = exports['qb-core']:GetCoreObject()
+end)
 RegisterServerEvent("qb-clothing:saveSkin")
 AddEventHandler('qb-clothing:saveSkin', function(model, skin)
     local src = source

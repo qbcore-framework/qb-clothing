@@ -1217,6 +1217,9 @@ AddEventHandler('onResourceStart', function(resourceName)
     if (GetCurrentResourceName() ~= resourceName) then return end
     PlayerData = QBCore.Functions.GetPlayerData()
 end)
+RegisterNetEvent('QBCore:Client:UpdateObject', function()
+	QBCore = exports['qb-core']:GetCoreObject()
+end)
 RegisterNetEvent('qb-clothing:client:openMenu')
 AddEventHandler('qb-clothing:client:openMenu', function()
     customCamLocation = nil
@@ -1660,7 +1663,7 @@ end)
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     TriggerServerEvent("qb-clothes:loadPlayerSkin")
     PlayerData = QBCore.Functions.GetPlayerData()
-    QBCore.Shared.Jobs = exports['qb-jobs']:AddJobs()
+--    QBCore.Shared.Jobs = exports['qb-jobs']:AddJobs()
 end)
 RegisterNetEvent('QBCore:Client:OnJobUpdate', function(JobInfo)
     PlayerData.job = JobInfo
@@ -1964,7 +1967,7 @@ else
                 exports['qb-core']:HideText()
             end
         end)
-        if not QBCore.Shared.QBJobsStatus or PlayerData.gang.name then
+        if PlayerData.gang and PlayerData.gang.name then
             local roomZones = {}
             for k,v in pairs(Config.ClothingRooms) do
                 roomZones[#roomZones+1] = BoxZone:Create(
@@ -1979,7 +1982,7 @@ else
             clothingRoomsCombo:onPlayerInOut(function(isPointInside, _, zone)
                 if isPointInside then
                     local zoneID = tonumber(QBCore.Shared.SplitStr(zone.name, "_")[2])
-                    local job = Config.ClothingRooms[zoneID].isGang and PlayerData.gang.name or PlayerData.job.name
+                    local job = Config.ClothingRooms[zoneID].isGang and PlayerData.gang.name or (not QBCore.Shared.QBJobsStatus and PlayerData.job.name)
                     if (job == Config.ClothingRooms[zoneID].requiredJob) then
                         zoneName = zoneID
                         inZone = true
@@ -2026,7 +2029,7 @@ else
                         local clothingRoom = Config.ClothingRooms[zoneName]
                         customCamLocation = clothingRoom.cameraLocation
 
-                        local gradeLevel = clothingRoom.isGang and PlayerData.gang.grade.level or PlayerData.job.grade.level
+                        local gradeLevel = clothingRoom.isGang and PlayerData.gang.grade.level or (not QBCore.Shared.QBJobsStatus and PlayerData.job.grade.level)
                         getOutfits(gradeLevel, Config.Outfits[clothingRoom.requiredJob])
                     end
                 end
