@@ -1663,7 +1663,6 @@ end)
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     TriggerServerEvent("qb-clothes:loadPlayerSkin")
     PlayerData = QBCore.Functions.GetPlayerData()
---    QBCore.Shared.Jobs = exports['qb-jobs']:AddJobs()
 end)
 RegisterNetEvent('QBCore:Client:OnJobUpdate', function(JobInfo)
     PlayerData.job = JobInfo
