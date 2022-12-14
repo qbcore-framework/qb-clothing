@@ -1200,11 +1200,23 @@ exports('IsCreatingCharacter', function()
     return creatingCharacter
 end)
 local function getOutfits(gradeLevel, data)
+    local function processOutfits(res)
+        local output = {}
+        for k, v in pairs(res) do
+            for _,v1 in pairs(v.authGrades) do
+                if v1 == gradeLevel then
+                    output[k] = v
+                end
+            end
+        end
+        return output
+    end
     local gender = "male"
     if QBCore.Functions.GetPlayerData().charinfo.gender == 1 then gender = "female" end
+    local outfits = processOutfits(data[gender])
     QBCore.Functions.TriggerCallback('qb-clothing:server:getOutfits', function(result)
         openMenu({
-            {menu = "roomOutfits", label = "Presets", selected = true, outfits = data[gender][gradeLevel]},
+            {menu = "roomOutfits", label = "Presets", selected = true, outfits = outfits},
             {menu = "myOutfits", label = "My Outfits", selected = false, outfits = result},
             {menu = "character", label = "Clothing", selected = false},
             {menu = "accessoires", label = "Accessories", selected = false}
