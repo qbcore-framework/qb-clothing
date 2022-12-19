@@ -19,4 +19,4 @@ CREATE TABLE IF NOT EXISTS `player_outfits` (
   PRIMARY KEY (`id`),
   KEY `citizenid` (`citizenid`),
   KEY `outfitId` (`outfitId`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT DEFAULT CHARSET=utf8mb4;
