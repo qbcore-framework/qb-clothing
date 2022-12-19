@@ -21,6 +21,7 @@ Clothing for QB-Core Framework :dress:
 
 ## Dependencies
 - [qb-core](https://github.com/qbcore-framework/qb-core)
+- [PolyZone](https://github.com/mkafrin/PolyZone)
 
 ## Screenshots
 ![image](https://user-images.githubusercontent.com/66404074/153545004-6337e685-d3a5-478c-8fa2-e50f4b1d2030.png)
