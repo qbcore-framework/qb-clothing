@@ -1195,6 +1195,21 @@ local function reloadSkin(health)
     Citizen.Wait(1000) -- Safety Delay
     SetEntityHealth(PlayerPedId(), health)
 end
+local function propsStayOn()
+    if Config.propsStayOn then
+        local previousPed = nil
+        CreateThread(function()
+            SetPedCanLosePropsOnDamage(PlayerPedId(), false, 0)
+            while true do
+                if previousPed ~= PlayerPedId() then
+                    previousPed = PlayerPedId()
+                    SetPedCanLosePropsOnDamage(PlayerPedId(), false, 0)
+                end
+                Wait(5000)
+            end
+        end)
+    end
+end
 -- Exports
 exports('IsCreatingCharacter', function()
     return creatingCharacter
@@ -1240,7 +1255,7 @@ AddEventHandler('onResourceStart', function(resourceName)
     PlayerData = QBCore.Functions.GetPlayerData()
 end)
 RegisterNetEvent('QBCore:Client:UpdateObject', function()
-	QBCore = exports['qb-core']:GetCoreObject()
+    QBCore = exports['qb-core']:GetCoreObject()
 end)
 RegisterNetEvent('qb-clothing:client:openMenu')
 AddEventHandler('qb-clothing:client:openMenu', function()
@@ -2059,3 +2074,6 @@ else
         end
     end)
 end
+CreateThread(function ()
+    propsStayOn()
+end)

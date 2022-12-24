@@ -1,6 +1,8 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 Config = Config or {}
 
+Config.propsStayOn = true -- true = accessories stay on after being attacked | false = accessories fall off after being attacked.
+
 Config.WomanPlayerModels = {
     'mp_f_freemode_01',
     'a_f_m_beach_01',
