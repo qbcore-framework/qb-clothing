@@ -592,7 +592,7 @@ if not QBCore.Shared.QBJobsStatus then
                         }
                     }
                 },
-    			-- Gender
+                -- Gender
                 [1] = {
                     -- Grade Level
                     [1] = {
@@ -645,7 +645,7 @@ if not QBCore.Shared.QBJobsStatus then
                         }
                     }
                 },
-    			-- Gender
+                -- Gender
                 [2] = {
                     -- Grade Level
                     [1] = {
@@ -714,7 +714,7 @@ if not QBCore.Shared.QBJobsStatus then
                         }
                     }
                 },
-    			-- Gender
+                -- Gender
                 [3] = {
                     -- Grade Level
                     [1] = {
@@ -798,7 +798,7 @@ if not QBCore.Shared.QBJobsStatus then
                         }
                     }
                 },
-    			-- Gender
+                -- Gender
                 [4] = {
                     -- Grade Level
                     [1] = {
@@ -972,7 +972,7 @@ if not QBCore.Shared.QBJobsStatus then
                         }
                     }
                 },
-    			-- Gender
+                -- Gender
                 [2] = {
                     -- Grade Level
                     [1] = {
@@ -1040,7 +1040,7 @@ if not QBCore.Shared.QBJobsStatus then
                         }
                     }
                 },
-    			-- Gender
+                -- Gender
                 [3] = {
                     -- Grade Level
                     [1] = {
@@ -1124,7 +1124,7 @@ if not QBCore.Shared.QBJobsStatus then
                         }
                     }
                 },
-    			-- Gender
+                -- Gender
                 [4] = {
                     -- Grade Level
                     [1] = {
@@ -1234,7 +1234,7 @@ if not QBCore.Shared.QBJobsStatus then
                         }
                     }
                 },
-    			-- Gender
+                -- Gender
                 [1] = {
                     -- Grade Level
                     [1] = {
@@ -1255,7 +1255,7 @@ if not QBCore.Shared.QBJobsStatus then
                         }
                     }
                 },
-    			-- Gender
+                -- Gender
                 [2] = {
                     -- Grade Level
                     [1] = {
@@ -1276,7 +1276,7 @@ if not QBCore.Shared.QBJobsStatus then
                         }
                     }
                 },
-    			-- Gender
+                -- Gender
                 [3] = {
                     -- Grade Level
                     [1] = {
@@ -1297,7 +1297,7 @@ if not QBCore.Shared.QBJobsStatus then
                         }
                     }
                 },
-    			-- Gender
+                -- Gender
                 [4] = {
                     -- Grade Level
                     [1] = {
@@ -1360,7 +1360,7 @@ if not QBCore.Shared.QBJobsStatus then
                         }
                     }
                 },
-    			-- Gender
+                -- Gender
                 [2] = {
                     -- Grade Level
                     [1] = {
@@ -1380,7 +1380,7 @@ if not QBCore.Shared.QBJobsStatus then
                         }
                     }
                 },
-    			-- Gender
+                -- Gender
                 [3] = {
                     -- Grade Level
                     [1] = {
@@ -1400,7 +1400,7 @@ if not QBCore.Shared.QBJobsStatus then
                         }
                     }
                 },
-    			-- Gender
+                -- Gender
                 [4] = {
                     -- Grade Level
                     [1] = {
