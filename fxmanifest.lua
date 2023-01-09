@@ -6,7 +6,12 @@ version '1.2.0'
 
 ui_page 'html/index.html'
 
-shared_script 'config.lua'
+shared_scripts {
+    '@qb-core/shared/locale.lua',
+    'locales/en.lua',
+    'locales/*.lua',
+    'config.lua'
+}
 
 server_scripts {
     '@oxmysql/lib/MySQL.lua',
