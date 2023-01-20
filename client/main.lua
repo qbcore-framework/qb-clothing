@@ -1944,13 +1944,13 @@ if Config.UseTarget then
                 action = function()
                     customCamLocation = v.cameraLocation
                     local gradeLevel = PlayerData.gang.grade.level
-                    getOutfits(gradeLevel, Config.ClothingRooms[v.requiredJob])
+                    getOutfits(gradeLevel, Config.Outfits[v.requiredJob])
                 end
             elseif not QBCore.Shared.QBJobsStatus then
                 action = function()
                     customCamLocation = v.cameraLocation
                     local gradeLevel = PlayerData.job.grade.level
-                    getOutfits(gradeLevel, Config.ClothingRooms[v.requiredJob])
+                    getOutfits(gradeLevel, Config.Outfits[v.requiredJob])
                 end
             else break end --this break is important if QBJobsStatus is true then the reste of the code in this loop does not need to run.
 
