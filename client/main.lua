@@ -1989,7 +1989,7 @@ else
                 if (job == Config.ClothingRooms[zoneID].requiredJob) then
                     zoneName = zoneID
                     inZone = true
-                    exports['qb-core']:DrawText('[E] Abrir Vestuario', 'left')
+                    exports['qb-core']:DrawText('[E] - Clothing Shop', 'left')
                 end
             else
                 inZone = false
