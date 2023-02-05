@@ -1215,12 +1215,13 @@ exports('IsCreatingCharacter', function()
     return creatingCharacter
 end)
 local function getOutfits(gradeLevel, data)
+    gradeLevel = tonumber(gradeLevel)
     local function processOutfits(res)
         local output = {}
-        for k, v in pairs(res) do
+        for _,v in pairs(res) do
             for _,v1 in pairs(v.authGrades) do
                 if v1 == gradeLevel then
-                    output[k] = v
+                    output[#output+1] = v
                 end
             end
         end
