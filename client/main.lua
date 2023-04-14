@@ -497,6 +497,7 @@ local function enableCam()
 
     if customCamLocation ~= nil then
         SetCamCoord(cam, customCamLocation.x, customCamLocation.y, customCamLocation.z)
+	SetCamRot(cam, 0.0, 0.0, customCamLocation.w)
     end
 
     headingToCam = GetEntityHeading(PlayerPedId()) + 90
