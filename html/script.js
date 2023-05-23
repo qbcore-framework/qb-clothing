@@ -427,6 +427,10 @@ QBClothing.Open = function(data) {
 
             if (menu.label == "Clothing") {
                 $("#faceoption").css("display", "none");
+                $('div[data-type="face"]').css("display", "none");
+                $('div[data-type="face2"]').css("display", "none");
+                $('div[data-type="facemix"]').css("display", "none");
+                $('div[data-type="model"]').css("display", "none");
             } else {
                 $("#faceoption").css("display", "block");
             }
