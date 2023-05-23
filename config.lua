@@ -536,6 +536,24 @@ Config.Stores = {
     [22] = {shopType = 'barber', coords = vector3(-278.1, 6228.5, 30.7), width = 2, length = 2}
 }
 
+Config.OutfitChangers = {
+    [1] = {shopType = 'outfit', coords = vector3(1697.41, 4829.25, 41.06), width = 2, length = 2},
+    [2] = {shopType = 'outfit', coords = vector3(-703.83, -151.67, 36.42), width = 2, length = 2},
+    [3] = {shopType = 'outfit', coords = vector3(-1187.19, -768.64, 16.33), width = 2, length = 2},
+    [4] = {shopType = 'outfit', coords = vector3(429.5, -800.15, 28.49), width = 2, length = 2},
+    [5] = {shopType = 'outfit', coords = vector3(-168.21, -298.7, 38.73), width = 2, length = 2},
+    [6] = {shopType = 'outfit', coords = vector3(71.06, -1399.17, 28.38), width = 2, length = 2},
+    [7] = {shopType = 'outfit', coords = vector3(-829.72, -1073.33, 10.33), width = 2, length = 2},
+    [8] = {shopType = 'outfit', coords = vector3(-1447.51, -242.81, 48.82), width = 2, length = 2},
+    [9] = {shopType = 'outfit', coords = vector3(12.28, 6513.63, 30.88), width = 2, length = 2},
+    [10] = {shopType = 'outfit', coords = vector3(617.89, 2766.79, 41.09), width = 2, length = 2},
+    [11] = {shopType = 'outfit', coords = vector3(1190.35, 2714.51, 37.22), width = 2, length = 2},
+    [12] = {shopType = 'outfit', coords = vector3(-3175.64, 1041.84, 19.86), width = 2, length = 2},
+    [13] = {shopType = 'outfit', coords = vector3(-1108.95, 2709.37, 18.11), width = 2, length = 2},
+    [14] = {shopType = 'outfit', coords = vector3(-1203.79, -1454.53, 3.38), width = 2, length = 2},
+    [15] = {shopType = 'outfit', coords = vector3(120.44, -227.38, 53.56), width = 2, length = 2}
+}
+
 -- set isGang to true if the requiredJob is a gang
 Config.ClothingRooms = {
     [1] = {requiredJob = 'police', isGang = false, coords = vector3(454.43, -988.85, 30.69), width = 2, length = 2, cameraLocation = vector4(454.42, -990.52, 30.69, 358.48)},

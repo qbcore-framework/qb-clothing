@@ -1950,6 +1950,16 @@ else
             })
         end
 
+        for _, v in pairs(Config.OutfitChangers) do
+            zones[#zones+1] = BoxZone:Create(
+                v.coords, v.length, v.width, {
+                name = v.shopType,
+                minZ = v.coords.z - 2,
+                maxZ = v.coords.z + 2,
+                debugPoly = false,
+            })
+        end
+
         local clothingCombo = ComboZone:Create(zones, {name = "clothingCombo", debugPoly = false})
         clothingCombo:onPlayerInOut(function(isPointInside, _, zone)
             if isPointInside then
@@ -1961,6 +1971,8 @@ else
                     exports['qb-core']:DrawText('[E] - Clothing Shop', 'left')
                 elseif zoneName == 'barber' then
                     exports['qb-core']:DrawText('[E] - Barber', 'left')
+                elseif zoneName == 'outfit' then 
+                    exports['qb-core']:DrawText('[E] - Outfit Changer', 'left')
                 end
             else
                 inZone = false
@@ -2023,6 +2035,11 @@ else
                         openMenu({
                             {menu = "clothing", label = "Hair", selected = true},
                         })
+                    end
+                elseif zoneName == 'outfit' then
+                    if IsControlJustReleased(0, 38) then
+                        customCamLocation = nil
+                        TriggerEvent('qb-clothing:client:openOutfitMenu')
                     end
                 elseif not QBCore.Shared.QBJobsStatus then
                     if IsControlJustReleased(0, 38) then
