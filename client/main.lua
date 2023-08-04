@@ -1233,7 +1233,7 @@ AddEventHandler('qb-clothing:client:openMenu', function()
     customCamLocation = nil
     openMenu({
         {menu = "character", label = Lang:t("menu.features"), selected = true},
-        {menu = "clothing", label = Lang:t("menu.clothing"), selected = false},
+        {menu = "clothing", label = Lang:t("menu.character"), selected = false},
         {menu = "accessoires", label = Lang:t("menu.accessoires"), selected = false}
     })
 end)
@@ -2011,7 +2011,7 @@ function loadStores()
                                 if (job == Config.ClothingRooms[zoneID].requiredJob) then
                                     zoneName = zoneID
                                     inZone = true
-                                    exports['qb-core']:DrawText('[E] - Clothing Shop', 'left')
+                                    exports['qb-core']:DrawText('[E] - '..Lang:t("store.clothing"), 'left')
                                 end
                             else
                                 inZone = false
