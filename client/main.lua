@@ -11,338 +11,102 @@ local zoneName = nil
 local inZone = false
 local removeWear = false
 local skinData = {
-    ["face"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["face2"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["facemix"] = {
-        skinMix = 0,
-        shapeMix = 0,
-        defaultSkinMix = 0.0,
-        defaultShapeMix = 0.0,
-    },
-    ["pants"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["hair"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["eyebrows"] = {
-        item = -1,
-        texture = 1,
-        defaultItem = -1,
-        defaultTexture = 1,
-    },
-    ["beard"] = {
-        item = -1,
-        texture = 1,
-        defaultItem = -1,
-        defaultTexture = 1,
-    },
-    ["blush"] = {
-        item = -1,
-        texture = 1,
-        defaultItem = -1,
-        defaultTexture = 1,
-    },
-    ["lipstick"] = {
-        item = -1,
-        texture = 1,
-        defaultItem = -1,
-        defaultTexture = 1,
-    },
-    ["makeup"] = {
-        item = -1,
-        texture = 1,
-        defaultItem = -1,
-        defaultTexture = 1,
-    },
-    ["ageing"] = {
-        item = -1,
-        texture = 0,
-        defaultItem = -1,
-        defaultTexture = 0,
-    },
-    ["arms"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["t-shirt"] = {
-        item = 1,
-        texture = 0,
-        defaultItem = 1,
-        defaultTexture = 0,
-    },
-    ["torso2"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["vest"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["bag"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["shoes"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 1,
-        defaultTexture = 0,
-    },
-    ["mask"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["hat"] = {
-        item = -1,
-        texture = 0,
-        defaultItem = -1,
-        defaultTexture = 0,
-    },
-    ["glass"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["ear"] = {
-        item = -1,
-        texture = 0,
-        defaultItem = -1,
-        defaultTexture = 0,
-    },
-    ["watch"] = {
-        item = -1,
-        texture = 0,
-        defaultItem = -1,
-        defaultTexture = 0,
-    },
-    ["bracelet"] = {
-        item = -1,
-        texture = 0,
-        defaultItem = -1,
-        defaultTexture = 0,
-    },
-    ["accessory"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["decals"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["eye_color"] = {
-        item = -1,
-        texture = 0,
-        defaultItem = -1,
-        defaultTexture = 0,
-    },
-    ["moles"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = -1,
-        defaultTexture = 0,
-    },
-    ["nose_0"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["nose_1"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["nose_2"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["nose_3"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-
-    ["nose_4"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["nose_5"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["cheek_1"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["cheek_2"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["cheek_3"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["eye_opening"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["lips_thickness"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["jaw_bone_width"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["eyebrown_high"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["eyebrown_forward"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["jaw_bone_back_lenght"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["chimp_bone_lowering"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["chimp_bone_lenght"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["chimp_bone_width"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["chimp_hole"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
-    ["neck_thikness"] = {
-        item = 0,
-        texture = 0,
-        defaultItem = 0,
-        defaultTexture = 0,
-    },
+    ["face"] =                 {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["face2"] =                {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["facemix"] =              {skinMix = 0, shapeMix = 0, defaultSkinMix = 0.0, defaultShapeMix = 0.0},
+    ["pants"] =                {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["hair"] =                 {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["eyebrows"] =             {item = -1,   texture = 1,  defaultItem = -1,     defaultTexture = 1},
+    ["beard"] =                {item = -1,   texture = 1,  defaultItem = -1,     defaultTexture = 1},
+    ["blush"] =                {item = -1,   texture = 1,  defaultItem = -1,     defaultTexture = 1},
+    ["lipstick"] =             {item = -1,   texture = 1,  defaultItem = -1,     defaultTexture = 1},
+    ["makeup"] =               {item = -1,   texture = 1,  defaultItem = -1,     defaultTexture = 1},
+    ["ageing"] =               {item = -1,   texture = 0,  defaultItem = -1,     defaultTexture = 0},
+    ["arms"] =                 {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["t-shirt"] =              {item = 1,    texture = 0,  defaultItem = 1,      defaultTexture = 0},
+    ["torso2"] =               {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["vest"] =                 {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["bag"] =                  {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["shoes"] =                {item = 0,    texture = 0,  defaultItem = 1,      defaultTexture = 0},
+    ["mask"] =                 {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["hat"] =                  {item = -1,   texture = 0,  defaultItem = -1,     defaultTexture = 0},
+    ["glass"] =                {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["ear"] =                  {item = -1,   texture = 0,  defaultItem = -1,     defaultTexture = 0},
+    ["watch"] =                {item = -1,   texture = 0,  defaultItem = -1,     defaultTexture = 0},
+    ["bracelet"] =             {item = -1,   texture = 0,  defaultItem = -1,     defaultTexture = 0},
+    ["accessory"] =            {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["decals"] =               {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["eye_color"] =            {item = -1,   texture = 0,  defaultItem = -1,     defaultTexture = 0},
+    ["moles"] =                {item = 0,    texture = 0,  defaultItem = -1,     defaultTexture = 0},
+    ["nose_0"] =               {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["nose_1"] =               {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["nose_2"] =               {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["nose_3"] =               {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["nose_4"] =               {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["nose_5"] =               {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["cheek_1"] =              {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["cheek_2"] =              {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["cheek_3"] =              {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["eye_opening"] =          {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["lips_thickness"] =       {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["jaw_bone_width"] =       {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["eyebrown_high"] =        {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["eyebrown_forward"] =     {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["jaw_bone_back_lenght"] = {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["chimp_bone_lowering"] =  {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["chimp_bone_lenght"] =    {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["chimp_bone_width"] =     {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["chimp_hole"] =           {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
+    ["neck_thikness"] =        {item = 0,    texture = 0,  defaultItem = 0,      defaultTexture = 0},
 }
 local clothingCategories = {
-    ["arms"]        = {type = "variation",  id = 3},
-    ["t-shirt"]     = {type = "variation",  id = 8},
-    ["torso2"]      = {type = "variation",  id = 11},
-    ["pants"]       = {type = "variation",  id = 4},
-    ["vest"]        = {type = "variation",  id = 9},
-    ["shoes"]       = {type = "variation",  id = 6},
-    ["bag"]         = {type = "variation",  id = 5},
-    ["hair"]        = {type = "hair",       id = 2},
-    ["eyebrows"]    = {type = "overlay",    id = 2},
-    ["face"]        = {type = "face",       id = 2},
-    ["face2"]       = {type = "face",       id = 2},
-    ["facemix"]     = {type = "face",       id = 2},
-    ["beard"]       = {type = "overlay",    id = 1},
-    ["blush"]       = {type = "overlay",    id = 5},
-    ["lipstick"]    = {type = "overlay",    id = 8},
-    ["makeup"]      = {type = "overlay",    id = 4},
-    ["ageing"]      = {type = "ageing",     id = 3},
-    ["mask"]        = {type = "mask",       id = 1},
-    ["hat"]         = {type = "prop",       id = 0},
-    ["glass"]       = {type = "prop",       id = 1},
-    ["ear"]         = {type = "prop",       id = 2},
-    ["watch"]       = {type = "prop",       id = 6},
-    ["bracelet"]    = {type = "prop",       id = 7},
-    ["accessory"]   = {type = "variation",  id = 7},
-    ["decals"]      = {type = "variation",  id = 10},
-    ["eye_color"]   = {type = "eye_color",  id = 1},
-    ["moles"]   = {type = "moles",  id = 1},
-    ["jaw_bone_width"]   = {type = "cheek",  id = 1},
-    ["jaw_bone_back_lenght"]   = {type = "cheek",  id = 1},
-    ["lips_thickness"]   = {type = "nose",  id = 1},
-    ["nose_0"]   = {type = "nose",  id = 1},
-    ["nose_1"]   = {type = "nose",  id = 1},
-    ["nose_2"]   = {type = "nose",  id = 2},
-    ["nose_3"]   = {type = "nose",  id = 3},
-    ["nose_4"]   = {type = "nose",  id = 4},
-    ["nose_5"]   = {type = "nose",  id = 5},
-    ["cheek_1"]   = {type = "cheek",  id = 1},
-    ["cheek_2"]   = {type = "cheek",  id = 2},
-    ["cheek_3"]   = {type = "cheek",  id = 3},
-    ["eyebrown_high"]   = {type = "nose",  id = 1},
-    ["eyebrown_forward"]   = {type = "nose",  id = 2},
-    ["eye_opening"]   = {type = "nose",  id = 1},
-    ["chimp_bone_lowering"]   = {type = "chin",  id = 1},
-    ["chimp_bone_lenght"]   = {type = "chin",  id = 2},
-    ["chimp_bone_width"]   = {type = "cheek",  id = 3},
-    ["chimp_hole"]   = {type = "cheek",  id = 4},
-    ["neck_thikness"]   = {type = "cheek",  id = 5},
+    ["arms"] =                 {type = "variation", id = 3},
+    ["t-shirt"] =              {type = "variation", id = 8},
+    ["torso2"] =               {type = "variation", id = 11},
+    ["pants"] =                {type = "variation", id = 4},
+    ["vest"] =                 {type = "variation", id = 9},
+    ["shoes"] =                {type = "variation", id = 6},
+    ["bag"] =                  {type = "variation", id = 5},
+    ["hair"] =                 {type = "hair",      id = 2},
+    ["eyebrows"] =             {type = "overlay",   id = 2},
+    ["face"] =                 {type = "face",      id = 2},
+    ["face2"] =                {type = "face",      id = 2},
+    ["facemix"] =              {type = "face",      id = 2},
+    ["beard"] =                {type = "overlay",   id = 1},
+    ["blush"] =                {type = "overlay",   id = 5},
+    ["lipstick"] =             {type = "overlay",   id = 8},
+    ["makeup"] =               {type = "overlay",   id = 4},
+    ["ageing"] =               {type = "ageing",    id = 3},
+    ["mask"] =                 {type = "mask",      id = 1},
+    ["hat"] =                  {type = "prop",      id = 0},
+    ["glass"] =                {type = "prop",      id = 1},
+    ["ear"] =                  {type = "prop",      id = 2},
+    ["watch"] =                {type = "prop",      id = 6},
+    ["bracelet"] =             {type = "prop",      id = 7},
+    ["accessory"] =            {type = "variation", id = 7},
+    ["decals"] =               {type = "variation", id = 10},
+    ["eye_color"] =            {type = "eye_color", id = 1},
+    ["moles"] =                {type = "moles",     id = 1},
+    ["jaw_bone_width"] =       {type = "cheek",     id = 1},
+    ["jaw_bone_back_lenght"] = {type = "cheek",     id = 1},
+    ["lips_thickness"]   =     {type = "nose",      id = 1},
+    ["nose_0"] =               {type = "nose",      id = 1},
+    ["nose_1"] =               {type = "nose",      id = 1},
+    ["nose_2"] =               {type = "nose",      id = 2},
+    ["nose_3"] =               {type = "nose",      id = 3},
+    ["nose_4"] =               {type = "nose",      id = 4},
+    ["nose_5"] =               {type = "nose",      id = 5},
+    ["cheek_1"] =              {type = "cheek",     id = 1},
+    ["cheek_2"] =              {type = "cheek",     id = 2},
+    ["cheek_3"] =              {type = "cheek",     id = 3},
+    ["eyebrown_high"] =        {type = "nose",      id = 1},
+    ["eyebrown_forward"] =     {type = "nose",      id = 2},
+    ["eye_opening"] =          {type = "nose",      id = 1},
+    ["chimp_bone_lowering"] =  {type = "chin",      id = 1},
+    ["chimp_bone_lenght"] =    {type = "chin",      id = 2},
+    ["chimp_bone_width"] =     {type = "cheek",     id = 3},
+    ["chimp_hole"] =           {type = "cheek",     id = 4},
+    ["neck_thikness"] =        {type = "cheek",     id = 5},
 }
 local faceProps = {
     [1] = { ["Prop"] = -1, ["Texture"] = -1 },
@@ -355,53 +119,53 @@ local faceProps = {
 -- Functions
 function GetMaxValues()
     local maxModelValues = {
-        ["arms"]        = {type = "character", item = 0, texture = 0},
-        ["eye_color"]   = {type = "hair", item = 0, texture = 0},
-        ["t-shirt"]     = {type = "character", item = 0, texture = 0},
-        ["torso2"]      = {type = "character", item = 0, texture = 0},
-        ["pants"]       = {type = "character", item = 0, texture = 0},
-        ["shoes"]       = {type = "character", item = 0, texture = 0},
-        ["face"]        = {type = "character", item = 0, texture = 0},
-        ["face2"]       = {type = "character", item = 0, texture = 0},
-        ["facemix"]     = {type = "character", shapeMix = 0, skinMix = 0},
-        ["vest"]        = {type = "character", item = 0, texture = 0},
-        ["accessory"]   = {type = "character", item = 0, texture = 0},
-        ["decals"]      = {type = "character", item = 0, texture = 0},
-        ["bag"]         = {type = "character", item = 0, texture = 0},
-        ["moles"]       = {type = "hair", item = 0, texture = 0},
-        ["hair"]        = {type = "hair", item = 0, texture = 0},
-        ["eyebrows"]    = {type = "hair", item = 0, texture = 0},
-        ["beard"]       = {type = "hair", item = 0, texture = 0},
-        ["eye_opening"]   = {type = "hair",  id = 1},
-        ["jaw_bone_width"]       = {type = "hair", item = 0, texture = 0},
-        ["jaw_bone_back_lenght"]       = {type = "hair", item = 0, texture = 0},
-        ["lips_thickness"]       = {type = "hair", item = 0, texture = 0},
-        ["cheek_1"]       = {type = "hair", item = 0, texture = 0},
-        ["cheek_2"]       = {type = "hair", item = 0, texture = 0},
-        ["cheek_3"]       = {type = "hair", item = 0, texture = 0},
-        ["eyebrown_high"]       = {type = "hair", item = 0, texture = 0},
-        ["eyebrown_forward"]       = {type = "hair", item = 0, texture = 0},
-        ["nose_0"]       = {type = "hair", item = 0, texture = 0},
-        ["nose_1"]       = {type = "hair", item = 0, texture = 0},
-        ["nose_2"]       = {type = "hair", item = 0, texture = 0},
-        ["nose_3"]       = {type = "hair", item = 0, texture = 0},
-        ["nose_4"]       = {type = "hair", item = 0, texture = 0},
-        ["nose_5"]       = {type = "hair", item = 0, texture = 0},
-        ["chimp_bone_lowering"]       = {type = "hair", item = 0, texture = 0},
-        ["chimp_bone_lenght"]       = {type = "hair", item = 0, texture = 0},
-        ["chimp_bone_width"]       = {type = "hair", item = 0, texture = 0},
-        ["chimp_hole"]       = {type = "hair", item = 0, texture = 0},
-        ["neck_thikness"]       = {type = "hair", item = 0, texture = 0},
-        ["blush"]       = {type = "hair", item = 0, texture = 0},
-        ["lipstick"]    = {type = "hair", item = 0, texture = 0},
-        ["makeup"]      = {type = "hair", item = 0, texture = 0},
-        ["ageing"]      = {type = "hair", item = 0, texture = 0},
-        ["mask"]        = {type = "accessoires", item = 0, texture = 0},
-        ["hat"]         = {type = "accessoires", item = 0, texture = 0},
-        ["glass"]       = {type = "accessoires", item = 0, texture = 0},
-        ["ear"]         = {type = "accessoires", item = 0, texture = 0},
-        ["watch"]       = {type = "accessoires", item = 0, texture = 0},
-        ["bracelet"]    = {type = "accessoires", item = 0, texture = 0},
+        ["arms"] =                 {type = "character",   item = 0,     texture = 0},
+        ["eye_color"] =            {type = "hair",        item = 0,     texture = 0},
+        ["t-shirt"] =              {type = "character",   item = 0,     texture = 0},
+        ["torso2"] =               {type = "character",   item = 0,     texture = 0},
+        ["pants"] =                {type = "character",   item = 0,     texture = 0},
+        ["shoes"] =                {type = "character",   item = 0,     texture = 0},
+        ["face"] =                 {type = "character",   item = 0,     texture = 0},
+        ["face2"] =                {type = "character",   item = 0,     texture = 0},
+        ["facemix"] =              {type = "character",   shapeMix = 0, skinMix = 0},
+        ["vest"] =                 {type = "character",   item = 0,     texture = 0},
+        ["accessory"] =            {type = "character",   item = 0,     texture = 0},
+        ["decals"] =               {type = "character",   item = 0,     texture = 0},
+        ["bag"] =                  {type = "character",   item = 0,     texture = 0},
+        ["moles"] =                {type = "hair",        item = 0,     texture = 0},
+        ["hair"] =                 {type = "hair",        item = 0,     texture = 0},
+        ["eyebrows"] =             {type = "hair",        item = 0,     texture = 0},
+        ["beard"] =                {type = "hair",        item = 0,     texture = 0},
+        ["eye_opening"] =          {type = "hair",        id = 1},
+        ["jaw_bone_width"] =       {type = "hair",        item = 0,     texture = 0},
+        ["jaw_bone_back_lenght"] = {type = "hair",        item = 0,     texture = 0},
+        ["lips_thickness"] =       {type = "hair",        item = 0,     texture = 0},
+        ["cheek_1"] =              {type = "hair",        item = 0,     texture = 0},
+        ["cheek_2"] =              {type = "hair",        item = 0,     texture = 0},
+        ["cheek_3"] =              {type = "hair",        item = 0,     texture = 0},
+        ["eyebrown_high"]       =  {type = "hair",        item = 0,     texture = 0},
+        ["eyebrown_forward"] =     {type = "hair",        item = 0,     texture = 0},
+        ["nose_0"] =               {type = "hair",        item = 0,     texture = 0},
+        ["nose_1"] =               {type = "hair",        item = 0,     texture = 0},
+        ["nose_2"] =               {type = "hair",        item = 0,     texture = 0},
+        ["nose_3"] =               {type = "hair",        item = 0,     texture = 0},
+        ["nose_4"] =               {type = "hair",        item = 0,     texture = 0},
+        ["nose_5"] =               {type = "hair",        item = 0,     texture = 0},
+        ["chimp_bone_lowering"] =  {type = "hair",        item = 0,     texture = 0},
+        ["chimp_bone_lenght"] =    {type = "hair",        item = 0,     texture = 0},
+        ["chimp_bone_width"] =     {type = "hair",        item = 0,     texture = 0},
+        ["chimp_hole"] =           {type = "hair",        item = 0,     texture = 0},
+        ["neck_thikness"] =        {type = "hair",        item = 0,     texture = 0},
+        ["blush"] =                {type = "hair",        item = 0,     texture = 0},
+        ["lipstick"] =             {type = "hair",        item = 0,     texture = 0},
+        ["makeup"] =               {type = "hair",        item = 0,     texture = 0},
+        ["ageing"] =               {type = "hair",        item = 0,     texture = 0},
+        ["mask"] =                 {type = "accessoires", item = 0,     texture = 0},
+        ["hat"] =                  {type = "accessoires", item = 0,     texture = 0},
+        ["glass"] =                {type = "accessoires", item = 0,     texture = 0},
+        ["ear"]         =          {type = "accessoires", item = 0,     texture = 0},
+        ["watch"] =                {type = "accessoires", item = 0,     texture = 0},
+        ["bracelet"] =             {type = "accessoires", item = 0,     texture = 0},
     }
     local ped = PlayerPedId()
     for k, v in pairs(clothingCategories) do
@@ -634,6 +398,8 @@ local function resetClothing(data)
         ClearPedProp(ped, 7)
     end
 end
+
+
 local function GetPositionByRelativeHeading(ped, head, dist)
     local pedPos = GetEntityCoords(ped)
 
@@ -1221,15 +987,17 @@ local function getOutfits(gradeLevel, data)
 end
 exports('getOutfits',getOutfits)
 -- Events
-AddEventHandler('onResourceStart', function(resourceName)
+
+RegisterNetEvent('onResourceStart', function(resourceName)
     if (GetCurrentResourceName() ~= resourceName) then return end
     PlayerData = QBCore.Functions.GetPlayerData()
 end)
+
 RegisterNetEvent('QBCore:Client:UpdateObject', function()
 	QBCore = exports['qb-core']:GetCoreObject()
 end)
-RegisterNetEvent('qb-clothing:client:openMenu')
-AddEventHandler('qb-clothing:client:openMenu', function()
+
+RegisterNetEvent('qb-clothing:client:openMenu', function()
     customCamLocation = nil
     openMenu({
         {menu = "character", label = Lang:t("menu.features"), selected = true},
@@ -1237,15 +1005,13 @@ AddEventHandler('qb-clothing:client:openMenu', function()
         {menu = "accessoires", label = Lang:t("menu.accessoires"), selected = false}
     })
 end)
-RegisterNetEvent('qb-clothing:client:reloadOutfits')
-AddEventHandler('qb-clothing:client:reloadOutfits', function(myOutfits)
+RegisterNetEvent('qb-clothing:client:reloadOutfits', function(myOutfits)
     SendNUIMessage({
         action = "reloadMyOutfits",
         outfits = myOutfits
     })
 end)
-RegisterNetEvent('qb-clothes:client:CreateFirstCharacter')
-AddEventHandler('qb-clothes:client:CreateFirstCharacter', function()
+RegisterNetEvent('qb-clothes:client:CreateFirstCharacter', function()
     QBCore.Functions.GetPlayerData(function(pData)
         local skin = "mp_m_freemode_01"
         openMenu({
@@ -1264,8 +1030,8 @@ AddEventHandler('qb-clothes:client:CreateFirstCharacter', function()
         })
     end)
 end)
-RegisterNetEvent("qb-clothes:loadSkin")
-AddEventHandler("qb-clothes:loadSkin", function(_, model, data)
+
+RegisterNetEvent("qb-clothes:loadSkin", function(_, model, data)
     model = model ~= nil and tonumber(model) or false
     Citizen.CreateThread(function()
         RequestModel(model)
@@ -1279,8 +1045,8 @@ AddEventHandler("qb-clothes:loadSkin", function(_, model, data)
         TriggerEvent('qb-clothing:client:loadPlayerClothing', data, PlayerPedId())
     end)
 end)
-RegisterNetEvent('qb-clothing:client:loadPlayerClothing')
-AddEventHandler('qb-clothing:client:loadPlayerClothing', function(data, ped)
+
+RegisterNetEvent('qb-clothing:client:loadPlayerClothing', function(data, ped)
     if ped == nil then ped = PlayerPedId() end
 
     for i = 0, 11 do
@@ -1434,8 +1200,7 @@ AddEventHandler('qb-clothing:client:loadPlayerClothing', function(data, ped)
     SetPedFaceFeature(ped, 19, (data['neck_thikness'].item / 10))
     skinData = data
 end)
-RegisterNetEvent('qb-clothing:client:loadOutfit')
-AddEventHandler('qb-clothing:client:loadOutfit', function(oData)
+RegisterNetEvent('qb-clothing:client:loadOutfit', function(oData)
     local ped = PlayerPedId()
 
     local data = oData.outfitData
@@ -1552,8 +1317,7 @@ AddEventHandler('qb-clothing:client:loadOutfit', function(oData)
         QBCore.Functions.Notify("You have chosen "..oData.outfitName.."! Press Confirm to confirm outfit.")
     end
 end)
-RegisterNetEvent("qb-clothing:client:adjustfacewear")
-AddEventHandler("qb-clothing:client:adjustfacewear",function(type)
+RegisterNetEvent("qb-clothing:client:adjustfacewear", function(type)
     if QBCore.Functions.GetPlayerData().metadata["ishandcuffed"] then return end
     removeWear = not removeWear
     local AnimSet = "mp_masks@on_foot"
@@ -1994,7 +1758,7 @@ function loadStores()
                         exports['qb-core']:DrawText('[E] - '..Lang:t("store.clothing"), 'left')
                     elseif zoneName == 'barber' then
                         exports['qb-core']:DrawText('[E] - '..Lang:t("store.barber"), 'left')
-                    elseif zoneName == 'outfit' then 
+                    elseif zoneName == 'outfit' then
                         exports['qb-core']:DrawText('[E] - '..Lang:t("store.outfitchanger"), 'left')
                     end
                 else
