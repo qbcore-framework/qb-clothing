@@ -418,6 +418,7 @@ QBClothing.Open = function(data) {
     $(".clothing-menu-myOutfits-container").css("display", "none");
     $(".clothing-menu-character-container").css("display", "none");
     $(".clothing-menu-clothing-container").css("display", "none");
+    $(".clothing-menu-hair-container").css("display", "none");
     $(".clothing-menu-accessoires-container").css("display", "none");
     $(".clothing-menu-container").css({ "display": "block" }).animate({ right: 0, }, 200);
     QBClothing.SetMaxValues(data.maxValues);
@@ -513,6 +514,7 @@ QBClothing.Close = function() {
     $(".clothing-menu-myOutfits-container").css("display", "none");
     $(".clothing-menu-character-container").css("display", "none");
     $(".clothing-menu-clothing-container").css("display", "none");
+    $(".clothing-menu-hair-container").css("display", "none");
     $(".clothing-menu-accessoires-container").css("display", "none");
     $(".clothing-menu-header").html("");
 
@@ -532,30 +534,32 @@ QBClothing.SetMaxValues = function(maxValues) {
             var containers = $(".clothing-menu-character-container").find('[data-type="' + i + '"]');
             var itemMax = $(containers).find('[data-headertype="item-header"]');
             var headerMax = $(containers).find('[data-headertype="texture-header"]');
-
             $(itemMax).data('maxItem', maxValues[containers.data('type')].item)
             $(headerMax).data('maxTexture', maxValues[containers.data('type')].texture)
-
             $(itemMax).html("<p><span data-tkey='item'>Item</span>: " + maxValues[containers.data('type')].item + "</p>")
             $(headerMax).html("<p><span data-tkey='texture'>Texture</span>: " + maxValues[containers.data('type')].texture + "</p>")
-        } else if (cat.type == "hair") {
+        } else if (cat.type == "clothing") {
             var containers = $(".clothing-menu-clothing-container").find('[data-type="' + i + '"]');
             var itemMax = $(containers).find('[data-headertype="item-header"]');
             var headerMax = $(containers).find('[data-headertype="texture-header"]');
-
             $(itemMax).data('maxItem', maxValues[containers.data('type')].item)
             $(headerMax).data('maxTexture', maxValues[containers.data('type')].texture)
-
+            $(itemMax).html("<p><span data-tkey='item'>Item</span>: " + maxValues[containers.data('type')].item + "</p>")
+            $(headerMax).html("<p><span data-tkey='texture'>Texture</span>: " + maxValues[containers.data('type')].texture + "</p>")
+        } else if (cat.type == "hair") {
+            var containers = $(".clothing-menu-hair-container").find('[data-type="' + i + '"]');
+            var itemMax = $(containers).find('[data-headertype="item-header"]');
+            var headerMax = $(containers).find('[data-headertype="texture-header"]');
+            $(itemMax).data('maxItem', maxValues[containers.data('type')].item)
+            $(headerMax).data('maxTexture', maxValues[containers.data('type')].texture)
             $(itemMax).html("<p><span data-tkey='item'>Item</span>: " + maxValues[containers.data('type')].item + "</p>")
             $(headerMax).html("<p><span data-tkey='texture'>Texture</span>: " + maxValues[containers.data('type')].texture + "</p>")
         } else if (cat.type == "accessoires") {
             var containers = $(".clothing-menu-accessoires-container").find('[data-type="' + i + '"]');
             var itemMax = $(containers).find('[data-headertype="item-header"]');
             var headerMax = $(containers).find('[data-headertype="texture-header"]');
-
             $(itemMax).data('maxItem', maxValues[containers.data('type')].item)
             $(headerMax).data('maxTexture', maxValues[containers.data('type')].texture)
-
             $(itemMax).html("<p><span data-tkey='item'>Item</span>: " + maxValues[containers.data('type')].item + "</p>")
             $(headerMax).html("<p><span data-tkey='texture'>Texture</span>: " + maxValues[containers.data('type')].texture + "</p>")
         }

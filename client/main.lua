@@ -119,51 +119,51 @@ local faceProps = {
 -- Functions
 function GetMaxValues()
     local maxModelValues = {
-        ["arms"] =                 {type = "character",   item = 0,     texture = 0},
-        ["eye_color"] =            {type = "hair",        item = 0,     texture = 0},
-        ["t-shirt"] =              {type = "character",   item = 0,     texture = 0},
-        ["torso2"] =               {type = "character",   item = 0,     texture = 0},
-        ["pants"] =                {type = "character",   item = 0,     texture = 0},
-        ["shoes"] =                {type = "character",   item = 0,     texture = 0},
-        ["face"] =                 {type = "character",   item = 0,     texture = 0},
-        ["face2"] =                {type = "character",   item = 0,     texture = 0},
-        ["facemix"] =              {type = "character",   shapeMix = 0, skinMix = 0},
-        ["vest"] =                 {type = "character",   item = 0,     texture = 0},
-        ["accessory"] =            {type = "character",   item = 0,     texture = 0},
-        ["decals"] =               {type = "character",   item = 0,     texture = 0},
-        ["bag"] =                  {type = "character",   item = 0,     texture = 0},
-        ["moles"] =                {type = "hair",        item = 0,     texture = 0},
-        ["hair"] =                 {type = "hair",        item = 0,     texture = 0},
-        ["eyebrows"] =             {type = "hair",        item = 0,     texture = 0},
-        ["beard"] =                {type = "hair",        item = 0,     texture = 0},
-        ["eye_opening"] =          {type = "hair",        id = 1},
-        ["jaw_bone_width"] =       {type = "hair",        item = 0,     texture = 0},
-        ["jaw_bone_back_lenght"] = {type = "hair",        item = 0,     texture = 0},
-        ["lips_thickness"] =       {type = "hair",        item = 0,     texture = 0},
-        ["cheek_1"] =              {type = "hair",        item = 0,     texture = 0},
-        ["cheek_2"] =              {type = "hair",        item = 0,     texture = 0},
-        ["cheek_3"] =              {type = "hair",        item = 0,     texture = 0},
-        ["eyebrown_high"]       =  {type = "hair",        item = 0,     texture = 0},
-        ["eyebrown_forward"] =     {type = "hair",        item = 0,     texture = 0},
-        ["nose_0"] =               {type = "hair",        item = 0,     texture = 0},
-        ["nose_1"] =               {type = "hair",        item = 0,     texture = 0},
-        ["nose_2"] =               {type = "hair",        item = 0,     texture = 0},
-        ["nose_3"] =               {type = "hair",        item = 0,     texture = 0},
-        ["nose_4"] =               {type = "hair",        item = 0,     texture = 0},
-        ["nose_5"] =               {type = "hair",        item = 0,     texture = 0},
-        ["chimp_bone_lowering"] =  {type = "hair",        item = 0,     texture = 0},
-        ["chimp_bone_lenght"] =    {type = "hair",        item = 0,     texture = 0},
-        ["chimp_bone_width"] =     {type = "hair",        item = 0,     texture = 0},
-        ["chimp_hole"] =           {type = "hair",        item = 0,     texture = 0},
-        ["neck_thikness"] =        {type = "hair",        item = 0,     texture = 0},
-        ["blush"] =                {type = "hair",        item = 0,     texture = 0},
-        ["lipstick"] =             {type = "hair",        item = 0,     texture = 0},
-        ["makeup"] =               {type = "hair",        item = 0,     texture = 0},
-        ["ageing"] =               {type = "hair",        item = 0,     texture = 0},
+        ["arms"] =                 {type = "clothing",         item = 0,     texture = 0},
+        ["t-shirt"] =              {type = "clothing",         item = 0,     texture = 0},
+        ["torso2"] =               {type = "clothing",         item = 0,     texture = 0},
+        ["pants"] =                {type = "clothing",         item = 0,     texture = 0},
+        ["shoes"] =                {type = "clothing",         item = 0,     texture = 0},
+        ["vest"] =                 {type = "clothing",         item = 0,     texture = 0},
+        ["accessory"] =            {type = "clothing",         item = 0,     texture = 0},
+        ["decals"] =               {type = "clothing",         item = 0,     texture = 0},
+        ["bag"] =                  {type = "clothing",         item = 0,     texture = 0},
+        ["hair"] =                 {type = "hair",             item = 0,     texture = 0},
+        ["eyebrows"] =             {type = "hair",             item = 0,     texture = 0},
+        ["beard"] =                {type = "hair",             item = 0,     texture = 0},
+        ["lipstick"] =             {type = "hair",             item = 0,     texture = 0},
+        ["makeup"] =               {type = "hair",             item = 0,     texture = 0},
+        ["ageing"] =               {type = "hair",             item = 0,     texture = 0},
+        ["eye_color"] =            {type = "hair",             item = 0,     texture = 0},
+        ["blush"] =                {type = "hair",             item = 0,     texture = 0},
+        ["moles"] =                {type = "hair",             item = 0,     texture = 0},
+        ["face"] =                 {type = "character",        item = 0,     texture = 0},
+        ["face2"] =                {type = "character",        item = 0,     texture = 0},
+        ["facemix"] =              {type = "character",        shapeMix = 0, skinMix = 0},
+        ["eye_opening"] =          {type = "character",        id = 1},
+        ["jaw_bone_width"] =       {type = "character",        item = 0,     texture = 0},
+        ["jaw_bone_back_lenght"] = {type = "character",        item = 0,     texture = 0},
+        ["lips_thickness"] =       {type = "character",        item = 0,     texture = 0},
+        ["cheek_1"] =              {type = "character",        item = 0,     texture = 0},
+        ["cheek_2"] =              {type = "character",        item = 0,     texture = 0},
+        ["cheek_3"] =              {type = "character",        item = 0,     texture = 0},
+        ["eyebrown_high"]       =  {type = "character",        item = 0,     texture = 0},
+        ["eyebrown_forward"] =     {type = "character",        item = 0,     texture = 0},
+        ["nose_0"] =               {type = "character",        item = 0,     texture = 0},
+        ["nose_1"] =               {type = "character",        item = 0,     texture = 0},
+        ["nose_2"] =               {type = "character",        item = 0,     texture = 0},
+        ["nose_3"] =               {type = "character",        item = 0,     texture = 0},
+        ["nose_4"] =               {type = "character",        item = 0,     texture = 0},
+        ["nose_5"] =               {type = "character",        item = 0,     texture = 0},
+        ["chimp_bone_lowering"] =  {type = "character",        item = 0,     texture = 0},
+        ["chimp_bone_lenght"] =    {type = "character",        item = 0,     texture = 0},
+        ["chimp_bone_width"] =     {type = "character",        item = 0,     texture = 0},
+        ["chimp_hole"] =           {type = "character",        item = 0,     texture = 0},
+        ["neck_thikness"] =        {type = "character",        item = 0,     texture = 0},
         ["mask"] =                 {type = "accessoires", item = 0,     texture = 0},
         ["hat"] =                  {type = "accessoires", item = 0,     texture = 0},
         ["glass"] =                {type = "accessoires", item = 0,     texture = 0},
-        ["ear"]         =          {type = "accessoires", item = 0,     texture = 0},
+        ["ear"] =                  {type = "accessoires", item = 0,     texture = 0},
         ["watch"] =                {type = "accessoires", item = 0,     texture = 0},
         ["bracelet"] =             {type = "accessoires", item = 0,     texture = 0},
     }
@@ -1001,6 +1001,7 @@ RegisterNetEvent('qb-clothing:client:openMenu', function()
     customCamLocation = nil
     openMenu({
         {menu = "character", label = Lang:t("menu.features"), selected = true},
+        {menu = "hair", label = Lang:t("menu.hair"), selected = false},
         {menu = "clothing", label = Lang:t("menu.character"), selected = false},
         {menu = "accessoires", label = Lang:t("menu.accessoires"), selected = false}
     })
@@ -1015,9 +1016,10 @@ RegisterNetEvent('qb-clothes:client:CreateFirstCharacter', function()
     QBCore.Functions.GetPlayerData(function(pData)
         local skin = "mp_m_freemode_01"
         openMenu({
-            {menu = "character", label = "Character", selected = true},
-            {menu = "clothing", label = "Features", selected = false},
-            {menu = "accessoires", label = "Accessories", selected = false}
+            {menu = "character", label = Lang:t("menu.features"), selected = true},
+            {menu = "hair", label = Lang:t("menu.hair"), selected = false},
+            {menu = "clothing", label = Lang:t("menu.character"), selected = false},
+            {menu = "accessoires", label = Lang:t("menu.accessoires"), selected = false}
         })
 
         if pData.charinfo.gender == 1 then
@@ -1630,7 +1632,7 @@ function loadStores()
                         action = function()
                             customCamLocation = nil
                             openMenu({
-                                {menu = "clothing", label = Lang:t("menu.hair"), selected = true},
+                                {menu = "hair", label = Lang:t("menu.hair"), selected = true},
                             })
                         end,
                         icon = "fas fa-chair-office",
@@ -1641,7 +1643,7 @@ function loadStores()
                         action = function()
                             customCamLocation = nil
                             openMenu({
-                                {menu = "character", label = Lang:t("menu.character"), selected = true},
+                                {menu = "clothing", label = Lang:t("menu.character"), selected = true},
                                 {menu = "accessoires", label = Lang:t("menu.accessoires"), selected = false}
                             })
                         end,
@@ -1653,7 +1655,7 @@ function loadStores()
                         action = function()
                             customCamLocation = nil
                             openMenu({
-                                {menu = "clothing", label = Lang:t("menu.features"), selected = true},
+                                {menu = "character", label = Lang:t("menu.features"), selected = true},
                             })
                         end,
                         icon = "fas fa-scalpel",
@@ -1795,14 +1797,14 @@ function loadStores()
                         if IsControlJustReleased(0, 38) then
                             customCamLocation = nil
                             openMenu({
-                                {menu = "clothing", label = Lang:t("menu.features"), selected = true},
+                                {menu = "character", label = Lang:t("menu.features"), selected = true},
                             })
                         end
                     elseif zoneName == 'clothing' then
                         if IsControlJustReleased(0, 38) then
                             customCamLocation = nil
                             openMenu({
-                                {menu = "character", label = Lang:t("menu.character"), selected = true},
+                                {menu = "clothing", label = Lang:t("menu.character"), selected = true},
                                 {menu = "accessoires", label = Lang:t("menu.accessoires"), selected = false}
                             })
                         end
@@ -1810,7 +1812,7 @@ function loadStores()
                         if IsControlJustReleased(0, 38) then
                             customCamLocation = nil
                             openMenu({
-                                {menu = "clothing", label = Lang:t("menu.hair"), selected = true},
+                                {menu = "hair", label = Lang:t("menu.hair"), selected = true},
                             })
                         end
                     elseif zoneName == 'outfit' then
