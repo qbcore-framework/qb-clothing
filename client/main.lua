@@ -1688,13 +1688,7 @@ function loadStores()
                         local gradeLevel = PlayerData.gang.grade.level
                         getOutfits(gradeLevel, Config.Outfits[v.requiredJob])
                     end
-                elseif not QBCore.Shared.QBJobsStatus then
-                    action = function()
-                        customCamLocation = v.cameraLocation
-                        local gradeLevel = PlayerData.job.grade.level
-                        getOutfits(gradeLevel, Config.Outfits[v.requiredJob])
-                    end
-                else break end --this break is important if QBJobsStatus is true then the reste of the code in this loop does not need to run.
+                end
 
                 exports['qb-target']:AddBoxZone('clothing_' .. v.requiredJob .. k, v.coords, v.length, v.width, {
                     name = 'clothing_' .. v.requiredJob .. k,
@@ -1768,23 +1762,22 @@ function loadStores()
                     exports['qb-core']:HideText()
                 end
             end)
-                    if PlayerData.gang and PlayerData.gang.name or (not QBCore.Shared.QBJobsStatus and PlayerData.job.name) then
-                        local clothingRoomsCombo = ComboZone:Create(roomZones, {name = "clothingRoomsCombo", debugPoly = false})
-                        clothingRoomsCombo:onPlayerInOut(function(isPointInside, _, zone)
-                            if isPointInside then
-                                local zoneID = tonumber(QBCore.Shared.SplitStr(zone.name, "_")[2])
-                                local job = Config.ClothingRooms[zoneID].isGang and PlayerData.gang.name or (not QBCore.Shared.QBJobsStatus and PlayerData.job.name)
-                                if (job == Config.ClothingRooms[zoneID].requiredJob) then
-                                    zoneName = zoneID
-                                    inZone = true
-                                    exports['qb-core']:DrawText('[E] - '..Lang:t("store.clothing"), 'left')
-                                end
-                            else
-                                inZone = false
-                                exports['qb-core']:HideText()
-                            end
-                        end)
+
+            local clothingRoomsCombo = ComboZone:Create(roomZones, {name = "clothingRoomsCombo", debugPoly = false})
+            clothingRoomsCombo:onPlayerInOut(function(isPointInside, _, zone)
+                if isPointInside then
+                    local zoneID = tonumber(QBCore.Shared.SplitStr(zone.name, "_")[2])
+                    local job = Config.ClothingRooms[zoneID].isGang and PlayerData.gang.name or PlayerData.job.name
+                    if (job == Config.ClothingRooms[zoneID].requiredJob) then
+                        zoneName = zoneID
+                        inZone = true
+                        exports['qb-core']:DrawText('[E] - '..Lang:t("store.clothing"), 'left')
                     end
+                else
+                    inZone = false
+                    exports['qb-core']:HideText()
+                end
+            end)
         end)
         -- Clothing Thread
         CreateThread(function ()
@@ -1820,13 +1813,13 @@ function loadStores()
                             customCamLocation = nil
                             TriggerEvent('qb-clothing:client:openOutfitMenu')
                         end
-                    elseif not QBCore.Shared.QBJobsStatus then
+                    else
                         if IsControlJustReleased(0, 38) then
                             local clothingRoom = Config.ClothingRooms[zoneName]
                             customCamLocation = clothingRoom.cameraLocation
-
-                            local gradeLevel = clothingRoom.isGang and PlayerData.gang.grade.level or (not QBCore.Shared.QBJobsStatus and PlayerData.job.grade.level)
-                            getOutfits(gradeLevel, Config.Outfits[clothingRoom.requiredJob])
+    
+                            local gradeLevel = clothingRoom.isGang and PlayerData.gang.grade.level or PlayerData.job.grade.level
+                            TriggerEvent('qb-clothing:client:getOutfits', clothingRoom.requiredJob, gradeLevel)
                         end
                     end
                 end
