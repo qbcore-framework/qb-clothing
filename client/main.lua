@@ -1819,7 +1819,7 @@ function loadStores()
                             customCamLocation = clothingRoom.cameraLocation
     
                             local gradeLevel = clothingRoom.isGang and PlayerData.gang.grade.level or PlayerData.job.grade.level
-                            TriggerEvent('qb-clothing:client:getOutfits', clothingRoom.requiredJob, gradeLevel)
+                            getOutfits(gradeLevel, Config.Outfits[clothingRoom.requiredJob])
                         end
                     end
                 end
