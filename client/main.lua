@@ -970,6 +970,8 @@ local function reloadSkin(health)
     SetEntityHealth(PlayerPedId(), health)
 end
 -- Exports
+exports('reloadSkin', reloadSkin)
+
 exports('IsCreatingCharacter', function()
     return creatingCharacter
 end)
