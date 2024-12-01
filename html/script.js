@@ -9,7 +9,10 @@ var translations = {};
 
 var clothingCategorys = [];
 
-$(document).on('click', '.clothing-menu-header-btn', function(e) {
+// Introduced to allow for new character creation callback
+let isCreatingFirstCharacter = false
+
+$(document).on('click', '.clothing-menu-header-btn', function (e) {
     var category = $(this).data('category');
 
     $(selectedTab).removeClass("selected");
@@ -22,7 +25,7 @@ $(document).on('click', '.clothing-menu-header-btn', function(e) {
     $(".clothing-menu-" + category + "-container").css({ "display": "block" });
 })
 
-QBClothing.ResetItemTexture = function(obj, category) {
+QBClothing.ResetItemTexture = function (obj, category) {
     var itemTexture = $(obj).parent().parent().find('[data-type="texture"]');
     var defaultTextureValue = clothingCategorys[category].defaultTexture;
     $(itemTexture).val(defaultTextureValue);
@@ -34,7 +37,7 @@ QBClothing.ResetItemTexture = function(obj, category) {
     }));
 }
 
-$(document).on('click', '.clothing-menu-option-item-right', function(e) {
+$(document).on('click', '.clothing-menu-option-item-right', function (e) {
     e.preventDefault();
 
     var clothingCategory = $(this).parent().parent().data('type');
@@ -50,7 +53,7 @@ $(document).on('click', '.clothing-menu-option-item-right', function(e) {
         } else {
             if (clothingCategory == "model") {
                 $(inputElem).val(newValue);
-                $.post('https://qb-clothing/setCurrentPed', JSON.stringify({ ped: newValue }), function(model) {
+                $.post('https://qb-clothing/setCurrentPed', JSON.stringify({ ped: newValue }), function (model) {
                     $("#current-model").html("<p>" + model + "</p>")
                 });
                 canChange = true;
@@ -102,7 +105,7 @@ $(document).on('click', '.clothing-menu-option-item-right', function(e) {
     }
 });
 
-$(document).on('click', '.clothing-menu-option-item-left', function(e) {
+$(document).on('click', '.clothing-menu-option-item-left', function (e) {
     e.preventDefault();
 
     var clothingCategory = $(this).parent().parent().data('type');
@@ -119,7 +122,7 @@ $(document).on('click', '.clothing-menu-option-item-left', function(e) {
             if (clothingCategory == "model") {
                 if (newValue != 0) {
                     $(inputElem).val(newValue);
-                    $.post('https://qb-clothing/setCurrentPed', JSON.stringify({ ped: newValue }), function(model) {
+                    $.post('https://qb-clothing/setCurrentPed', JSON.stringify({ ped: newValue }), function (model) {
                         $("#current-model").html("<p>" + model + "</p>")
                     });
                     canChange = true;
@@ -169,7 +172,7 @@ $(document).on('click', '.clothing-menu-option-item-left', function(e) {
     }
 });
 
-$(document).on('input', '.clothing-menu-option-item-slider', function(e) {
+$(document).on('input', '.clothing-menu-option-item-slider', function (e) {
 
     var clothingCategory = $(this).parent().parent().data('type');
     var buttonType = $(this).data('type');
@@ -185,7 +188,7 @@ $(document).on('input', '.clothing-menu-option-item-slider', function(e) {
             if (clothingCategory == "model") {
                 if (newValue != 0) {
                     $(inputElem).val(newValue);
-                    $.post('https://qb-clothing/setCurrentPed', JSON.stringify({ ped: newValue }), function(model) {
+                    $.post('https://qb-clothing/setCurrentPed', JSON.stringify({ ped: newValue }), function (model) {
                         $("#current-model").html("<p>" + model + "</p>")
                     });
                     canChange = true;
@@ -258,7 +261,7 @@ function ChangeDown() {
     }
 }
 
-$(document).on('change', '.item-number', function() {
+$(document).on('change', '.item-number', function () {
     var clothingCategory = $(this).parent().parent().data('type');
     var buttonType = $(this).data('type');
     var inputVal = $(this).val();
@@ -283,7 +286,7 @@ $(document).on('change', '.item-number', function() {
     }
 });
 
-$(document).on('click', '.clothing-menu-header-camera-btn', function(e) {
+$(document).on('click', '.clothing-menu-header-camera-btn', function (e) {
     e.preventDefault();
 
     var camValue = parseFloat($(this).data('value'));
@@ -314,7 +317,7 @@ $(document).on('click', '.clothing-menu-header-camera-btn', function(e) {
     }
 });
 
-$(document).on('keydown', function() {
+$(document).on('keydown', function () {
     switch (event.keyCode) {
         case 68: // D
             $.post('https://qb-clothing/rotateRight');
@@ -331,13 +334,13 @@ $(document).on('keydown', function() {
     }
 });
 
-QBClothing.ToggleChange = function(bool) {
+QBClothing.ToggleChange = function (bool) {
     canChange = bool;
 }
 
-$(document).ready(function() {
-    window.addEventListener('message', function(event) {
-        if(event.data.translations != undefined) {
+$(document).ready(function () {
+    window.addEventListener('message', function (event) {
+        if (event.data.translations != undefined) {
             translations = event.data.translations;
             translate();
         }
@@ -364,9 +367,9 @@ $(document).ready(function() {
     })
 });
 
-QBClothing.ReloadOutfits = function(outfits) {
+QBClothing.ReloadOutfits = function (outfits) {
     $(".clothing-menu-myOutfits-container").html("");
-    $.each(outfits, function(index, outfit) {
+    $.each(outfits, function (index, outfit) {
         var elem = '<div class="clothing-menu-option" data-myOutfit="' + (index + 1) + '"> <div class="clothing-menu-option-header"><p>' + outfit.outfitname + '</p></div><div class="clothing-menu-myOutfit-option-button"><p data-tkey="select">Select</p></div><div class="clothing-menu-myOutfit-option-button-remove"><p data-tkey="delete">Delete</p></div></div>'
         $(".clothing-menu-myOutfits-container").append(elem)
 
@@ -374,20 +377,25 @@ QBClothing.ReloadOutfits = function(outfits) {
     });
 }
 
-$(document).on('click', "#save-menu", function(e) {
+$(document).on('click', "#save-menu", function (e) {
     e.preventDefault();
     QBClothing.Close();
     $.post('https://qb-clothing/saveClothing');
+
+    if (isCreatingFirstCharacter) {
+        $.post('https://qb-clothing/characterCreated');
+        isCreatingFirstCharacter = false;
+    }
 });
 
-$(document).on('click', "#cancel-menu", function(e) {
+$(document).on('click', "#cancel-menu", function (e) {
     e.preventDefault();
     QBClothing.Close();
     $.post('https://qb-clothing/resetOutfit');
 });
 
-QBClothing.SetCurrentValues = function(clothingValues) {
-    $.each(clothingValues, function(i, item) {
+QBClothing.SetCurrentValues = function (clothingValues) {
+    $.each(clothingValues, function (i, item) {
         var itemCats = $(".clothing-menu-container").find('[data-type="' + i + '"]');
 
         if (i == "facemix") { //Added for special case with range sliders
@@ -403,8 +411,9 @@ QBClothing.SetCurrentValues = function(clothingValues) {
     });
 }
 
-QBClothing.Open = function(data) {
+QBClothing.Open = function (data) {
     clothingCategorys = data.currentClothing;
+    isCreatingFirstCharacter = data.isFirst || false;
 
     if (data.hasTracker) {
         hasTracker = true;
@@ -426,7 +435,7 @@ QBClothing.Open = function(data) {
     QBClothing.SetCurrentValues(data.currentClothing);
     $(".clothing-menu-roomOutfits-container").html("");
     $(".clothing-menu-myOutfits-container").html("");
-    $.each(data.menus, function(i, menu) {
+    $.each(data.menus, function (i, menu) {
         if (menu.selected) {
             $(".clothing-menu-header").append('<div class="clothing-menu-header-btn ' + menu.menu + 'Tab selected" data-category="' + menu.menu + '"><p>' + menu.label + '</p></div>')
             $(".clothing-menu-" + menu.menu + "-container").css({ "display": "block" });
@@ -449,7 +458,7 @@ QBClothing.Open = function(data) {
         }
 
         if (menu.menu == "roomOutfits") {
-            $.each(menu.outfits, function(index, outfit) {
+            $.each(menu.outfits, function (index, outfit) {
                 var elem = '<div class="clothing-menu-option" data-outfit="' + (index + 1) + '"> <div class="clothing-menu-option-header"><p>' + outfit.outfitLabel + '</p></div> <div class="clothing-menu-outfit-option-button"><p data-tkey="select">Select Outfit</p></div> </div>'
                 $(".clothing-menu-roomOutfits-container").append(elem)
 
@@ -458,7 +467,7 @@ QBClothing.Open = function(data) {
         }
 
         if (menu.menu == "myOutfits") {
-            $.each(menu.outfits, function(index, outfit) {
+            $.each(menu.outfits, function (index, outfit) {
                 var elem = '<div class="clothing-menu-option" data-myOutfit="' + (index + 1) + '"> <div class="clothing-menu-option-header"><p>' + outfit.outfitname + '</p></div><div class="clothing-menu-myOutfit-option-button"><p data-tkey="select">Select</p></div><div class="clothing-menu-myOutfit-option-button-remove"><p data-tkey="delete">Delete</p></div></div>'
                 $(".clothing-menu-myOutfits-container").append(elem)
 
@@ -472,7 +481,7 @@ QBClothing.Open = function(data) {
     $(".clothing-menu-header-btn").css("width", menuWidth + "%");
 }
 
-$(document).on('click', '.clothing-menu-outfit-option-button', function(e) {
+$(document).on('click', '.clothing-menu-outfit-option-button', function (e) {
     e.preventDefault();
 
     var oData = $(this).parent().data('outfitData');
@@ -483,7 +492,7 @@ $(document).on('click', '.clothing-menu-outfit-option-button', function(e) {
     }))
 });
 
-$(document).on('click', '.clothing-menu-myOutfit-option-button', function(e) {
+$(document).on('click', '.clothing-menu-myOutfit-option-button', function (e) {
     e.preventDefault();
 
     var outfitData = $(this).parent().data('myOutfitData');
@@ -495,7 +504,7 @@ $(document).on('click', '.clothing-menu-myOutfit-option-button', function(e) {
     }))
 });
 
-$(document).on('click', '.clothing-menu-myOutfit-option-button-remove', function(e) {
+$(document).on('click', '.clothing-menu-myOutfit-option-button-remove', function (e) {
     e.preventDefault();
 
     var outfitData = $(this).parent().data('myOutfitData');
@@ -507,8 +516,11 @@ $(document).on('click', '.clothing-menu-myOutfit-option-button-remove', function
     }));
 });
 
-QBClothing.Close = function() {
-    $.post('https://qb-clothing/close');
+QBClothing.Close = function () {
+    $.post('https://qb-clothing/close', JSON.stringify({
+        isCreatingFirstCharacter: isCreatingFirstCharacter
+    }));
+
     $(".change-camera-buttons").fadeOut(150);
     $(".clothing-menu-roomOutfits-container").css("display", "none");
     $(".clothing-menu-myOutfits-container").css("display", "none");
@@ -523,13 +535,13 @@ QBClothing.Close = function() {
     selectedCam = null;
     selectedTab = null;
     lastCategory = null;
-    $(".clothing-menu-container").css({ "display": "block" }).animate({ right: "-25vw", }, 200, function() {
+    $(".clothing-menu-container").css({ "display": "block" }).animate({ right: "-25vw", }, 200, function () {
         $(".clothing-menu-container").css({ "display": "none" });
     });
 }
 
-QBClothing.SetMaxValues = function(maxValues) {
-    $.each(maxValues, function(i, cat) {
+QBClothing.SetMaxValues = function (maxValues) {
+    $.each(maxValues, function (i, cat) {
         if (cat.type == "character") {
 
             var containers = $(".clothing-menu-character-container").find('[data-type="' + i + '"]');
@@ -543,10 +555,10 @@ QBClothing.SetMaxValues = function(maxValues) {
             $(headerMax).html("<p><span data-tkey='texture'>Texture</span>: " + maxValues[containers.data('type')].texture + "</p>");
 
             var itemInputMax = $(containers).find('[data-type="item"]');
-            $(itemInputMax).attr({ 'max': maxValues[containers.data('type')].item, 'min' : -1 });
+            $(itemInputMax).attr({ 'max': maxValues[containers.data('type')].item, 'min': -1 });
 
             var textureInputMax = $(containers).find('[data-type="texture"]');
-            $(textureInputMax).attr({ 'max': maxValues[containers.data('type')].texture, 'min' : -1 });
+            $(textureInputMax).attr({ 'max': maxValues[containers.data('type')].texture, 'min': -1 });
 
         } else if (cat.type == "clothing") {
             var containers = $(".clothing-menu-clothing-container").find('[data-type="' + i + '"]');
@@ -560,10 +572,10 @@ QBClothing.SetMaxValues = function(maxValues) {
             $(headerMax).html("<p><span data-tkey='texture'>Texture</span>: " + maxValues[containers.data('type')].texture + "</p>");
 
             var itemInputMax = $(containers).find('[data-type="item"]');
-            $(itemInputMax).attr({ 'max': maxValues[containers.data('type')].item, 'min' : -1 });
+            $(itemInputMax).attr({ 'max': maxValues[containers.data('type')].item, 'min': -1 });
 
             var textureInputMax = $(containers).find('[data-type="texture"]');
-            $(textureInputMax).attr({ 'max': maxValues[containers.data('type')].texture, 'min' : -1 });
+            $(textureInputMax).attr({ 'max': maxValues[containers.data('type')].texture, 'min': -1 });
 
         } else if (cat.type == "hair") {
             var containers = $(".clothing-menu-hair-container").find('[data-type="' + i + '"]');
@@ -577,10 +589,10 @@ QBClothing.SetMaxValues = function(maxValues) {
             $(headerMax).html("<p><span data-tkey='texture'>Texture</span>: " + maxValues[containers.data('type')].texture + "</p>");
 
             var itemInputMax = $(containers).find('[data-type="item"]');
-            $(itemInputMax).attr({ 'max': maxValues[containers.data('type')].item, 'min' : -1 });
+            $(itemInputMax).attr({ 'max': maxValues[containers.data('type')].item, 'min': -1 });
 
             var textureInputMax = $(containers).find('[data-type="texture"]');
-            $(textureInputMax).attr({ 'max': maxValues[containers.data('type')].texture, 'min' : -1 });
+            $(textureInputMax).attr({ 'max': maxValues[containers.data('type')].texture, 'min': -1 });
 
         } else if (cat.type == "accessoires") {
             var containers = $(".clothing-menu-accessoires-container").find('[data-type="' + i + '"]');
@@ -594,16 +606,16 @@ QBClothing.SetMaxValues = function(maxValues) {
             $(headerMax).html("<p><span data-tkey='texture'>Texture</span>: " + maxValues[containers.data('type')].texture + "</p>");
 
             var itemInputMax = $(containers).find('[data-type="item"]');
-            $(itemInputMax).attr({ 'max': maxValues[containers.data('type')].item, 'min' : -1 });
+            $(itemInputMax).attr({ 'max': maxValues[containers.data('type')].item, 'min': -1 });
 
             var textureInputMax = $(containers).find('[data-type="texture"]');
-            $(textureInputMax).attr({ 'max': maxValues[containers.data('type')].texture, 'min' : -1 });
+            $(textureInputMax).attr({ 'max': maxValues[containers.data('type')].texture, 'min': -1 });
         }
     })
 }
 
-QBClothing.ResetValues = function() {
-    $.each(clothingCategorys, function(i, cat) {
+QBClothing.ResetValues = function () {
+    $.each(clothingCategorys, function (i, cat) {
         var itemCats = $(".clothing-menu-container").find('[data-type="' + i + '"]');
         var input = $(itemCats).find('input[data-type="item"]');
         var texture = $(itemCats).find('input[data-type="texture"]');
@@ -613,17 +625,17 @@ QBClothing.ResetValues = function() {
     })
 }
 
-$(document).on('click', '#save-outfit', function(e) {
+$(document).on('click', '#save-outfit', function (e) {
     e.preventDefault();
 
-    $(".clothing-menu-container").css({ "display": "block" }).animate({ right: "-25vw", }, 200, function() {
+    $(".clothing-menu-container").css({ "display": "block" }).animate({ right: "-25vw", }, 200, function () {
         $(".clothing-menu-container").css({ "display": "none" });
     });
 
     $(".clothing-menu-save-outfit-name").fadeIn(150);
 });
 
-$(document).on('click', '#save-outfit-save', function(e) {
+$(document).on('click', '#save-outfit-save', function (e) {
     e.preventDefault();
 
     $(".clothing-menu-container").css({ "display": "block" }).animate({ right: 0, }, 200);
@@ -634,14 +646,14 @@ $(document).on('click', '#save-outfit-save', function(e) {
     }));
 });
 
-$(document).on('click', '#cancel-outfit-save', function(e) {
+$(document).on('click', '#cancel-outfit-save', function (e) {
     e.preventDefault();
 
     $(".clothing-menu-container").css({ "display": "block" }).animate({ right: 0, }, 200);
     $(".clothing-menu-save-outfit-name").fadeOut(150);
 });
 
-$(document).on('click', '.change-camera-button', function(e) {
+$(document).on('click', '.change-camera-button', function (e) {
     e.preventDefault();
 
     var rotationType = $(this).data('rotation');
@@ -656,7 +668,7 @@ function translatePhrase(phrase, old) {
 }
 
 function translate() {
-    for(let item in translations) {
+    for (let item in translations) {
         let obj = $(".container").find(`[data-tkey="${item}"]`);
         obj.text(translatePhrase(item, obj.text()));
     }
