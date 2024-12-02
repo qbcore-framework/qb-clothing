@@ -408,7 +408,7 @@ local function GetPositionByRelativeHeading(ped, head, dist)
 
     return finPosx, finPosy
 end
-local function openMenu(allowedMenus)
+local function openMenu(allowedMenus, isCreatingFirstCharacter)
     previousSkinData = json.encode(skinData)
     creatingCharacter = true
     PlayerData = QBCore.Functions.GetPlayerData()
@@ -426,6 +426,7 @@ local function openMenu(allowedMenus)
         currentClothing = skinData,
         hasTracker = trackerMeta,
         translations = translations,
+        isCreatingFirstCharacter = isCreatingFirstCharacter
     })
     SetNuiFocus(true, true)
     SetCursorLocation(0.9, 0.25)
@@ -1022,7 +1023,7 @@ RegisterNetEvent('qb-clothes:client:CreateFirstCharacter', function()
             {menu = "hair", label = Lang:t("menu.hair"), selected = false},
             {menu = "clothing", label = Lang:t("menu.character"), selected = false},
             {menu = "accessoires", label = Lang:t("menu.accessoires"), selected = false}
-        })
+        }, true)
 
         if pData.charinfo.gender == 1 then
             skin = "mp_f_freemode_01"
@@ -1542,12 +1543,13 @@ RegisterNUICallback('resetOutfit', function(_, cb)
     previousSkinData = {}
     cb('ok')
 end)
-RegisterNUICallback('close', function(_, cb)
+RegisterNUICallback('close', function(data, cb)
+    local isCreatingFirstCharacter = data.isCreatingFirstCharacter
     SetNuiFocus(false, false)
     creatingCharacter = false
     disableCam()
     FreezeEntityPosition(PlayerPedId(), false)
-    TriggerEvent('qb-clothing:client:onMenuClose')
+    TriggerEvent('qb-clothing:client:onMenuClose', isCreatingFirstCharacter)
     cb('ok')
 end)
 RegisterNUICallback('getCatergoryItems', function(data, cb)
@@ -1579,6 +1581,9 @@ end)
 RegisterNUICallback('saveClothing', function(_, cb)
     SaveSkin()
     cb('ok')
+end)
+RegisterNUICallback('characterCreated', function()
+    -- Do stuff here as developers need
 end)
 -- Commands
 RegisterCommand("refreshskin", function()
