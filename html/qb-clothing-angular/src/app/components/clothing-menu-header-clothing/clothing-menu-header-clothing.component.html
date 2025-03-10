@@ -1,0 +1,8 @@
+<div class="clothing-menu-clothing-container">
+    <div *ngFor="let option of options" class="clothing-menu-option" [attr.data-type]="option.type">
+      <div class="clothing-menu-option-header">
+        <p [attr.data-tkey]="option.type">{{ option.header }}</p>
+      </div>
+      <!-- <app-clothing-menu-option-item *ngFor="let item of option.items" [item]="item"></app-clothing-menu-option-item> -->
+    </div>
+  </div>

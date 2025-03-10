@@ -1,0 +1,15 @@
+<div class="clothing-menu-accessoires-container">
+    <div *ngFor="let option of options" class="clothing-menu-option" [attr.data-type]="option.type">
+      <div class="clothing-menu-option-header">
+        <p [attr.data-tkey]="option.type">{{ option.header }}</p>
+      </div>
+      <div *ngFor="let item of option.items" class="clothing-menu-option-item">
+        <div class="clothing-menu-option-item-header" [attr.data-headertype]="item.type + '-header'">
+          <p [attr.data-tkey]="item.type">{{ item.header }}</p>
+        </div>
+        <div *ngIf="item.type === 'item' || item.type === 'texture'" class="clothing-menu-option-item-left" [attr.data-type]="item.type"><i class="fa fa-angle-left"></i></div>
+        <input *ngIf="item.type === 'item' || item.type === 'texture'" type="number" class="item-number" [attr.data-type]="item.type" [value]="item.value">
+        <div *ngIf="item.type === 'item' || item.type === 'texture'" class="clothing-menu-option-item-right" [attr.data-type]="item.type"><i class="fa fa-angle-right"></i></div>
+      </div>
+    </div>
+  </div>
