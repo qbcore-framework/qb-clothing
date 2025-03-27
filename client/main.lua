@@ -1716,6 +1716,24 @@ function loadStores()
                     distance = 3
                 })
             end
+	    for k, v in pairs(Config.OutfitChangers) do
+                exports['qb-target']:AddBoxZone('OutfitChangers_'..k, v.coords, v.length, v.width, {
+                    name = 'OutfitChangers_'..k,
+                    debugPoly = false,
+                    minZ = v.coords.z - 1,
+                    maxZ = v.coords.z + 1,
+                }, {
+                    options = {
+                        {
+                            type = "client",
+                            event = "qb-clothing:client:openOutfitMenu",
+                            icon = "fas fa-sign-in-alt",
+                            label = Lang:t("menu.character")
+                        }
+                    },
+                    distance = 3
+                })
+            end
         end)
     else
         CreateThread(function()
