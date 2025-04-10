@@ -9,6 +9,9 @@ var translations = {};
 
 var clothingCategorys = [];
 
+// Introduced to allow for new character creation callback
+let isCreatingFirstCharacter = false;
+
 $(document).on('click', '.clothing-menu-header-btn', function(e) {
     var category = $(this).data('category');
 
@@ -378,6 +381,11 @@ $(document).on('click', "#save-menu", function(e) {
     e.preventDefault();
     QBClothing.Close();
     $.post('https://qb-clothing/saveClothing');
+
+    if (isCreatingFirstCharacter) {
+        $.post('https://qb-clothing/characterCreated');
+        isCreatingFirstCharacter = false;
+    }
 });
 
 $(document).on('click', "#cancel-menu", function(e) {
@@ -508,7 +516,10 @@ $(document).on('click', '.clothing-menu-myOutfit-option-button-remove', function
 });
 
 QBClothing.Close = function() {
-    $.post('https://qb-clothing/close');
+    $.post('https://qb-clothing/close', JSON.stringify({
+        isCreatingFirstCharacter: isCreatingFirstCharacter
+    }));
+
     $(".change-camera-buttons").fadeOut(150);
     $(".clothing-menu-roomOutfits-container").css("display", "none");
     $(".clothing-menu-myOutfits-container").css("display", "none");
