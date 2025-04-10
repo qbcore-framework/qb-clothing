@@ -1728,7 +1728,7 @@ function loadStores()
                             type = "client",
                             event = "qb-clothing:client:openOutfitMenu",
                             icon = "fas fa-sign-in-alt",
-                            label = Lang:t("menu.character")
+                            label = Lang:t("store.outfitchanger")
                         }
                     },
                     distance = 3
